@@ -62,8 +62,8 @@ Game.prototype.calculateBuildingCount = function() {
 }
 
 Game.prototype.setBuildListeners = function() {
-  $("#new-solar").on("click", buildSolarPlant.bind(this));
-  $("#new-mine").on("click", buildMatterMine.bind(this));
+  $("#new-solar").on("click", null, "Solar Power Plant", this.build.bind(this));
+  $("#new-mine").on("click", null, "Matter Mine", this.build.bind(this));
 }
 
 Game.prototype.buildProgress = function() {
@@ -80,34 +80,20 @@ Game.prototype.buildProgress = function() {
   return percentBuilt; // return an integer between 0 and 100
 }
 
-function buildSolarPlant() {
-  var building = new Building(BuildingsList["Solar Power Plant"]);
-  if ((building.matterCost < this.resources.matter) &&
-      (building.energyCost < this.resources.energy) &&
-      (!this.currentBuildOrder)) {
+Game.prototype.build = function(event) {
+  var building = new Building(BuildingsList[event.data]);
+  if (building.matterCost >= this.resources.matter) {
+    console.log("insuffcient matter to build " + building.name);
+  } else if (building.energyCost >= this.resources.energy) {
+    console.log("insuffcient energy to build " + building.name);
+  } else if (this.currentBuildOrder) {
+    console.log("Already building " + this.currentBuildOrder.name + ".");
+  } else {
     this.currentBuildOrder = building;
     this.resources.matter -= building.matterCost;
     this.resources.energy -= building.energyCost;
-  } else {
-    console.log("insuffcient funds or already building");
   }
 }
-
-function buildMatterMine() {
-  var building = new Building(BuildingsList["Matter Mine"]);
-  if ((building.matterCost < this.resources.matter) &&
-      (building.energyCost < this.resources.energy) &&
-      (!this.currentBuildOrder)) {
-    this.currentBuildOrder = building;
-    this.resources.matter -= building.matterCost;
-    this.resources.energy -= building.energyCost;
-  } else {
-    console.log("insuffcient funds or already building");
-  }
-}
-
-// Game constants
-
 
 // Buildings List
 
@@ -133,6 +119,8 @@ var BuildingsList = {
                         energyProduction: 20,
                         buildTime: 10}
 }
+
+// Game constants
 
 var GameOptions = {
   STARTING_MATTER: 1000,
