@@ -153,8 +153,8 @@ function Building(options) {
 
 // View
 
-var View = {}
-
+var View = (function() {
+View = {};
 View.displayResources = function(resources) {
   $("#matter-display").text("Matter: " + resources.matter);
   $("#energy-display").text("Energy: " + resources.energy);
@@ -164,6 +164,8 @@ View.displayResourceFlow = function(flow) {
   $("#net-matter-flow").text(flow.matter);
   $("#net-energy-flow").text(flow.energy);
 }
+
+
 
 // TODO: refactor to allow any number of building names / counts
 View.updateBuildingCount = function(buildings) {
@@ -178,3 +180,5 @@ View.updateBuildProgress = function(progress) {
 View.enablePauseButton = function() {
   $("#pause").on("click", function() {alert("Game Paused.")})
 }
+  return View;
+})();
