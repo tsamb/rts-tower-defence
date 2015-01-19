@@ -5,6 +5,21 @@
   <script type="text/javascript" src="application.js"></script>
 </head>
 <body>
+  <!-- potential eventual templating DSL:
+  <samcraft-board>
+    <samcraft-resources>
+    <style type="text/css">
+      samcraft-resource[data-rate > 0]:before {
+        content: '+' attr(data-rate)
+        color: green;
+      }
+  </style>
+      <samcraft-resource data-qty="10" data-rate="15"></samcraft-resource>
+    </samcraft-resources>
+    <samcraft-solar-plant/>
+    <samcraft-solar-mine/>
+  </samcraft-board>  -->
+
   <div id="main-container">
     <button id="pause">Pause</button>
     <div id="matter-display"></div><div id="net-matter-flow"></div>
