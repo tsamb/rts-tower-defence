@@ -161,8 +161,8 @@ View.displayResources = function(resources) {
 }
 
 View.displayResourceFlow = function(flow) {
-  $("#net-matter-flow").text(flow.matter);
-  $("#net-energy-flow").text(flow.energy);
+  $("#net-matter-flow").text("Flow: " + flow.matter);
+  $("#net-energy-flow").text("Flow: " + flow.energy);
 }
 
 
