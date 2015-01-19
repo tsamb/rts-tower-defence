@@ -35,7 +35,9 @@ Game.prototype.coreGameLoop = function() {
 Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
+  if (this.resources.matter < 0) {this.resources.matter = 0}
   this.resources.energy += resourcesToAdd.energy;
+  if (this.resources.energy < 0) {this.resources.energy = 0}
 }
 
 Game.prototype.calculateResourcesPerCycle = function() {
