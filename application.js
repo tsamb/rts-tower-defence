@@ -2,6 +2,7 @@ var game
 // Game logic
 $(document).ready(function() {
   game = new Game
+  View.enablePauseButton()
 });
 
 // Game model
@@ -186,4 +187,8 @@ View.updateBuildingCount = function(buildings) {
 View.updateBuildProgress = function(progress) {
   // debugger;
   $("progress").attr("value", progress);
+}
+
+View.enablePauseButton = function() {
+  $("#pause").on("click", function() {alert("Game Paused.")})
 }
