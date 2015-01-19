@@ -1,4 +1,5 @@
-var game
+var game // for development to access game object in browser
+
 // Game logic
 $(document).ready(function() {
   game = new Game
@@ -23,13 +24,11 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
-  // debugger;
   this.updateResources();
   View.updateBuildProgress(this.buildProgress());
   View.updateBuildingCount(this.calculateBuildingCount());
   View.displayResources(this.resources);
   View.displayResourceFlow(this.calculateResourcesPerCycle());
-  // console.log("number of buildings: " + this.buildings.length);
 }
 
 Game.prototype.updateResources = function() {
@@ -47,7 +46,6 @@ Game.prototype.calculateResourcesPerCycle = function() {
     matterThisCycle += this.buildings[i].matterProduction;
     energyThisCycle += this.buildings[i].energyProduction;
   }
-  // console.log("current energy per cycle: " + energyThisCycle );
   return {matter: matterThisCycle, energy: energyThisCycle}
 }
 
@@ -79,7 +77,6 @@ Game.prototype.buildProgress = function() {
       this.currentBuildTicker = 0;
     }
   }
-  // debugger;
   return percentBuilt; // return an integer between 0 and 100
 }
 
@@ -125,20 +122,17 @@ function buildMatterMine() {
 
 // Game constants
 
-var GameOptions = {
-  STARTING_MATTER: 1000,
-  STARTING_ENERGY: 5000,
-  COMMAND_CENTER: new Building({name: "Command Center",
-                                matterCost: 5000,
-                                energyCost: 50000,
-                                matterProduction: 2,
-                                energyProduction: 25,
-                                buildTime: 1000})
-}
 
 // Buildings List
 
 var BuildingsList = {
+  "Command Center":    {name: "Command Center",
+                        matterCost: 5000,
+                        energyCost: 50000,
+                        matterProduction: 2,
+                        energyProduction: 25,
+                        buildTime: 1000},
+
   "Matter Mine":       {name: "Matter Mine",
                         matterCost: 50,
                         energyCost: 520,
@@ -154,6 +148,11 @@ var BuildingsList = {
                         buildTime: 10}
 }
 
+var GameOptions = {
+  STARTING_MATTER: 1000,
+  STARTING_ENERGY: 5000,
+  COMMAND_CENTER: new Building(BuildingsList["Command Center"])
+}
 
 // Building model
 
@@ -187,7 +186,6 @@ View.updateBuildingCount = function(buildings) {
 }
 
 View.updateBuildProgress = function(progress) {
-  // debugger;
   $("progress").attr("value", progress);
 }
 
