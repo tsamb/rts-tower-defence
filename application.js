@@ -80,17 +80,8 @@ Game.prototype.buildProgress = function() {
   return percentBuilt; // return an integer between 0 and 100
 }
 
-Game.prototype.constructBuilding = function() {
-
-}
-
 function buildSolarPlant() {
-  var building = new Building({name: "Solar Power Plant",
-                                matterCost: 150,
-                                energyCost: 800,
-                                matterProduction: 0,
-                                energyProduction: 20,
-                                buildTime: 10});
+  var building = new Building(BuildingsList["Solar Power Plant"]);
   if ((building.matterCost < this.resources.matter) &&
       (building.energyCost < this.resources.energy) &&
       (!this.currentBuildOrder)) {
@@ -103,12 +94,7 @@ function buildSolarPlant() {
 }
 
 function buildMatterMine() {
-  var building = new Building({name: "Matter Mine",
-                                matterCost: 50,
-                                energyCost: 520,
-                                matterProduction: 2,
-                                energyProduction: -5,
-                                buildTime: 20});
+  var building = new Building(BuildingsList["Matter Mine"]);
   if ((building.matterCost < this.resources.matter) &&
       (building.energyCost < this.resources.energy) &&
       (!this.currentBuildOrder)) {
