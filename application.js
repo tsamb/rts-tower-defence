@@ -99,6 +99,7 @@ Game.prototype.build = function(event) {
 
 var BuildingsList = {
   "Command Center":    {name: "Command Center",
+                        hp: 3000,
                         matterCost: 5000,
                         energyCost: 50000,
                         matterProduction: 2,
@@ -106,6 +107,7 @@ var BuildingsList = {
                         buildTime: 1000},
 
   "Matter Mine":       {name: "Matter Mine",
+                        hp: 200,
                         matterCost: 50,
                         energyCost: 520,
                         matterProduction: 2,
@@ -113,6 +115,7 @@ var BuildingsList = {
                         buildTime: 20},
 
   "Solar Power Plant": {name: "Solar Power Plant",
+                        hp: 100,
                         matterCost: 150,
                         energyCost: 800,
                         matterProduction: 0,
