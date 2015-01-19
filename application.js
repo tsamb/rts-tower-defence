@@ -27,6 +27,7 @@ Game.prototype.coreGameLoop = function() {
   View.updateBuildProgress(this.buildProgress());
   View.updateBuildingCount(this.calculateBuildingCount());
   View.displayResources(this.resources);
+  View.displayResourceFlow(this.calculateResourcesPerCycle());
   // console.log("number of buildings: " + this.buildings.length);
 }
 
@@ -66,10 +67,16 @@ Game.prototype.setBuildListeners = function() {
 
 Game.prototype.buildProgress = function() {
   var percentBuilt = 0;
-  if (this.isBuilding) {
+  if (this.currentBuildOrder) {
     this.currentBuildTicker++;
     percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
+    if (this.currentBuildTicker === this.currentBuildOrder.buildTime) {
+      this.buildings.push(this.currentBuildOrder);
+      this.currentBuildOrder = undefined;
+      this.currentBuildTicker = 0;
+    }
   }
+  // debugger;
   return percentBuilt; // return an integer between 0 and 100
 }
 
@@ -87,11 +94,11 @@ function buildSolarPlant() {
   if ((building.matterCost < this.resources.matter) &&
       (building.energyCost < this.resources.energy) &&
       (!this.currentBuildOrder)) {
-    this.buildings.push(building);
+    this.currentBuildOrder = building;
     this.resources.matter -= building.matterCost;
     this.resources.energy -= building.energyCost;
   } else {
-    console.log("insuffcient funds");
+    console.log("insuffcient funds or already building");
   }
 }
 
@@ -105,11 +112,11 @@ function buildMatterMine() {
   if ((building.matterCost < this.resources.matter) &&
       (building.energyCost < this.resources.energy) &&
       (!this.currentBuildOrder)) {
-    this.buildings.push(building);
+    this.currentBuildOrder = building;
     this.resources.matter -= building.matterCost;
     this.resources.energy -= building.energyCost;
   } else {
-    console.log("insuffcient funds");
+    console.log("insuffcient funds or already building");
   }
 }
 
@@ -153,6 +160,7 @@ function Building(options) {
   this.energyCost = options.energyCost;
   this.matterProduction = options.matterProduction;
   this.energyProduction = options.energyProduction;
+  this.buildTime = options.buildTime;
 }
 
 // View
@@ -160,8 +168,13 @@ function Building(options) {
 var View = {}
 
 View.displayResources = function(resources) {
-  $("#matter-display").html("Matter: " + resources.matter);
-  $("#energy-display").html("Energy: " + resources.energy);
+  $("#matter-display").text("Matter: " + resources.matter);
+  $("#energy-display").text("Energy: " + resources.energy);
+}
+
+View.displayResourceFlow = function(flow) {
+  $("#net-matter-flow").text(flow.matter);
+  $("#net-energy-flow").text(flow.energy);
 }
 
 // TODO: refactor to allow any number of building names / counts
@@ -171,5 +184,6 @@ View.updateBuildingCount = function(buildings) {
 }
 
 View.updateBuildProgress = function(progress) {
-  $("progress").attr("value", progress)
+  // debugger;
+  $("progress").attr("value", progress);
 }
