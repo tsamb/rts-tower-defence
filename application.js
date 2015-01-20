@@ -24,7 +24,7 @@ function Game() {
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
 
-  this.board = Board.new();
+  this.board = new Board;
 
   this.setBuildListeners();
   this.startGameCycle();
