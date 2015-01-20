@@ -15,6 +15,31 @@ function Board() {
   this.height = 600; // TKTKTK change to constant eventually
 }
 
+Board.prototype.clearCanvas = function() {
+  this.context.clearRect(0, 0, this.width, this.height);
+}
+
+Board.prototype.drawBuilding = function(building) {
+  this.context.fillStyle = "#333";
+  this.context.fillRect(00, 00, 60, 60);
+}
+
+Board.prototype.drawGrid = function() {
+    for (var x = 0; x <= this.width; x += 20) {
+        this.context.moveTo(0.5 + x, 0);
+        this.context.lineTo(0.5 + x, this.height);
+    }
+
+    for (var y = 0; y <= this.height; y += 20) {
+        this.context.moveTo(0, 0.5 + y);
+        this.context.lineTo(this.width, 0.5 + y);
+    }
+
+    this.context.strokeStyle = "#CCC";
+    this.context.stroke();
+}
+
+
 // Game model
 
 function Game() {
@@ -45,6 +70,7 @@ Game.buildGrid = function() {
 
 Game.prototype.startGameCycle = function() {
   setInterval(this.coreGameLoop.bind(this), 500);
+  setInterval(this.updateBoardLoop.bind(this), 20);
 }
 
 Game.prototype.coreGameLoop = function() {
@@ -53,6 +79,12 @@ Game.prototype.coreGameLoop = function() {
   View.updateBuildingCount(this.calculateBuildingCount());
   View.displayResources(this.resources);
   View.displayResourceFlow(this.calculateResourcesPerCycle());
+}
+
+Game.prototype.updateBoardLoop = function() {
+  this.board.clearCanvas();
+  this.board.drawGrid();
+  this.board.drawBuilding();
 }
 
 Game.prototype.updateResources = function() {
