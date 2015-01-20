@@ -15,8 +15,23 @@ function Game() {
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
 
+  this.board = Game.buildGrid();
+
   this.setBuildListeners();
   this.startGameCycle();
+}
+
+Game.buildGrid = function() {
+  return [["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""],
+         ["", "", "", "", "", "", "", "", "", ""]]
 }
 
 Game.prototype.startGameCycle = function() {
