@@ -20,10 +20,13 @@ function Board() {
 }
 
 Board.prototype.setUpClickListeners = function() {
-  $(this.canvas).on("click", this.handleClicks);
+  $(this.canvas).on("click", this.handleClicks.bind(this));
 }
 
 Board.prototype.handleClicks = function(event) {
+  // TEST: ability to fill grid cells with red squares on click
+  this.context.fillStyle = "red";
+  this.context.fillRect(Math.floor(event.offsetX / 20) * 20, Math.floor(event.offsetY / 20) * 20, 20, 20);
   console.log(event.offsetX); // for testing canvas click location
   console.log(event.offsetY);
   console.log("-----")
