@@ -93,15 +93,24 @@ function Cell(building, topLeft) {
 
 function Game() {
   this.resources = {matter: GameOptions.STARTING_MATTER, energy: GameOptions.STARTING_ENERGY};
-  this.buildings = [GameOptions.COMMAND_CENTER];
+  this.buildings = [];
   this.isBuilding = false;
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
 
   this.board = new Board;
 
+  this.buildInitialBuildings();
   this.setBuildListeners();
   this.startGameCycle();
+}
+
+Game.prototype.buildInitialBuildings = function() {
+  var commandCenter = GameOptions.COMMAND_CENTER; // eventually change into an array of "starting buildings"
+  commandCenter.topLeftX = 0;
+  commandCenter.topLeftY = Math.floor(this.board.height / this.board.gridSize / 2) - (commandCenter.size.y / 2);
+  this.board.placeBuilding(commandCenter);
+  this.buildings.push(commandCenter);
 }
 
 Game.prototype.startGameCycle = function() {
