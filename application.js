@@ -97,12 +97,15 @@ Game.prototype.buildProgress = function() {
 
 Game.prototype.build = function(event) {
   var building = new Building(BuildingsList[event.data]);
-  if (building.matterCost >= this.resources.matter) {
-    console.log("insuffcient matter to build " + building.name);
-  } else if (building.energyCost >= this.resources.energy) {
-    console.log("insuffcient energy to build " + building.name);
-  } else if (this.currentBuildOrder) {
+  if (this.currentBuildOrder) {
+    View.displayStatusMessage("Already building " + this.currentBuildOrder.name + ".")
     console.log("Already building " + this.currentBuildOrder.name + ".");
+  } else if (building.energyCost >= this.resources.energy) {
+    View.displayStatusMessage("Insuffcient energy to build " + building.name);
+    console.log("Insuffcient energy to build " + building.name);
+  } else if (building.matterCost >= this.resources.matter) {
+    View.displayStatusMessage("Insuffcient matter to build " + building.name);
+    console.log("Insuffcient matter to build " + building.name);
   } else {
     this.currentBuildOrder = building;
     this.resources.matter -= building.matterCost;
