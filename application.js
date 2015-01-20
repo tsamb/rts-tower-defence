@@ -1,10 +1,25 @@
 var game // for development to access game object in browser
 
+var canvas, // global for development... to be merged into its own class
+    context,
+    width = 600,
+    height = 600,
+    buildingX = (width / 2) - 25, buildingY = height - 75, buildingW = 50, buildingH = 50;
+
+
 // Game logic
 $(document).ready(function() {
   game = new Game
   View.enablePauseButton()
 });
+
+// Board model
+
+function Board() {
+  this.canvas = document.getElementById("canvas"); // TKTKTK build dynamically
+  this.width = 600; // TKTKTK change to constant eventually
+  this.height = 600; // TKTKTK change to constant eventually
+}
 
 // Game model
 
