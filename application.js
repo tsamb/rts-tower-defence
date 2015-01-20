@@ -1,9 +1,9 @@
-var game // for development to access game object in browser
+var game; // for development to access game object in browser
 
 // Game logic
 $(document).ready(function() {
-  game = new Game
-  View.enablePauseButton()
+  game = new Game;
+  View.enablePauseButton();
 });
 
 // Board model
@@ -50,14 +50,14 @@ Board.prototype.drawGrid = function() {
 }
 
 Board.buildStorageGrid = function(rows, cols) {
-  var grid = []
+  var grid = [];
   for (var x = 0; x < rows; x++) {
     grid.push([]);
     for (var y = 0; y < cols; y++) {
       grid[x].push("");
     }
   }
-  return grid
+  return grid;
 }
 
 // Board Cell model
