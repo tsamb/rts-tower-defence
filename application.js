@@ -49,6 +49,12 @@ Board.prototype.placeBuilding = function(building) {
   this.buildingToPlace = undefined;
 }
 
+Board.prototype.placeAllBuildings = function(buildings) {
+  for (var i = 0; i < buildings.length; i++) {
+    this.placeBuilding(buildings[i]);
+  }
+}
+
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
 }
@@ -130,7 +136,7 @@ Game.prototype.updateBoardLoop = function() {
   if (this.board.needsUpdate) {
     this.board.clearCanvas();
     this.board.drawGrid();
-    this.board.placeBuilding(this.buildings[0], 0, 8); // eventually call drawBuildings() which will call this method
+    this.board.placeAllBuildings(this.buildings)
     this.board.needsUpdate = false;
   }
 }
