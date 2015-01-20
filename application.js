@@ -11,32 +11,32 @@ $(document).ready(function() {
 function Board() {
   this.canvas = document.getElementById("canvas"); // TKTKTK build dynamically
   this.context = this.canvas.getContext('2d')
-  this.width = 600; // TKTKTK change to constant eventually
-  this.height = 600; // TKTKTK change to constant eventually
+  this.width = 800; // TKTKTK change to constant eventually
+  this.height = 400; // TKTKTK change to constant eventually
+  this.gridSize = 20
+  this.needsUpdate = true;
 }
 
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
 }
 
-Board.prototype.drawBuilding = function(building) {
-  this.context.fillStyle = "#333";
-  this.context.fillRect(00, 00, 60, 60);
+Board.prototype.drawBuilding = function(building, positionX, positionY) {
+  this.context.fillStyle = building.color;
+  this.context.fillRect(positionX, positionY, building.size.x * this.gridSize, building.size.y * this.gridSize);
 }
 
 Board.prototype.drawGrid = function() {
-    for (var x = 0; x <= this.width; x += 20) {
-        this.context.moveTo(0.5 + x, 0);
-        this.context.lineTo(0.5 + x, this.height);
-    }
-
-    for (var y = 0; y <= this.height; y += 20) {
-        this.context.moveTo(0, 0.5 + y);
-        this.context.lineTo(this.width, 0.5 + y);
-    }
-
-    this.context.strokeStyle = "#CCC";
-    this.context.stroke();
+  for (var x = 0; x <= this.width; x += this.gridSize) {
+    this.context.moveTo(0.5 + x, 0);
+    this.context.lineTo(0.5 + x, this.height);
+  }
+  for (var y = 0; y <= this.height; y += this.gridSize) {
+    this.context.moveTo(0, 0.5 + y);
+    this.context.lineTo(this.width, 0.5 + y);
+  }
+  this.context.strokeStyle = "#CCC";
+  this.context.stroke();
 }
 
 
@@ -57,15 +57,15 @@ function Game() {
 
 Game.buildGrid = function() {
   return [["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""],
-         ["", "", "", "", "", "", "", "", "", ""]]
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""]]
 }
 
 Game.prototype.startGameCycle = function() {
@@ -82,16 +82,20 @@ Game.prototype.coreGameLoop = function() {
 }
 
 Game.prototype.updateBoardLoop = function() {
-  this.board.clearCanvas();
-  this.board.drawGrid();
-  this.board.drawBuilding();
+  if (this.board.needsUpdate) {
+    this.board.clearCanvas();
+    this.board.drawGrid();
+    this.board.drawBuilding(this.buildings[0], 0, 160); // eventually call drawBuildings() which will call this method
+    this.board.drawBuilding(new Building(BuildingsList["Matter Mine"]), 0, 100); // test line for two buildings
+    this.board.needsUpdate = false;
+  }
 }
 
 Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
-  this.resources.energy += resourcesToAdd.energy;
+    this.resources.energy += resourcesToAdd.energy;
   if (this.resources.energy < 0) {this.resources.energy = 0}
 }
 
@@ -164,7 +168,8 @@ var BuildingsList = {
                         matterProduction: 2,
                         energyProduction: 25,
                         buildTime: 1000,
-                        size: {x:4, y:4}},
+                        size: {x:4, y:4},
+                        color: "#060"},
 
   "Matter Mine":       {name: "Matter Mine",
                         hp: 200,
@@ -173,7 +178,8 @@ var BuildingsList = {
                         matterProduction: 2,
                         energyProduction: -5,
                         buildTime: 18,
-                        size: {x:2, y:2}},
+                        size: {x:2, y:2},
+                        color: "#699"},
 
   "Solar Power Plant": {name: "Solar Power Plant",
                         hp: 100,
@@ -182,7 +188,8 @@ var BuildingsList = {
                         matterProduction: 0,
                         energyProduction: 20,
                         buildTime: 24,
-                        size: {x:2, y:2}},
+                        size: {x:2, y:2},
+                        color: "#FF6"},
 
   "Laser Tower":       {name: "Laser Tower",
                         hp: 500,
@@ -194,7 +201,8 @@ var BuildingsList = {
                         damagePerShot: 50,
                         fireTime: 1,
                         buildTime: 40,
-                        size: {x:1, y:1}},
+                        size: {x:1, y:1},
+                        color: "#F00"},
 
   "Build Slot":        {name: "Build Slot",
                         hp: 100,
@@ -203,7 +211,8 @@ var BuildingsList = {
                         matterProduction: -5,
                         energyProduction: -10,
                         buildTime: 50,
-                        size: {x:1, y:1}}
+                        size: {x:1, y:1},
+                        color: "#060"}
 }
 
 // Game constants
@@ -223,21 +232,23 @@ function Building(options) {
   this.matterProduction = options.matterProduction;
   this.energyProduction = options.energyProduction;
   this.buildTime = options.buildTime;
+  this.size = options.size
+  this.color = options.color
 }
 
 // View
 
 var View = (function() {
-View = {};
-View.displayResources = function(resources) {
-  $("#matter-display").text("Matter: " + resources.matter);
-  $("#energy-display").text("Energy: " + resources.energy);
-}
+  View = {};
+  View.displayResources = function(resources) {
+    $("#matter-display").text("Matter: " + resources.matter);
+    $("#energy-display").text("Energy: " + resources.energy);
+  }
 
-View.displayResourceFlow = function(flow) {
-  $("#net-matter-flow").text("Flow: " + flow.matter);
-  $("#net-energy-flow").text("Flow: " + flow.energy);
-}
+  View.displayResourceFlow = function(flow) {
+    $("#net-matter-flow").text("Flow: " + flow.matter);
+    $("#net-energy-flow").text("Flow: " + flow.energy);
+  }
 
 // TODO: refactor to allow any number of building names / counts
 View.updateBuildingCount = function(buildings) {
@@ -256,5 +267,5 @@ View.displayStatusMessage = function(message) {
 View.enablePauseButton = function() {
   $("#pause").on("click", function() {alert("Game Paused.")})
 }
-  return View;
+return View;
 })();
