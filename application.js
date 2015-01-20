@@ -203,6 +203,10 @@ View.updateBuildProgress = function(progress) {
   $("progress").attr("value", progress);
 }
 
+View.displayStatusMessage = function(message) {
+  $("#status-message").text(message);
+}
+
 View.enablePauseButton = function() {
   $("#pause").on("click", function() {alert("Game Paused.")})
 }
