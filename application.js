@@ -1,12 +1,5 @@
 var game // for development to access game object in browser
 
-var canvas, // global for development... to be merged into its own class
-    context,
-    width = 600,
-    height = 600,
-    buildingX = (width / 2) - 25, buildingY = height - 75, buildingW = 50, buildingH = 50;
-
-
 // Game logic
 $(document).ready(function() {
   game = new Game
@@ -17,6 +10,7 @@ $(document).ready(function() {
 
 function Board() {
   this.canvas = document.getElementById("canvas"); // TKTKTK build dynamically
+  this.context = this.canvas.getContext('2d')
   this.width = 600; // TKTKTK change to constant eventually
   this.height = 600; // TKTKTK change to constant eventually
 }
@@ -30,7 +24,7 @@ function Game() {
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
 
-  this.board = Game.buildGrid();
+  this.board = Board.new();
 
   this.setBuildListeners();
   this.startGameCycle();
