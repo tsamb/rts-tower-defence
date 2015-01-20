@@ -10,20 +10,30 @@ $(document).ready(function() {
 
 function Board() {
   this.canvas = document.getElementById("canvas"); // TKTKTK build dynamically
-  this.context = this.canvas.getContext('2d')
+  this.context = this.canvas.getContext('2d');
   this.width = 800; // TKTKTK change to constant eventually
   this.height = 400; // TKTKTK change to constant eventually
-  this.gridSize = 20
+  this.gridSize = 20;
   this.needsUpdate = true;
+  this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
+}
+
+Board.prototype.placeBuilding = function(building, topLeftX, topLeftY) {
+  for(var x = topLeftX; x < topLeftX + building.size.x; x++) {
+    for(var y = topLeftY; y < topLeftY + building.size.y; y++) {
+      this.internalStorage[x][y] = new Cell(building, [topLeftX, topLeftY])
+    }
+  }
+  this.drawBuilding(building, topLeftX, topLeftY);
 }
 
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
 }
 
-Board.prototype.drawBuilding = function(building, positionX, positionY) {
+Board.prototype.drawBuilding = function(building, cellX, cellY) {
   this.context.fillStyle = building.color;
-  this.context.fillRect(positionX, positionY, building.size.x * this.gridSize, building.size.y * this.gridSize);
+  this.context.fillRect(cellX * this.gridSize, cellY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
 }
 
 Board.prototype.drawGrid = function() {
@@ -39,6 +49,23 @@ Board.prototype.drawGrid = function() {
   this.context.stroke();
 }
 
+Board.buildStorageGrid = function(rows, cols) {
+  var grid = []
+  for (var x = 0; x < rows; x++) {
+    grid.push([]);
+    for (var y = 0; y < cols; y++) {
+      grid[x].push("");
+    }
+  }
+  return grid
+}
+
+// Board Cell model
+
+function Cell(building, topLeft) {
+  this.building = building;
+  this.topLeft = topLeft;
+}
 
 // Game model
 
@@ -53,19 +80,6 @@ function Game() {
 
   this.setBuildListeners();
   this.startGameCycle();
-}
-
-Game.buildGrid = function() {
-  return [["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""]]
 }
 
 Game.prototype.startGameCycle = function() {
@@ -85,7 +99,7 @@ Game.prototype.updateBoardLoop = function() {
   if (this.board.needsUpdate) {
     this.board.clearCanvas();
     this.board.drawGrid();
-    this.board.drawBuilding(this.buildings[0], 0, 160); // eventually call drawBuildings() which will call this method
+    this.board.placeBuilding(this.buildings[0], 0, 8); // eventually call drawBuildings() which will call this method
     this.board.drawBuilding(new Building(BuildingsList["Matter Mine"]), 0, 100); // test line for two buildings
     this.board.needsUpdate = false;
   }
