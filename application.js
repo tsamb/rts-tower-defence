@@ -210,7 +210,8 @@ var BuildingsList = {
                         energyProduction: 25,
                         buildTime: 1000,
                         size: {x:4, y:4},
-                        color: "#060"},
+                        color: "#060",
+                        active: true},
 
   "Matter Mine":       {name: "Matter Mine",
                         hp: 200,
@@ -275,6 +276,7 @@ function Building(options) {
   this.buildTime = options.buildTime;
   this.size = options.size;
   this.color = options.color;
+  this.active = options.active || false;
 }
 
 // View
