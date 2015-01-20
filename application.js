@@ -45,6 +45,7 @@ Board.prototype.placeBuilding = function(building) {
     }
   }
   this.drawBuilding(building);
+  building.active = true;
   this.buildingToPlace = undefined;
 }
 
@@ -137,8 +138,10 @@ Game.prototype.calculateResourcesPerCycle = function() {
   var matterThisCycle = 0;
   var energyThisCycle = 0;
   for (var i = 0; i < this.buildings.length; i++) {
-    matterThisCycle += this.buildings[i].matterProduction;
-    energyThisCycle += this.buildings[i].energyProduction;
+    if (this.buildings[i].active) {
+      matterThisCycle += this.buildings[i].matterProduction;
+      energyThisCycle += this.buildings[i].energyProduction;
+    }
   }
   return {matter: matterThisCycle, energy: energyThisCycle}
 }
