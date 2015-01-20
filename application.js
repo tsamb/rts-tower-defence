@@ -163,7 +163,8 @@ var BuildingsList = {
                         energyCost: 50000,
                         matterProduction: 2,
                         energyProduction: 25,
-                        buildTime: 1000},
+                        buildTime: 1000,
+                        size: {x:4, y:4}},
 
   "Matter Mine":       {name: "Matter Mine",
                         hp: 200,
@@ -171,7 +172,8 @@ var BuildingsList = {
                         energyCost: 520,
                         matterProduction: 2,
                         energyProduction: -5,
-                        buildTime: 18},
+                        buildTime: 18,
+                        size: {x:2, y:2}},
 
   "Solar Power Plant": {name: "Solar Power Plant",
                         hp: 100,
@@ -179,7 +181,8 @@ var BuildingsList = {
                         energyCost: 800,
                         matterProduction: 0,
                         energyProduction: 20,
-                        buildTime: 24},
+                        buildTime: 24,
+                        size: {x:2, y:2}},
 
   "Laser Tower":       {name: "Laser Tower",
                         hp: 500,
@@ -190,7 +193,8 @@ var BuildingsList = {
                         energyPerShot: 200,
                         damagePerShot: 50,
                         fireTime: 1,
-                        buildTime: 40},
+                        buildTime: 40,
+                        size: {x:1, y:1}},
 
   "Build Slot":        {name: "Build Slot",
                         hp: 100,
@@ -198,7 +202,8 @@ var BuildingsList = {
                         energyCost: 5000,
                         matterProduction: -5,
                         energyProduction: -10,
-                        buildTime: 50}
+                        buildTime: 50,
+                        size: {x:1, y:1}}
 }
 
 // Game constants
