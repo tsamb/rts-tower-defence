@@ -16,6 +16,23 @@ function Board() {
   this.gridSize = 20;
   this.needsUpdate = true;
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
+  this.setUpClickListeners();
+}
+
+Board.prototype.setUpClickListeners = function() {
+  $(this.canvas).on("click", this.handleClicks);
+}
+
+Board.prototype.handleClicks = function(event) {
+  console.log(event.offsetX); // for testing canvas click location
+  console.log(event.offsetY);
+  console.log("-----")
+}
+
+Board.prototype.getPositionToPlaceBuilding = function() {
+  coords = []
+
+  return coords
 }
 
 Board.prototype.placeBuilding = function(building, topLeftX, topLeftY) {
@@ -37,11 +54,11 @@ Board.prototype.drawBuilding = function(building, cellX, cellY) {
 }
 
 Board.prototype.drawGrid = function() {
-  for (var x = 0; x <= this.width; x += this.gridSize) {
+  for (var x = -1; x <= this.width; x += this.gridSize) {
     this.context.moveTo(0.5 + x, 0);
     this.context.lineTo(0.5 + x, this.height);
   }
-  for (var y = 0; y <= this.height; y += this.gridSize) {
+  for (var y = -1; y <= this.height; y += this.gridSize) {
     this.context.moveTo(0, 0.5 + y);
     this.context.lineTo(this.width, 0.5 + y);
   }
@@ -246,8 +263,8 @@ function Building(options) {
   this.matterProduction = options.matterProduction;
   this.energyProduction = options.energyProduction;
   this.buildTime = options.buildTime;
-  this.size = options.size
-  this.color = options.color
+  this.size = options.size;
+  this.color = options.color;
 }
 
 // View
@@ -279,7 +296,7 @@ View.displayStatusMessage = function(message) {
 }
 
 View.enablePauseButton = function() {
-  $("#pause").on("click", function() {alert("Game Paused.")})
+  $("#pause").on("click", function() {alert("Game Paused.")});
 }
 return View;
 })();
