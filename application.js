@@ -16,6 +16,7 @@ function Board() {
   this.gridSize = 20;
   this.needsUpdate = true;
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
+  this.buildingToPlace = undefined;
   this.setUpClickListeners();
 }
 
@@ -25,11 +26,14 @@ Board.prototype.setUpClickListeners = function() {
 
 Board.prototype.handleClicks = function(event) {
   // TEST: ability to fill grid cells with red squares on click
-  this.context.fillStyle = "red";
-  this.context.fillRect(Math.floor(event.offsetX / 20) * 20, Math.floor(event.offsetY / 20) * 20, 20, 20);
-  console.log(event.offsetX); // for testing canvas click location
-  console.log(event.offsetY);
-  console.log("-----");
+  // this.context.fillStyle = "red";
+  // this.context.fillRect(Math.floor(event.offsetX / 20) * 20, Math.floor(event.offsetY / 20) * 20, 20, 20);
+  // console.log(event.offsetX); // for testing canvas click location
+  // console.log(event.offsetY);
+  // console.log("-----");
+  if (this.buildingToPlace) {
+    this.placeBuilding(this.buildingToPlace, Math.floor(event.offsetX / this.gridSize), Math.floor(event.offsetY / this.gridSize));
+  }
 }
 
 Board.prototype.getPositionToPlaceBuilding = function() {
@@ -45,6 +49,7 @@ Board.prototype.placeBuilding = function(building, topLeftX, topLeftY) {
     }
   }
   this.drawBuilding(building, topLeftX, topLeftY);
+  this.buildingToPlace = undefined;
 }
 
 Board.prototype.clearCanvas = function() {
@@ -166,6 +171,7 @@ Game.prototype.buildProgress = function() {
     this.currentBuildTicker++;
     percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
     if (this.currentBuildTicker === this.currentBuildOrder.buildTime) {
+      this.board.buildingToPlace = this.currentBuildOrder;
       this.buildings.push(this.currentBuildOrder);
       this.currentBuildOrder = undefined;
       this.currentBuildTicker = 0;
@@ -176,8 +182,10 @@ Game.prototype.buildProgress = function() {
 
 Game.prototype.build = function(event) {
   var building = new Building(BuildingsList[event.data]);
-  if (this.currentBuildOrder) {
-    View.displayStatusMessage("Already building " + this.currentBuildOrder.name + ".")
+  if (this.board.buildingToPlace) {
+    View.displayStatusMessage("Place previously built " + this.board.buildingToPlace.name + " first.");
+  } else if (this.currentBuildOrder) {
+    View.displayStatusMessage("Already building " + this.currentBuildOrder.name + ".");
     console.log("Already building " + this.currentBuildOrder.name + ".");
   } else if (building.energyCost >= this.resources.energy) {
     View.displayStatusMessage("Insuffcient energy to build " + building.name);
