@@ -29,7 +29,7 @@ Board.prototype.handleClicks = function(event) {
   this.context.fillRect(Math.floor(event.offsetX / 20) * 20, Math.floor(event.offsetY / 20) * 20, 20, 20);
   console.log(event.offsetX); // for testing canvas click location
   console.log(event.offsetY);
-  console.log("-----")
+  console.log("-----");
 }
 
 Board.prototype.getPositionToPlaceBuilding = function() {
@@ -144,15 +144,15 @@ Game.prototype.calculateResourcesPerCycle = function() {
 }
 
 Game.prototype.calculateBuildingCount = function() {
-  var buildings = {}
+  var buildingsCount = {}
   for (var i = 0; i < this.buildings.length; i++) {
-    if( buildings[this.buildings[i].name]) {
-      buildings[this.buildings[i].name] += 1;
+    if( buildingsCount[this.buildings[i].name]) {
+      buildingsCount[this.buildings[i].name] += 1;
     } else {
-      buildings[this.buildings[i].name] = 1;
+      buildingsCount[this.buildings[i].name] = 1;
     }
   }
-  return buildings;
+  return buildingsCount;
 }
 
 Game.prototype.setBuildListeners = function() {
