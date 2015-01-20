@@ -32,17 +32,19 @@ Board.prototype.handleClicks = function(event) {
   // console.log(event.offsetY);
   // console.log("-----");
   if (this.buildingToPlace) {
-    this.placeBuilding(this.buildingToPlace, Math.floor(event.offsetX / this.gridSize), Math.floor(event.offsetY / this.gridSize));
+    this.buildingToPlace.topLeftX = Math.floor(event.offsetX / this.gridSize);
+    this.buildingToPlace.topLeftY = Math.floor(event.offsetY / this.gridSize);
+    this.placeBuilding(this.buildingToPlace);
   }
 }
 
-Board.prototype.placeBuilding = function(building, topLeftX, topLeftY) {
-  for(var x = topLeftX; x < topLeftX + building.size.x; x++) {
-    for(var y = topLeftY; y < topLeftY + building.size.y; y++) {
-      this.internalStorage[x][y] = new Cell(building, [topLeftX, topLeftY])
+Board.prototype.placeBuilding = function(building) {
+  for(var x = building.topLeftX; x < building.topLeftX + building.size.x; x++) {
+    for(var y = building.topLeftY; y < building.topLeftY + building.size.y; y++) {
+      this.internalStorage[x][y] = new Cell(building, [building.topLeftX, building.topLeftY])
     }
   }
-  this.drawBuilding(building, topLeftX, topLeftY);
+  this.drawBuilding(building);
   this.buildingToPlace = undefined;
 }
 
@@ -50,9 +52,9 @@ Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
 }
 
-Board.prototype.drawBuilding = function(building, cellX, cellY) {
+Board.prototype.drawBuilding = function(building) {
   this.context.fillStyle = building.color;
-  this.context.fillRect(cellX * this.gridSize, cellY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
+  this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
 }
 
 Board.prototype.drawGrid = function() {
@@ -271,6 +273,8 @@ function Building(options) {
   this.size = options.size;
   this.color = options.color;
   this.active = options.active || false;
+  this.topLeftX = undefined;
+  this.topLeftY = undefined;
 }
 
 // View
