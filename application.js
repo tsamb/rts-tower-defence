@@ -130,7 +130,7 @@ var BuildingsList = {
                         energyCost: 520,
                         matterProduction: 2,
                         energyProduction: -5,
-                        buildTime: 20},
+                        buildTime: 18},
 
   "Solar Power Plant": {name: "Solar Power Plant",
                         hp: 100,
@@ -138,7 +138,26 @@ var BuildingsList = {
                         energyCost: 800,
                         matterProduction: 0,
                         energyProduction: 20,
-                        buildTime: 10}
+                        buildTime: 24},
+
+  "Laser Tower":       {name: "Laser Tower",
+                        hp: 500,
+                        matterCost: 150,
+                        energyCost: 800,
+                        matterProduction: 0,
+                        energyProduction: 0,
+                        energyPerShot: 200,
+                        damagePerShot: 50,
+                        fireTime: 1,
+                        buildTime: 40},
+
+  "Build Slot":        {name: "Build Slot",
+                        hp: 100,
+                        matterCost: 1000,
+                        energyCost: 5000,
+                        matterProduction: -5,
+                        energyProduction: -10,
+                        buildTime: 50}
 }
 
 // Game constants
@@ -173,8 +192,6 @@ View.displayResourceFlow = function(flow) {
   $("#net-matter-flow").text("Flow: " + flow.matter);
   $("#net-energy-flow").text("Flow: " + flow.energy);
 }
-
-
 
 // TODO: refactor to allow any number of building names / counts
 View.updateBuildingCount = function(buildings) {
