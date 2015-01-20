@@ -36,12 +36,6 @@ Board.prototype.handleClicks = function(event) {
   }
 }
 
-Board.prototype.getPositionToPlaceBuilding = function() {
-  coords = []
-
-  return coords
-}
-
 Board.prototype.placeBuilding = function(building, topLeftX, topLeftY) {
   for(var x = topLeftX; x < topLeftX + building.size.x; x++) {
     for(var y = topLeftY; y < topLeftY + building.size.y; y++) {
