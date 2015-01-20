@@ -125,7 +125,6 @@ Game.prototype.updateBoardLoop = function() {
     this.board.clearCanvas();
     this.board.drawGrid();
     this.board.placeBuilding(this.buildings[0], 0, 8); // eventually call drawBuildings() which will call this method
-    this.board.drawBuilding(new Building(BuildingsList["Matter Mine"]), 0, 100); // test line for two buildings
     this.board.needsUpdate = false;
   }
 }
