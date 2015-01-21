@@ -32,21 +32,35 @@ Board.prototype.handleClicks = function(event) {
   // console.log(event.offsetY);
   // console.log("-----");
   if (this.buildingToPlace) {
-    this.buildingToPlace.topLeftX = Math.floor(event.offsetX / this.gridSize);
-    this.buildingToPlace.topLeftY = Math.floor(event.offsetY / this.gridSize);
-    this.placeBuilding(this.buildingToPlace);
+    var potentialX = Math.floor(event.offsetX / this.gridSize);
+    var potentialY = Math.floor(event.offsetY / this.gridSize);
+     if (this.isGridAvailable(this.buildingToPlace, potentialX, potentialY)) {
+      this.buildingToPlace.topLeftX = potentialX;
+      this.buildingToPlace.topLeftY = potentialY;
+      this.placeBuilding(this.buildingToPlace);
+     } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
   }
 }
 
 Board.prototype.placeBuilding = function(building) {
   for(var x = building.topLeftX; x < building.topLeftX + building.size.x; x++) {
     for(var y = building.topLeftY; y < building.topLeftY + building.size.y; y++) {
-      this.internalStorage[x][y] = new Cell(building, [building.topLeftX, building.topLeftY])
+      this.internalStorage[x][y] = new Cell(building, [building.topLeftX, building.topLeftY]);
     }
   }
   this.drawBuilding(building);
   building.active = true;
   this.buildingToPlace = undefined;
+}
+
+Board.prototype.isGridAvailable = function(building, xToCheck, yToCheck) {
+  var isAvailable = true
+  for(var x = xToCheck; x < xToCheck + building.size.x; x++) {
+    for(var y = yToCheck; y < yToCheck + building.size.y; y++) {
+      if (this.internalStorage[x][y]) { return false; }
+    }
+  }
+  return isAvailable
 }
 
 Board.prototype.placeAllBuildings = function(buildings) {
