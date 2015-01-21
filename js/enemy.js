@@ -4,9 +4,37 @@ function Enemy(options) {
   this.topLeftX = options.topLeftX;
   this.topLeftY = options.topLeftY;
   this.size = options.size;
-  this.speed = options.speed || 15
+  this.maxDamagePerHit = options.damage || 15;
+  this.speed = options.speed || 10;
+  this.isMoving = true;
+}
+
+Enemy.prototype.moveOrAttack = function(buildings) {
+  for (var i = 0; i < buildings.length; i++) {
+    if (this.collidesWith(buildings[i])) {
+      // this.topLeftX = buildings[i].topLeftX * 20 + buildings[i].width
+      this.isMoving = false;
+      this.attack(buildings[i]);
+    } else {
+      this.move();
+    }
+  }
+}
+
+Enemy.prototype.collidesWith = function(building) {
+  return (this.topLeftX < building.topLeftX * 20 + building.size.x * 20 + this.size &&
+    this.topLeftX + this.size > building.topLeftX * 20 - this.size &&
+    this.topLeftY < building.topLeftY * 20 + building.size.y * 20 + this.size &&
+    this.topLeftY + this.size > building.topLeftY * 20 - this.size)
 }
 
 Enemy.prototype.move = function() {
-  this.topLeftX -= Math.floor(Math.random() * this.speed) + 5;
+  if (this.isMoving) {
+    this.topLeftX -= Math.floor(Math.random() * this.speed) + 5;
+  }
+}
+
+Enemy.prototype.attack = function(building) {
+  var damage = Math.floor(Math.random() * this.maxDamagePerHit);
+  building.inflictDamage(damage);
 }

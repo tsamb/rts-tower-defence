@@ -68,7 +68,7 @@ Game.prototype.updateResources = function() {
 
 Game.prototype.moveEnemies = function() {
   for (var i = 0; i < this.enemies.length; i++) {
-    this.enemies[i].move()
+    this.enemies[i].moveOrAttack(this.buildings);
   }
 }
 
