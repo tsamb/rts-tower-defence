@@ -2,6 +2,7 @@
 
 function Building(options) {
   this.name = options.name;
+  this.hp = options.hp;
   this.matterCost = options.matterCost;
   this.energyCost = options.energyCost;
   this.matterProduction = options.matterProduction;
@@ -12,4 +13,8 @@ function Building(options) {
   this.active = options.active || false;
   this.topLeftX = undefined;
   this.topLeftY = undefined;
+}
+
+Building.prototype.inflictDamage = function(damage) {
+  this.hp -= damage;
 }
