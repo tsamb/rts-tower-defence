@@ -48,8 +48,9 @@ Game.prototype.coreGameLoop = function() {
 }
 
 Game.prototype.updateBoardLoop = function() {
-  if (true) { // eventually change condition back to this.board.needsUpdate
-    this.board.completeRefresh(this.buildings, this.enemies); // will also need to send enemies
+  this.board.refreshEnemies(this.enemies);
+  if (this.board.needsUpdate) {
+    this.board.completeRefresh(this.buildings); // will also need to send enemies
   }
 }
 

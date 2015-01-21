@@ -6,8 +6,11 @@ function Board(options) {
   this.gridSize = options.gridSize || 20;
   this.canvas = View.appendCanvas(this.width, this.height);
   this.context = this.canvas.getContext('2d');
-
   this.needsUpdate = true;
+
+  this.enemyCanvas = $("<canvas id='enemy-canvas' width='" + this.width + "' height='" + this.height + "'></canvas>").appendTo("#main-container")[0]
+  this.enemyContext = this.enemyCanvas.getContext('2d');
+
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
   this.buildingToPlace = undefined;
   this.setUpClickListeners();
@@ -50,23 +53,27 @@ Board.prototype.isGridAvailable = function(building, xToCheck, yToCheck) {
   return isAvailable
 }
 
+Board.prototype.refreshEnemies = function(enemies) {
+  this.placeAllEnemies(enemies);
+}
+
 Board.prototype.completeRefresh = function(buildings, enemies) {
   this.clearCanvas();
   this.drawGrid();
   this.placeAllBuildings(buildings);
-  this.placeAllEnemies(enemies);
   this.needsUpdate = false;
 }
 
 Board.prototype.placeAllEnemies = function(enemies) {
+  this.enemyContext.clearRect(0, 0, this.width, this.height);
   for (var i = 0; i < enemies.length; i++ ) {
     this.drawEnemy(enemies[i])
   }
 }
 
 Board.prototype.drawEnemy = function(enemy) {
-  this.context.fillStyle = "#222"; // TKTKTK: store color on Enemy model
-  this.context.fillRect(enemy.topLeftX - 5, enemy.topLeftY, enemy.size, enemy.size);
+  this.enemyContext.fillStyle = "#222"; // TKTKTK: store color on Enemy model
+  this.enemyContext.fillRect(enemy.topLeftX - 5, enemy.topLeftY, enemy.size, enemy.size);
 }
 
 Board.prototype.clearCanvas = function() {
