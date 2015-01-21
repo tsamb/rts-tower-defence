@@ -7,7 +7,7 @@ function Game() {
   this.buildings = [];
   this.isBuilding = false;
   this.currentBuildOrder = undefined;
-  this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
+  this.currentBuildTicker = 0; // increases once per tick to keep track of when a building is complete;
 
   this.enemies = [];
 
@@ -19,7 +19,7 @@ function Game() {
 }
 
 Game.prototype.buildInitialBuildings = function() {
-  var commandCenter = GameOptions.COMMAND_CENTER; // eventually change into an array of "starting buildings"
+  var commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
   commandCenter.topLeftX = 0;
   commandCenter.topLeftY = Math.floor(this.board.height / this.board.gridSize / 2) - (commandCenter.size.y / 2);
   this.board.placeBuilding(commandCenter);
@@ -50,7 +50,7 @@ Game.prototype.coreGameLoop = function() {
 Game.prototype.updateBoardLoop = function() {
   this.board.refreshEnemies(this.enemies);
   if (this.board.needsUpdate) {
-    this.board.completeRefresh(this.buildings); // will also need to send enemies
+    this.board.completeRefresh(this.buildings);
   }
 }
 
@@ -73,13 +73,13 @@ Game.prototype.moveEnemies = function() {
 }
 
 Game.prototype.spawnEnemies = function() {
-  var interval = this.timeRunning % 5; // TKTKTK: seconds
+  var interval = this.timeRunning % 5; // every 5 seconds
   if (interval === 0) {
     var max = Math.floor(Math.random() * 10); // TKTKTK: store this var on the game somewhere...
     for (var i = max; i > 0; i--) {
       var x = this.board.width;
       var y = Math.floor(Math.random() * this.board.height);
-      this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10})); // TKTKTK: allow for change in radius / strength
+      this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10})); // TKTKTK: create different enemy types with different sizes / strengths
     }
   }
 }
