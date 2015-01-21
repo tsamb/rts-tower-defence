@@ -26,12 +26,6 @@ Board.prototype.setUpClickListeners = function() {
 }
 
 Board.prototype.handleClicks = function(event) {
-  // TEST: ability to fill grid cells with red squares on click
-  // this.context.fillStyle = "red";
-  // this.context.fillRect(Math.floor(event.offsetX / 20) * 20, Math.floor(event.offsetY / 20) * 20, 20, 20);
-  // console.log(event.offsetX); // for testing canvas click location
-  // console.log(event.offsetY);
-  // console.log("-----");
   if (this.buildingToPlace) {
     var potentialX = Math.floor(event.offsetX / this.gridSize);
     var potentialY = Math.floor(event.offsetY / this.gridSize);
@@ -64,19 +58,15 @@ Board.prototype.isGridAvailable = function(building, xToCheck, yToCheck) {
   return isAvailable
 }
 
-Board.prototype.placeAllBuildings = function(buildings) {
-  for (var i = 0; i < buildings.length; i++) {
-    this.placeBuilding(buildings[i]);
-  }
+Board.prototype.completeRefresh = function(buildings) {
+  this.clearCanvas();
+  this.drawGrid();
+  this.placeAllBuildings(buildings);
+  this.needsUpdate = false;
 }
 
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
-}
-
-Board.prototype.drawBuilding = function(building) {
-  this.context.fillStyle = building.color;
-  this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
 }
 
 Board.prototype.drawGrid = function() {
@@ -90,6 +80,17 @@ Board.prototype.drawGrid = function() {
   }
   this.context.strokeStyle = "#CCC";
   this.context.stroke();
+}
+
+Board.prototype.placeAllBuildings = function(buildings) {
+  for (var i = 0; i < buildings.length; i++) {
+    this.placeBuilding(buildings[i]);
+  }
+}
+
+Board.prototype.drawBuilding = function(building) {
+  this.context.fillStyle = building.color;
+  this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
 }
 
 Board.buildStorageGrid = function(rows, cols) {
@@ -149,10 +150,7 @@ Game.prototype.coreGameLoop = function() {
 
 Game.prototype.updateBoardLoop = function() {
   if (this.board.needsUpdate) {
-    this.board.clearCanvas();
-    this.board.drawGrid();
-    this.board.placeAllBuildings(this.buildings)
-    this.board.needsUpdate = false;
+    this.board.completeRefresh(this.buildings);
   }
 }
 
@@ -160,7 +158,7 @@ Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
-    this.resources.energy += resourcesToAdd.energy;
+  this.resources.energy += resourcesToAdd.energy;
   if (this.resources.energy < 0) {this.resources.energy = 0}
 }
 
