@@ -30,7 +30,6 @@ Game.prototype.startGameCycle = function() {
 Game.prototype.coreGameLoop = function() {
   this.updateResources();
   View.updateBuildProgress(this.buildProgress());
-  View.updateBuildingCount(this.calculateBuildingCount());
   View.displayResources(this.resources);
   View.displayResourceFlow(this.calculateResourcesPerCycle());
 }
