@@ -7,5 +7,5 @@ function Enemy(options) {
 }
 
 Enemy.prototype.move = function() {
-  this.topLeftX -= 5;
+  this.topLeftX -= Math.floor(Math.random() * 15) + 5; // TKTKTK: systematize this for different enemy types
 }
