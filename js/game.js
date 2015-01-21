@@ -22,6 +22,12 @@ Game.prototype.buildInitialBuildings = function() {
   this.buildings.push(commandCenter);
 }
 
+Game.prototype.setBuildListeners = function() {
+  for (var i = 0; i < BuildingsList.length; i++) {
+    $("#new-building-" + i).on("click", null, i, this.build.bind(this));
+  }
+}
+
 Game.prototype.startGameCycle = function() {
   setInterval(this.coreGameLoop.bind(this), 500);
   setInterval(this.updateBoardLoop.bind(this), 20);
@@ -70,12 +76,6 @@ Game.prototype.calculateBuildingCount = function() {
     }
   }
   return buildingsCount;
-}
-
-Game.prototype.setBuildListeners = function() {
-  for (var i = 0; i < BuildingsList.length; i++) {
-    $("#new-building-" + i).on("click", null, i, this.build.bind(this));
-  }
 }
 
 Game.prototype.buildProgress = function() {
