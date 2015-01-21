@@ -40,6 +40,7 @@ Game.prototype.startGameCycle = function() {
 Game.prototype.coreGameLoop = function() {
   this.updateTime();
   this.updateResources();
+  this.spawnEnemies();
   View.updateBuildProgress(this.buildProgress());
   View.displayResources(this.resources);
   View.displayResourceFlow(this.calculateResourcesPerCycle());
@@ -47,7 +48,7 @@ Game.prototype.coreGameLoop = function() {
 
 Game.prototype.updateBoardLoop = function() {
   if (this.board.needsUpdate) {
-    this.board.completeRefresh(this.buildings);
+    this.board.completeRefresh(this.buildings); // will also need to send enemies
   }
 }
 
@@ -61,6 +62,16 @@ Game.prototype.updateResources = function() {
   if (this.resources.matter < 0) {this.resources.matter = 0}
   this.resources.energy += resourcesToAdd.energy;
   if (this.resources.energy < 0) {this.resources.energy = 0}
+}
+
+Game.prototype.spawnEnemies = function() {
+  var interval = this.timeRunning % 5; // TKTKTK: seconds
+  if (interval === 0) {
+    var max = Math.floor(Math.random() * 10); // TKTKTK: store this var on the game somewhere...
+    for (var i = max; i > 0; i--) {
+      this.enemies.push(new Enemy({}));
+    }
+  }
 }
 
 Game.prototype.calculateResourcesPerCycle = function() {

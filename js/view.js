@@ -4,7 +4,7 @@ var View = (function() {
   View = {};
 
   View.updateTimer = function(seconds) {
-    $("#timer").text(seconds)
+    $("#timer").text(seconds);
   }
 
   View.displayResources = function(resources) {
