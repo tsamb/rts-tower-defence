@@ -17,7 +17,7 @@ function Board(options) {
 }
 
 Board.prototype.setUpClickListeners = function() {
-  $(this.canvas).on("click", this.handleClicks.bind(this));
+  $("canvas").on("click", this.handleClicks.bind(this));
 }
 
 Board.prototype.handleClicks = function(event) {
