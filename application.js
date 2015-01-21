@@ -9,10 +9,10 @@ $(document).ready(function() {
 // Board model
 
 function Board() {
-  this.canvas = document.getElementById("canvas"); // TKTKTK build dynamically
-  this.context = this.canvas.getContext('2d');
   this.width = 800; // TKTKTK change to constant eventually
   this.height = 400; // TKTKTK change to constant eventually
+  this.canvas = View.appendCanvas(this.width, this.height);
+  this.context = this.canvas.getContext('2d');
   this.gridSize = 20;
   this.needsUpdate = true;
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
@@ -339,6 +339,10 @@ View.displayStatusMessage = function(message) {
 
 View.enablePauseButton = function() {
   $("#pause").on("click", function() {alert("Game Paused.")});
+}
+
+View.appendCanvas = function(width, height) {
+  return $("<canvas id='canvas' width='" + width + "' height='" + height + "'></canvas>").appendTo("#main-container")[0];
 }
 return View;
 })();
