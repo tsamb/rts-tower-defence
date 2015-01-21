@@ -2,6 +2,11 @@
 
 var View = (function() {
   View = {};
+
+  View.updateTimer = function(seconds) {
+    $("#timer").text(seconds)
+  }
+
   View.displayResources = function(resources) {
     $("#matter-display").text("Matter: " + resources.matter);
     $("#energy-display").text("Energy: " + resources.energy);

@@ -1,6 +1,8 @@
 // Game model
 
 function Game() {
+  this.timeRunning = 0
+
   this.resources = {matter: GameOptions.STARTING_MATTER, energy: GameOptions.STARTING_ENERGY};
   this.buildings = [];
   this.isBuilding = false;
@@ -34,6 +36,7 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
+  this.updateTime();
   this.updateResources();
   View.updateBuildProgress(this.buildProgress());
   View.displayResources(this.resources);
@@ -44,6 +47,10 @@ Game.prototype.updateBoardLoop = function() {
   if (this.board.needsUpdate) {
     this.board.completeRefresh(this.buildings);
   }
+}
+
+Game.prototype.updateTime = function() {
+  View.updateTimer(Math.floor(this.timeRunning += 0.5));
 }
 
 Game.prototype.updateResources = function() {
