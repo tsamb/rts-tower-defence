@@ -1,10 +1,9 @@
-#stats {
+.stats {
   float:right;
 }
-
 #build-menu div {
   display: inline-block;
-  width: 300px;
+  width: 250px;
 }
 
 canvas {

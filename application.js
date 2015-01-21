@@ -2,8 +2,9 @@ var game; // for development to access game object in browser
 
 // Game logic
 $(document).ready(function() {
-  game = new Game;
+  View.prependBuildingButtons(BuildingsList)
   View.enablePauseButton();
+  game = new Game;
 });
 
 // Board model
@@ -187,8 +188,9 @@ Game.prototype.calculateBuildingCount = function() {
 }
 
 Game.prototype.setBuildListeners = function() {
-  $("#new-solar").on("click", null, "Solar Power Plant", this.build.bind(this));
-  $("#new-mine").on("click", null, "Matter Mine", this.build.bind(this));
+  for (var i = 0; i < BuildingsList.length; i++) {
+    $("#new-building-" + i).on("click", null, i, this.build.bind(this));
+  }
 }
 
 Game.prototype.buildProgress = function() {
@@ -206,8 +208,8 @@ Game.prototype.buildProgress = function() {
   return percentBuilt; // return an integer between 0 and 100
 }
 
-Game.prototype.build = function(event) {
-  var building = new Building(BuildingsList[event.data]);
+Game.prototype.build = function(buildingButtonClick) {
+  var building = new Building(BuildingsList[buildingButtonClick.data]);
   if (this.board.buildingToPlace) {
     View.displayStatusMessage("Place previously built " + this.board.buildingToPlace.name + " first.");
   } else if (this.currentBuildOrder) {
@@ -228,68 +230,73 @@ Game.prototype.build = function(event) {
 
 // Buildings List
 
-var BuildingsList = {
-  "Command Center":    {name: "Command Center",
-                        hp: 3000,
-                        matterCost: 5000,
-                        energyCost: 50000,
-                        matterProduction: 2,
-                        energyProduction: 25,
-                        buildTime: 1000,
-                        size: {x:4, y:4},
-                        color: "#060",
-                        active: true},
+var BuildingsList = [
+{name: "Command Center",
+hp: 3000,
+matterCost: 5000,
+energyCost: 50000,
+matterProduction: 2,
+energyProduction: 25,
+buildTime: 1000,
+benefit: "Your home base",
+size: {x:4, y:4},
+color: "#060",
+active: true},
 
-  "Matter Mine":       {name: "Matter Mine",
-                        hp: 200,
-                        matterCost: 50,
-                        energyCost: 520,
-                        matterProduction: 2,
-                        energyProduction: -5,
-                        buildTime: 18,
-                        size: {x:2, y:2},
-                        color: "#699"},
+{name: "Matter Mine",
+hp: 200,
+matterCost: 50,
+energyCost: 520,
+matterProduction: 2,
+energyProduction: -5,
+buildTime: 18,
+benefit: "+2 matter / t",
+size: {x:2, y:2},
+color: "#699"},
 
-  "Solar Power Plant": {name: "Solar Power Plant",
-                        hp: 100,
-                        matterCost: 150,
-                        energyCost: 800,
-                        matterProduction: 0,
-                        energyProduction: 20,
-                        buildTime: 24,
-                        size: {x:2, y:2},
-                        color: "#FF6"},
+{name: "Solar Power Plant",
+hp: 100,
+matterCost: 150,
+energyCost: 800,
+matterProduction: 0,
+energyProduction: 20,
+buildTime: 24,
+benefit: "+20 energy / t",
+size: {x:2, y:2},
+color: "#FF6"},
 
-  "Laser Tower":       {name: "Laser Tower",
-                        hp: 500,
-                        matterCost: 150,
-                        energyCost: 800,
-                        matterProduction: 0,
-                        energyProduction: 0,
-                        energyPerShot: 200,
-                        damagePerShot: 50,
-                        fireTime: 1,
-                        buildTime: 40,
-                        size: {x:1, y:1},
-                        color: "#F00"},
+{name: "Laser Tower",
+hp: 500,
+matterCost: 150,
+energyCost: 800,
+matterProduction: 0,
+energyProduction: 0,
+energyPerShot: 200,
+damagePerShot: 50,
+fireTime: 1,
+buildTime: 40,
+benefit: "50 damage per shot",
+size: {x:1, y:1},
+color: "#F00"},
 
-  "Build Slot":        {name: "Build Slot",
-                        hp: 100,
-                        matterCost: 1000,
-                        energyCost: 5000,
-                        matterProduction: -5,
-                        energyProduction: -10,
-                        buildTime: 50,
-                        size: {x:1, y:1},
-                        color: "#060"}
-}
+{name: "Build Slot",
+hp: 100,
+matterCost: 1000,
+energyCost: 5000,
+matterProduction: -5,
+energyProduction: -10,
+buildTime: 50,
+benefit: "build more at once",
+size: {x:1, y:1},
+color: "#060"}
+]
 
 // Game constants
 
 var GameOptions = {
   STARTING_MATTER: 1000,
   STARTING_ENERGY: 5000,
-  COMMAND_CENTER: new Building(BuildingsList["Command Center"])
+  COMMAND_CENTER: new Building(BuildingsList[0])
 }
 
 // Building model
@@ -343,5 +350,32 @@ View.enablePauseButton = function() {
 View.appendCanvas = function(width, height) {
   return $("<canvas id='canvas' width='" + width + "' height='" + height + "'></canvas>").appendTo("#main-container")[0];
 }
+
+View.prependBuildingButtons = function(buildingsList) {
+  for (var i = 0; i < buildingsList.length; i++) {
+    $("#build-menu").prepend(this.buildingsTemplate(buildingsList[i], i));
+  }
+}
+
+View.buildingsTemplate = function(building, buildingIndex) {
+  var attrWhitelist = ["name", "hp", "matterCost", "energyCost", "benefit", "size"];
+  var htmlString = "<div><table>";
+  for (attr in building) {
+    if (attrWhitelist.indexOf(attr) >= 0) {
+      htmlString += "<tr>"
+      htmlString += "<td>" + attr + ": </td>"
+      if (attr === "size") {
+        htmlString += "<td>" + building[attr].x + " x " + building[attr].y + "</td>"
+      } else {
+        htmlString += "<td>" + building[attr] + "</td>"
+      }
+      htmlString += "</tr>"
+    }
+  }
+  htmlString += "</table><button id='new-building-" + buildingIndex + "'>Build " + building.name + "</button></div>"
+  return htmlString
+}
 return View;
 })();
+
+

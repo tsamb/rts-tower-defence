@@ -22,58 +22,13 @@
   </samcraft-board>  -->
 
   <div id="main-container">
+    <div id="build-menu"></div>
+    <progress id="build-status" max="100" value="0"></progress>
     <div id="stats">
       <button id="pause">Pause</button>
       <div id="matter-display"></div><div id="net-matter-flow"></div>
       <div id="energy-display"></div><div id="net-energy-flow"></div>
     </div>
-    <div id="build-menu">
-      <div>
-        Solar Power Plant
-        <table>
-          <tr>
-            <td >Matter cost:</td>
-            <td >150</td>
-          </tr>
-          <tr>
-            <td >Energy cost:</td>
-            <td >800</td>
-          </tr>
-          <tr>
-            <td >Build time:</td>
-            <td >10</td>
-          </tr>
-          <tr>
-            <td >Benefit:</td>
-            <td >Generate 20 energy per tick.</td>
-          </tr>
-        </table>
-        <button id="new-solar">Build Solar Plant</button>
-      </div>
-      <div>
-        Matter Mine
-        <table>
-          <tr>
-            <td >Matter cost:</td>
-            <td >50</td>
-          </tr>
-          <tr>
-            <td >Energy cost:</td>
-            <td >520</td>
-          </tr>
-          <tr>
-            <td >Build time:</td>
-            <td >20</td>
-          </tr>
-          <tr>
-            <td >Benefit:</td>
-            <td >Generate 2 matter per tick.</td>
-          </tr>
-        </table>
-        <button id="new-mine">Build Matter Mine</button>
-      </div>
-    </div>
-    <progress id="build-status" max="100" value="0"></progress>
     <p id="status-message"></p>
     <p id="solar-plant-count"></p>
     <p id="matter-mine-count"></p>
