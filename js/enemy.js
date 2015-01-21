@@ -3,5 +3,9 @@
 function Enemy(options) {
   this.topLeftX = options.topLeftX;
   this.topLeftY = options.topLeftY;
-  this.radius = options.radius;
+  this.size = options.size;
+}
+
+Enemy.prototype.move = function() {
+  this.topLeftX -= 5;
 }

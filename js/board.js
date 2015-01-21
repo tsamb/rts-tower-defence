@@ -50,11 +50,23 @@ Board.prototype.isGridAvailable = function(building, xToCheck, yToCheck) {
   return isAvailable
 }
 
-Board.prototype.completeRefresh = function(buildings) {
+Board.prototype.completeRefresh = function(buildings, enemies) {
   this.clearCanvas();
   this.drawGrid();
   this.placeAllBuildings(buildings);
+  this.placeAllEnemies(enemies);
   this.needsUpdate = false;
+}
+
+Board.prototype.placeAllEnemies = function(enemies) {
+  for (var i = 0; i < enemies.length; i++ ) {
+    this.drawEnemy(enemies[i])
+  }
+}
+
+Board.prototype.drawEnemy = function(enemy) {
+  this.context.fillStyle = "#222"; // TKTKTK: store color on Enemy model
+  this.context.fillRect(enemy.topLeftX - 5, enemy.topLeftY, enemy.size, enemy.size);
 }
 
 Board.prototype.clearCanvas = function() {
