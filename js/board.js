@@ -8,7 +8,7 @@ function Board(options) {
   this.context = this.canvas.getContext('2d');
   this.needsUpdate = true;
 
-  this.enemyCanvas = $("<canvas id='enemy-canvas' width='" + this.width + "' height='" + this.height + "'></canvas>").appendTo("#main-container")[0]
+  this.enemyCanvas = $("<canvas width='" + this.width + "' height='" + this.height + "'></canvas>").appendTo("#canvas-container")[0]
   this.enemyContext = this.enemyCanvas.getContext('2d');
 
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);

@@ -30,7 +30,7 @@ var View = (function() {
   }
 
   View.appendCanvas = function(width, height) {
-    return $("<canvas id='canvas' width='" + width + "' height='" + height + "'></canvas>").appendTo("#main-container")[0];
+    return $("<canvas id='background-canvas' width='" + width + "' height='" + height + "'></canvas>").appendTo("#canvas-container")[0];
   }
 
   View.prependBuildingButtons = function(buildingsList) {

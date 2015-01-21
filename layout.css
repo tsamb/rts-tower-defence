@@ -6,8 +6,21 @@
   width: 250px;
 }
 
+#canvas-container {
+  position:relative;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 canvas {
+  position: absolute;
+  left: 0px;
+  top: 0px;
   display:block;
   margin:30px auto 0;
+}
+
+.grey {
   background:#EEE;
 }
