@@ -8,12 +8,13 @@ $(document).ready(function() {
 
 // Board model
 
-function Board() {
-  this.width = 800; // TKTKTK change to constant eventually
-  this.height = 400; // TKTKTK change to constant eventually
+function Board(options) {
+  this.width = options.width || 800;
+  this.height = options.height || 400;
+  this.gridSize = options.gridSize || 20;
   this.canvas = View.appendCanvas(this.width, this.height);
   this.context = this.canvas.getContext('2d');
-  this.gridSize = 20;
+
   this.needsUpdate = true;
   this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
   this.buildingToPlace = undefined;
@@ -118,7 +119,7 @@ function Game() {
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increase this one per tick; check, push and reset in build function
 
-  this.board = new Board;
+  this.board = new Board({width: 800, height: 400, gridSize: 20});
 
   this.buildInitialBuildings();
   this.setBuildListeners();
