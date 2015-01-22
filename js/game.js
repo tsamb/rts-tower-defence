@@ -5,6 +5,7 @@ function Game() {
 
   this.resources = {matter: GameOptions.STARTING_MATTER, energy: GameOptions.STARTING_ENERGY};
   this.buildings = [];
+  this.destroyedBuildings = [];
   this.isBuilding = false;
   this.currentBuildOrder = undefined;
   this.currentBuildTicker = 0; // increases once per tick to keep track of when a building is complete;
@@ -12,8 +13,8 @@ function Game() {
   this.enemies = [];
 
   this.board = new Board({width: 800, height: 400, gridSize: 20});
-
   this.buildInitialBuildings();
+  this.board.completeRefresh(this.buildings);
   this.setBuildListeners();
   this.startGameCycle();
 }
@@ -38,7 +39,6 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
-  console.log(this.buildings[0].hp); // for testing time that it takes to destroy the command center
   this.updateTime();
   this.updateResources();
   this.spawnEnemies();
@@ -147,11 +147,13 @@ Game.prototype.build = function(buildingButtonClick) {
   }
 }
 
-Game.prototype.areBuildingsDestroyed() {
-  for (var i = 0; i < this.buildings.length(); i++) {
-    if (buildings[i].isDestroyed) {
-      return true;
+Game.prototype.areBuildingsDestroyed = function() {
+  var isAtLeastOneDestroyed = false
+  for (var i = 0; i < this.buildings.length; i++) {
+    if (this.buildings[i].isDestroyed()) {
+      this.destroyedBuildings.push(this.buildings.splice(i, 1));
+      isAtLeastOneDestroyed = true;
     }
   }
-  return false;
+  return isAtLeastOneDestroyed;
 }
