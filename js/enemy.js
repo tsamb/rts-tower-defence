@@ -17,7 +17,7 @@ Enemy.prototype.moveOrAttack = function(buildings) {
       this.isMoving = false;
       this.attack(buildings[i]);
     } else {
-      this.move();
+      this.move(); // this line increases perceived speed of enemies per new building; move it into the loop in the Game model to fix
     }
   }
 }
