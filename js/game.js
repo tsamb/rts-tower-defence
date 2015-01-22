@@ -33,8 +33,8 @@ Game.prototype.setBuildListeners = function() {
 }
 
 Game.prototype.startGameCycle = function() {
-  setInterval(this.coreGameLoop.bind(this), 500);
-  setInterval(this.updateBoardLoop.bind(this), 20);
+  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 500);
+  this.boardLoopId = setInterval(this.updateBoardLoop.bind(this), 40);
 }
 
 Game.prototype.coreGameLoop = function() {
