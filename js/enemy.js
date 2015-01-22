@@ -4,8 +4,8 @@ function Enemy(options) {
   this.topLeftX = options.topLeftX;
   this.topLeftY = options.topLeftY;
   this.size = options.size;
-  this.maxDamagePerHit = options.damage || 15;
-  this.speed = options.speed || 10;
+  this.maxDamagePerHit = options.damage || 5;
+  this.speed = options.speed || 1;
   this.isMoving = true;
 }
 
@@ -30,7 +30,7 @@ Enemy.prototype.collidesWith = function(building) {
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.topLeftX -= Math.floor(Math.random() * this.speed) + 5;
+    this.topLeftX -= Math.floor(Math.random() * this.speed) + 1;
   }
 }
 

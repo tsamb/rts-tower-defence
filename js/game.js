@@ -1,7 +1,7 @@
 // Game model
 
 function Game() {
-  this.timeRunning = 0
+  this.timeRunning = 0;
 
   this.resources = {matter: GameOptions.STARTING_MATTER, energy: GameOptions.STARTING_ENERGY};
   this.buildings = [];
