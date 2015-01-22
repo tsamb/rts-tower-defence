@@ -39,7 +39,7 @@ Board.prototype.placeBuilding = function(building) {
     }
   }
   this.drawBuilding(building);
-  building.active = true;
+  building.active = true; // produce resources now that user has successfully placed building
   this.buildingToPlace = undefined;
 }
 

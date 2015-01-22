@@ -10,7 +10,7 @@ function Building(options) {
   this.buildTime = options.buildTime;
   this.size = options.size;
   this.color = options.color;
-  this.active = options.active || false;
+  this.active = options.active || false; // won't produce resources or benefits until true
   this.topLeftX = undefined;
   this.topLeftY = undefined;
 }
