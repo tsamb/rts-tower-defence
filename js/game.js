@@ -41,7 +41,6 @@ Game.prototype.coreGameLoop = function() {
   console.log(this.buildings[0].hp); // for testing time that it takes to destroy the command center
   this.updateTime();
   this.updateResources();
-  this.moveEnemies();
   this.spawnEnemies();
   View.updateBuildProgress(this.buildProgress());
   View.displayResources(this.resources);
@@ -49,6 +48,7 @@ Game.prototype.coreGameLoop = function() {
 }
 
 Game.prototype.updateBoardLoop = function() {
+  this.moveEnemies();
   this.board.refreshEnemies(this.enemies);
   if (this.board.needsUpdate) {
     this.board.completeRefresh(this.buildings);
