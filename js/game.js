@@ -38,6 +38,7 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
+  console.log(this.buildings[0].hp); // for testing time that it takes to destroy the command center
   this.updateTime();
   this.updateResources();
   this.moveEnemies();
