@@ -18,3 +18,7 @@ function Building(options) {
 Building.prototype.inflictDamage = function(damage) {
   this.hp -= damage;
 }
+
+Building.prototype.isAlive = function() {
+  return this.hp > 0;
+}
