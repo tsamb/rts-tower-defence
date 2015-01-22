@@ -50,6 +50,7 @@ Game.prototype.coreGameLoop = function() {
 Game.prototype.updateBoardLoop = function() {
   this.moveEnemies();
   this.board.refreshEnemies(this.enemies);
+  this.board.needsUpdate = this.areBuildingsDestroyed()
   if (this.board.needsUpdate) {
     this.board.completeRefresh(this.buildings);
   }
@@ -144,4 +145,13 @@ Game.prototype.build = function(buildingButtonClick) {
     this.resources.matter -= building.matterCost;
     this.resources.energy -= building.energyCost;
   }
+}
+
+Game.prototype.areBuildingsDestroyed() {
+  for (var i = 0; i < this.buildings.length(); i++) {
+    if (buildings[i].isDestroyed) {
+      return true;
+    }
+  }
+  return false;
 }
