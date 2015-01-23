@@ -14,7 +14,7 @@ function Board(options) {
   this.enemyCanvas = View.appendCanvas(this.width, this.height);
   this.enemyContext = this.enemyCanvas.getContext('2d');
 
-  this.internalStorage = Board.buildStorageGrid(this.width/20, this.height/20);
+  this.internalStorage = this.buildInternalStorage();
   this.buildingToPlace = undefined;
   this.setUpClickListeners();
 }
@@ -62,6 +62,7 @@ Board.prototype.refreshEnemies = function(enemies) {
 
 Board.prototype.completeRefresh = function(buildings, enemies) {
   this.clearCanvas();
+  this.clearInternalStorage();
   this.drawGrid();
   this.placeAllBuildings(buildings);
   this.needsUpdate = false;
@@ -119,7 +120,13 @@ Board.prototype.drawHp = function(building) {
   this.hpContext.fillText(building.hp, (building.topLeftX * this.gridSize) + 10, (building.topLeftY * this.gridSize) + (building.size.y * this.gridSize) - 10);
 }
 
-Board.buildStorageGrid = function(rows, cols) {
+Board.prototype.clearInternalStorage = function() {
+  this.internalStorage = this.buildInternalStorage();
+}
+
+Board.prototype.buildInternalStorage = function() {
+  var rows = this.width/this.gridSize;
+  var cols = this.height/this.grid;
   var grid = [];
   for (var x = 0; x < rows; x++) {
     grid.push([]);
