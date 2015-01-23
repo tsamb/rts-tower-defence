@@ -11,13 +11,19 @@ function Enemy(options) {
 }
 
 Enemy.prototype.moveOrAttack = function(buildings) {
+  this.checkForCollisions(buildings);
+  this.move();
+  if (this.attackingBuilding) {
+    this.attack(this.attackingBuilding);
+  }
+}
+
+Enemy.prototype.checkForCollisions = function(buildings) {
   for (var i = 0; i < buildings.length; i++) {
     if (this.collidesWith(buildings[i])) {
       // this.topLeftX = buildings[i].topLeftX * 20 + buildings[i].width
       this.isMoving = false;
-      this.attack(buildings[i]);
-    } else {
-      this.move(); // this line increases perceived speed of enemies per new building; move it into the loop in the Game model to fix
+      this.attackingBuilding = buildings[i];
     }
   }
 }
@@ -38,4 +44,8 @@ Enemy.prototype.move = function() {
 Enemy.prototype.attack = function(building) {
   var damage = Math.floor(Math.random() * this.maxDamagePerHit);
   building.inflictDamage(damage);
+  if (building.isDestroyed()) {
+    this.attackingBuilding = undefined;
+    this.isMoving = true;
+  }
 }
