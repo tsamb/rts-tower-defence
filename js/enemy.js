@@ -5,7 +5,7 @@ function Enemy(options) {
   this.topLeftY = options.topLeftY;
   this.size = options.size;
   this.maxDamagePerHit = options.damage || 5;
-  this.speed = options.speed || 1;
+  this.speed = options.speed || 3;
   this.isMoving = true;
   this.attackingBuilding = undefined;
 }
