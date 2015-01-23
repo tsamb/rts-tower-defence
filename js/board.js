@@ -8,6 +8,9 @@ function Board(options) {
   this.context = this.canvas.getContext('2d');
   this.needsUpdate = true;
 
+  this.hpCanvas = View.appendCanvas(this.width, this.height);
+  this.hpContext = this.hpCanvas.getContext('2d');
+
   this.enemyCanvas = View.appendCanvas(this.width, this.height);
   this.enemyContext = this.enemyCanvas.getContext('2d');
 
@@ -102,8 +105,18 @@ Board.prototype.placeAllBuildings = function(buildings) {
 Board.prototype.drawBuilding = function(building) {
   this.context.fillStyle = building.color;
   this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
-  this.context.fillStyle = "#EEE";
-  this.context.fillText(building.hp, (building.topLeftX * this.gridSize) + 10, (building.topLeftY * this.gridSize) + (building.size.y * this.gridSize) - 10);
+}
+
+Board.prototype.drawAllHp = function(buildings) {
+  this.hpContext.clearRect(0, 0, this.width, this.height);
+  for (var i = 0; i < buildings.length; i++) {
+    this.drawHp(buildings[i]);
+  }
+}
+
+Board.prototype.drawHp = function(building) {
+  this.hpContext.fillStyle = "#EEE";
+  this.hpContext.fillText(building.hp, (building.topLeftX * this.gridSize) + 10, (building.topLeftY * this.gridSize) + (building.size.y * this.gridSize) - 10);
 }
 
 Board.buildStorageGrid = function(rows, cols) {

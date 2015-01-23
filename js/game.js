@@ -50,6 +50,7 @@ Game.prototype.coreGameLoop = function() {
 Game.prototype.updateBoardLoop = function() {
   this.moveEnemies();
   this.board.refreshEnemies(this.enemies);
+  this.board.drawAllHp(this.buildings);
   this.board.needsUpdate = this.areBuildingsDestroyed()
   if (this.board.needsUpdate) {
     this.board.completeRefresh(this.buildings);
