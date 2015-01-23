@@ -102,6 +102,8 @@ Board.prototype.placeAllBuildings = function(buildings) {
 Board.prototype.drawBuilding = function(building) {
   this.context.fillStyle = building.color;
   this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
+  this.context.fillStyle = "#EEE";
+  this.context.fillText(building.hp, (building.topLeftX * this.gridSize) + 10, (building.topLeftY * this.gridSize) + (building.size.y * this.gridSize) - 10);
 }
 
 Board.buildStorageGrid = function(rows, cols) {
