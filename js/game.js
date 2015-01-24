@@ -37,33 +37,39 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
-  this.updateTime();
-  this.updateResources();
-  this.spawnEnemies();
-  View.updateBuildProgress(this.buildProgress());
-  View.displayResources(this.resources);
-  View.displayResourceFlow(this.calculateResourcesPerCycle());
-}
-
-Game.prototype.updateBoardLoop = function() {
-  this.moveEnemies();
-  this.board.refreshEnemies(this.enemies);
-  this.board.drawAllHp(this.buildings);
-  this.board.needsUpdate = this.areBuildingsDestroyed()
-  if (this.board.needsUpdate) {
-    this.board.completeRefresh(this.buildings);
+  if (this.buildings.length === 0) {
+    clearInterval(this.coreLoopId);
+    clearInterval(this.boardLoopId);
+    View.displayGameOver();
+  } else {
+    this.updateTime();
+    this.updateResources();
+    this.spawnEnemies();
+    View.updateBuildProgress(this.buildProgress());
+    View.displayResources(this.resources);
+    View.displayResourceFlow(this.calculateResourcesPerCycle());
   }
 }
 
-Game.prototype.updateTime = function() {
-  View.updateTimer(Math.floor(this.timeRunning += 0.5));
-}
+  Game.prototype.updateBoardLoop = function() {
+    this.moveEnemies();
+    this.board.refreshEnemies(this.enemies);
+    this.board.drawAllHp(this.buildings);
+    this.board.needsUpdate = this.areBuildingsDestroyed()
+    if (this.board.needsUpdate) {
+      this.board.completeRefresh(this.buildings);
+    }
+  }
 
-Game.prototype.updateResources = function() {
+  Game.prototype.updateTime = function() {
+    View.updateTimer(Math.floor(this.timeRunning += 0.5));
+  }
+
+  Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
-  this.resources.energy += resourcesToAdd.energy;
+    this.resources.energy += resourcesToAdd.energy;
   if (this.resources.energy < 0) {this.resources.energy = 0}
 }
 
