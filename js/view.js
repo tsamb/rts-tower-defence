@@ -3,6 +3,14 @@
 var View = (function() {
   View = {};
 
+  // Event listeners
+
+  View.enablePauseButton = function() {
+    $("#pause").on("click", function() {alert("Game Paused.")});
+  }
+
+  // DOM manipulation: updates
+
   View.updateTimer = function(seconds) {
     $("#timer").text(seconds);
   }
@@ -25,9 +33,7 @@ var View = (function() {
     $("#status-message").text(message);
   }
 
-  View.enablePauseButton = function() {
-    $("#pause").on("click", function() {alert("Game Paused.")});
-  }
+  // DOM manipulation: append/show/hide
 
   View.appendCanvas = function(width, height) {
     return $("<canvas width='" + width + "' height='" + height + "'></canvas>").appendTo("#canvas-container")[0];
@@ -38,6 +44,8 @@ var View = (function() {
       $("#build-menu").prepend(this.buildingsTemplate(buildingsList[i], i));
     }
   }
+
+  // HTML templates
 
   View.buildingsTemplate = function(building, buildingIndex) {
     var attrWhitelist = ["name", "hp", "matterCost", "energyCost", "benefit", "size"];
