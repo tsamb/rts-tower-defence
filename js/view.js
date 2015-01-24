@@ -56,7 +56,7 @@ var View = (function() {
   }
 
   View.displayGameOver = function() {
-    $("#game-over-message").show()
+    $("#game-over-message").show();
   }
 
   // HTML templates
