@@ -55,6 +55,10 @@ var View = (function() {
     }
   }
 
+  View.displayGameOver = function() {
+    $("#game-over-message").show()
+  }
+
   // HTML templates
 
   View.buildingsTemplate = function(building, buildingIndex) {
