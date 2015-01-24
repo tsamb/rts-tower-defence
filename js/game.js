@@ -28,9 +28,7 @@ Game.prototype.buildInitialBuildings = function() {
 }
 
 Game.prototype.setBuildListeners = function() {
-  for (var i = 0; i < BuildingsList.length; i++) {
-    $("#new-building-" + i).on("click", null, i, this.build.bind(this));
-  }
+  View.setBuildListeners(BuildingsList, this);
 }
 
 Game.prototype.startGameCycle = function() {

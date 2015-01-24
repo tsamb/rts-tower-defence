@@ -5,6 +5,12 @@ var View = (function() {
 
   // Event listeners
 
+  View.setBuildListeners = function(buildingsList, game) {
+    for (var i = 0; i < buildingsList.length; i++) {
+      $("#new-building-" + i).on("click", null, i, game.build.bind(game));
+    }
+  }
+
   View.enablePauseButton = function() {
     $("#pause").on("click", function() {alert("Game Paused.")});
   }
