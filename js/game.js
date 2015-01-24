@@ -22,9 +22,9 @@ function Game() {
 Game.prototype.buildInitialBuildings = function() {
   var commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
   commandCenter.topLeftX = 0;
-  commandCenter.topLeftY = Math.floor(this.board.height / this.board.gridSize / 2) - (commandCenter.size.y / 2);
-  this.board.placeBuilding(commandCenter);
+  commandCenter.topLeftY = Math.floor(this.board.height / 2) - (commandCenter.size.y * this.board.gridSize / 2);
   this.buildings.push(commandCenter);
+  this.board.completeRefresh(this.buildings);
 }
 
 Game.prototype.setBuildListeners = function() {

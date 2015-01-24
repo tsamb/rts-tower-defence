@@ -25,8 +25,8 @@ Board.prototype.setClickListeners = function() {
 
 Board.prototype.handleClicks = function(event) {
   if (this.buildingToPlace) {
-    var potentialX = Math.floor(event.offsetX / this.gridSize);
-    var potentialY = Math.floor(event.offsetY / this.gridSize);
+    var potentialX = Math.floor(event.offsetX / this.gridSize) * this.gridSize;
+    var potentialY = Math.floor(event.offsetY / this.gridSize) * this.gridSize;
      if (this.isGridAvailable(this.buildingToPlace, potentialX, potentialY)) {
       this.buildingToPlace.topLeftX = potentialX;
       this.buildingToPlace.topLeftY = potentialY;
@@ -36,8 +36,10 @@ Board.prototype.handleClicks = function(event) {
 }
 
 Board.prototype.placeBuilding = function(building) {
-  for(var x = building.topLeftX; x < building.topLeftX + building.size.x; x++) {
-    for(var y = building.topLeftY; y < building.topLeftY + building.size.y; y++) {
+  building.boardSizeX = building.size.x * this.gridSize;
+  building.boardSizeY = building.size.y * this.gridSize;
+  for(var x = (building.topLeftX / this.gridSize); x < (building.topLeftX / this.gridSize) + building.size.x; x++) {
+    for(var y = (building.topLeftY / this.gridSize); y < (building.topLeftY / this.gridSize) + building.size.y; y++) {
       this.internalStorage[x][y] = new Cell(building, [building.topLeftX, building.topLeftY]);
     }
   }
@@ -46,8 +48,10 @@ Board.prototype.placeBuilding = function(building) {
   this.buildingToPlace = undefined;
 }
 
-Board.prototype.isGridAvailable = function(building, xToCheck, yToCheck) {
+Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
   var isAvailable = true
+  var xToCheck = Math.floor(clickedX / this.gridSize)
+  var yToCheck = Math.floor(clickedY / this.gridSize)
   for(var x = xToCheck; x < xToCheck + building.size.x; x++) {
     for(var y = yToCheck; y < yToCheck + building.size.y; y++) {
       if (this.internalStorage[x][y]) { return false; }
@@ -105,7 +109,7 @@ Board.prototype.placeAllBuildings = function(buildings) {
 
 Board.prototype.drawBuilding = function(building) {
   this.context.fillStyle = building.color;
-  this.context.fillRect(building.topLeftX * this.gridSize, building.topLeftY * this.gridSize, building.size.x * this.gridSize, building.size.y * this.gridSize);
+  this.context.fillRect(building.topLeftX, building.topLeftY, building.boardSizeX, building.boardSizeY);
 }
 
 Board.prototype.drawAllHp = function(buildings) {
@@ -117,7 +121,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.topLeftX * this.gridSize) + 10, (building.topLeftY * this.gridSize) + (building.size.y * this.gridSize) - 10);
+  this.hpContext.fillText(building.hp, (building.topLeftX) + 10, building.topLeftY + building.boardSizeY - 10);
 }
 
 Board.prototype.clearInternalStorage = function() {

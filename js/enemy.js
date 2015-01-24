@@ -31,10 +31,10 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.topLeftX < building.topLeftX * 20 + building.size.x * 20 + this.size &&
-    this.topLeftX + this.size > building.topLeftX * 20 - this.size &&
-    this.topLeftY < building.topLeftY * 20 + building.size.y * 20 + this.size &&
-    this.topLeftY + this.size > building.topLeftY * 20 - this.size)
+  return (this.topLeftX < building.topLeftX + building.boardSizeX + this.size &&
+    this.topLeftX + this.size > building.topLeftX - this.size &&
+    this.topLeftY < building.topLeftY + building.boardSizeY + this.size &&
+    this.topLeftY + this.size > building.topLeftY - this.size)
 }
 
 Enemy.prototype.move = function() {

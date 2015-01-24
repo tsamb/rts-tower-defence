@@ -11,6 +11,8 @@ function Building(options) {
   this.size = options.size;
   this.color = options.color;
   this.active = options.active || false; // won't produce resources or benefits until true
+  this.boardSizeX = undefined;
+  this.boardSizeY = undefined;
   this.topLeftX = undefined;
   this.topLeftY = undefined;
 }
