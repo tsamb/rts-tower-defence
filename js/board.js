@@ -16,11 +16,11 @@ function Board(options) {
 
   this.internalStorage = this.buildInternalStorage();
   this.buildingToPlace = undefined;
-  this.setUpClickListeners();
+  this.setClickListeners();
 }
 
-Board.prototype.setUpClickListeners = function() {
-  $("canvas").on("click", this.handleClicks.bind(this));
+Board.prototype.setClickListeners = function() {
+  View.setCanvasClickListeners(this);
 }
 
 Board.prototype.handleClicks = function(event) {

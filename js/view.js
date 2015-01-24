@@ -11,6 +11,10 @@ var View = (function() {
     }
   }
 
+  View.setCanvasClickListeners = function(board) {
+    $("canvas").on("click", board.handleClicks.bind(board));
+  }
+
   View.enablePauseButton = function() {
     $("#pause").on("click", function() {alert("Game Paused.")});
   }
