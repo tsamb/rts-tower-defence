@@ -126,7 +126,7 @@ Board.prototype.clearInternalStorage = function() {
 
 Board.prototype.buildInternalStorage = function() {
   var rows = this.width/this.gridSize;
-  var cols = this.height/this.grid;
+  var cols = this.height/this.gridSize;
   var grid = [];
   for (var x = 0; x < rows; x++) {
     grid.push([]);
