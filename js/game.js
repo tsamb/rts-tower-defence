@@ -117,7 +117,7 @@ Game.prototype.buildProgress = function() {
     this.currentBuildTicker++;
     // percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
     percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100 * 8; // increase divisor to speed up building for testing
-    if (this.currentBuildTicker >= this.currentBuildOrder.buildTime / 8) { // increase divisor to speed up building for testing
+    if (!this.board.buildingToPlace && this.currentBuildTicker >= this.currentBuildOrder.buildTime / 8) { // increase divisor to speed up building for testing
     // if (this.currentBuildTicker >= this.currentBuildOrder.buildTime) {
       this.board.buildingToPlace = this.currentBuildOrder;
       this.buildings.push(this.currentBuildOrder);
