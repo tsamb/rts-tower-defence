@@ -4,6 +4,8 @@ function Enemy(options) {
   this.topLeftX = options.topLeftX;
   this.topLeftY = options.topLeftY;
   this.size = options.size;
+
+  this.hp = options.hp || 10;
   this.maxDamagePerHit = options.damage || 5;
   this.speed = options.speed || 3;
   this.isMoving = true;
