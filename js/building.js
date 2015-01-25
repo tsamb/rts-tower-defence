@@ -3,6 +3,9 @@
 function Building(options) {
   this.name = options.name;
   this.hp = options.hp;
+  this.range = options.range || 100;
+  this.damage = options.damage || 20; // TKTKTK: remove energy per shot fired
+
   this.matterCost = options.matterCost;
   this.energyCost = options.energyCost;
   this.matterProduction = options.matterProduction;
