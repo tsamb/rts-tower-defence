@@ -46,3 +46,10 @@ Building.prototype.enemiesWithinRange = function(enemies) {
   return enemiesInRange;
 }
 
+Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting an array of objects/tuples holding an enemy object and its distance from this building
+  var min = {distance: Number.POSITIVE_INFINITY};
+  for (var i = 0; i < enemies.length; i++) {
+    if (enemies[i] < min) { min = enemies[i] }
+  }
+  return min.enemy
+}
