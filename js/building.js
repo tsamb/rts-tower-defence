@@ -27,3 +27,12 @@ Building.prototype.inflictDamage = function(damage) {
 Building.prototype.isDestroyed = function() {
   return this.hp <= 0;
 }
+
+Building.prototype.centerX = function() { // create a vector class and put this on its prototype
+  return this.topLeftX + this.boardSizeX / 2 // currently duplicated on enemy and building classes
+}
+
+Building.prototype.centerY = function() { // create a vector class and put this on its prototype
+  return this.topLeftY + this.boardSizeY / 2 // currently duplicated on enemy and building classes
+}
+

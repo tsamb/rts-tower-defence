@@ -51,3 +51,17 @@ Enemy.prototype.attack = function(building) {
     this.isMoving = true;
   }
 }
+
+Enemy.prototype.centerX = function() { // create a vector class and put this on its prototype
+  return this.topLeftX + this.size / 2 // currently duplicated on enemy and building classes
+}
+
+Enemy.prototype.centerY = function() { // create a vector class and put this on its prototype
+  return this.topLeftY + this.size / 2 // currently duplicated on enemy and building classes
+}
+
+Enemy.prototype.distanceFrom = function(object) {
+  var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
+  var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
+  return Math.sqrt(squaredX + squaredY);
+}
