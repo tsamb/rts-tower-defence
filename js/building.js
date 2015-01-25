@@ -36,3 +36,13 @@ Building.prototype.centerY = function() { // create a vector class and put this 
   return this.topLeftY + this.boardSizeY / 2 // currently duplicated on enemy and building classes
 }
 
+Building.prototype.enemiesWithinRange = function(enemies) {
+  var enemiesWithDistances = enemies.map(function(enemy){
+    return {enemy: enemy, distance: enemy.distanceFrom(this)}
+  }.bind(this))
+  var enemiesInRange = enemiesWithDistances.filter(function(enemy) {
+    return enemy.distance <= this.range
+  }.bind(this))
+  return enemiesInRange;
+}
+
