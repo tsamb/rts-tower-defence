@@ -57,7 +57,7 @@ Game.prototype.coreGameLoop = function() {
     this.moveEnemies();
     this.board.refreshEnemies(this.enemies);
     this.board.drawAllHp(this.buildings);
-    this.board.needsUpdate = this.areBuildingsDestroyed()
+    this.board.needsUpdate = (this.areBuildingsDestroyed() | this.areEnemiesDestroyed())
     if (this.board.needsUpdate) {
       this.board.completeRefresh(this.buildings);
     }
@@ -158,7 +158,18 @@ Game.prototype.areBuildingsDestroyed = function() {
   var isAtLeastOneDestroyed = false
   for (var i = 0; i < this.buildings.length; i++) {
     if (this.buildings[i].isDestroyed()) {
-      this.destroyedBuildings.push(this.buildings.splice(i, 1));
+      this.destroyedBuildings.push(this.buildings.splice(i, 1)[0]);
+      isAtLeastOneDestroyed = true;
+    }
+  }
+  return isAtLeastOneDestroyed;
+}
+
+Game.prototype.areEnemiesDestroyed = function() {
+  var isAtLeastOneDestroyed = false
+  for (var i = 0; i < this.enemies.length; i++) {
+    if (this.enemies[i].isDestroyed()) {
+      this.destroyedEnemies.push(this.enemies.splice(i, 1)[0]);
       isAtLeastOneDestroyed = true;
     }
   }
