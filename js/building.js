@@ -4,7 +4,7 @@ function Building(options) {
   this.name = options.name;
   this.hp = options.hp;
   this.range = options.range || 100;
-  this.damage = options.damagePerShot; // TKTKTK: remove energy per shot fired; no default because not all buildings can inflict damage
+  this.damagePerShot = options.damagePerShot; // TKTKTK: remove energy per shot fired; no default because not all buildings can inflict damage
 
   this.matterCost = options.matterCost;
   this.energyCost = options.energyCost;
@@ -56,8 +56,10 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
 
 Building.prototype.fireAt(enemies) {
   var enemiesInRange = this.enemiesWithinRange(enemies);
-  var closestEnemy = this.closestEnemy(enemiesInRange);
-  var damage = Math.floor(Math.random() * this.maxDamagePerShot);
-  closestEnemy.receiveDamage(damage);
+  if (enemiesInRange[0]) {
+    var closestEnemy = this.closestEnemy(enemiesInRange);
+    var damage = Math.floor(Math.random() * this.damagePerShot);
+    closestEnemy.receiveDamage(damage);
+  }
 }
 
