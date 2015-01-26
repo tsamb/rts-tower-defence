@@ -46,6 +46,7 @@ Game.prototype.coreGameLoop = function() {
     this.updateTime();
     this.updateResources();
     this.spawnEnemies();
+    this.buildingsFire();
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
     View.displayResourceFlow(this.calculateResourcesPerCycle());
@@ -163,3 +164,12 @@ Game.prototype.areBuildingsDestroyed = function() {
   }
   return isAtLeastOneDestroyed;
 }
+
+Game.prototype.buildingsFire = function() {
+  for (var i = 0; i < this.buildings.length; i++) {
+    if (this.buildings[i].damagePerShot && this.buildings[i].topLeftX) {
+      this.buildings[i].fireAt(this.enemies);
+    }
+  }
+}
+
