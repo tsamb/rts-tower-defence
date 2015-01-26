@@ -11,6 +11,7 @@ function Game() {
   this.currentBuildTicker = 0; // increases once per tick to keep track of when a building is complete;
 
   this.enemies = [];
+  this.destroyedEnemies = [];
 
   this.board = new Board({width: 800, height: 400, gridSize: 20});
   this.buildInitialBuildings();
