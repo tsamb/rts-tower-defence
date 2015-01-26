@@ -82,7 +82,7 @@ Game.prototype.moveEnemies = function() {
 }
 
 Game.prototype.spawnEnemies = function() {
-  var interval = this.timeRunning % 5; // every 5 seconds
+  var interval = this.timeRunning % 5; // every 5 seconds; TKTKTK: store this the modulus on the game somewhere
   if (interval === 0) {
     var max = Math.floor(Math.random() * 10); // TKTKTK: store this var on the game somewhere...
     for (var i = max; i > 0; i--) {
