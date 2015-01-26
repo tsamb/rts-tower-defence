@@ -53,3 +53,11 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
   }
   return min.enemy
 }
+
+Building.prototype.fireAt(enemies) {
+  var enemiesInRange = this.enemiesWithinRange(enemies);
+  var closestEnemy = this.closestEnemy(enemiesInRange);
+  var damage = Math.floor(Math.random() * this.maxDamagePerHit);
+  closestEnemy.receiveDamage(damage);
+}
+
