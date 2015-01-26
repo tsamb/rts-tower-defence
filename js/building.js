@@ -54,7 +54,7 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
   return min.enemy
 }
 
-Building.prototype.fireAt(enemies) {
+Building.prototype.fireAt = function(enemies) {
   var enemiesInRange = this.enemiesWithinRange(enemies);
   if (enemiesInRange[0]) {
     var closestEnemy = this.closestEnemy(enemiesInRange);
