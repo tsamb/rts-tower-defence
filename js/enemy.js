@@ -45,7 +45,7 @@ Enemy.prototype.move = function() {
 
 Enemy.prototype.attack = function(building) {
   var damage = Math.floor(Math.random() * this.maxDamagePerHit);
-  building.inflictDamage(damage);
+  building.receiveDamage(damage);
   if (building.isDestroyed()) {
     this.attackingBuilding = undefined;
     this.isMoving = true;

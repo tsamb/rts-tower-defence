@@ -20,7 +20,7 @@ function Building(options) {
   this.topLeftY = undefined;
 }
 
-Building.prototype.inflictDamage = function(damage) {
+Building.prototype.receiveDamage = function(damage) {
   this.hp -= damage;
 }
 
