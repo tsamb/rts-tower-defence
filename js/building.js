@@ -57,7 +57,7 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
 Building.prototype.fireAt(enemies) {
   var enemiesInRange = this.enemiesWithinRange(enemies);
   var closestEnemy = this.closestEnemy(enemiesInRange);
-  var damage = Math.floor(Math.random() * this.maxDamagePerHit);
+  var damage = Math.floor(Math.random() * this.maxDamagePerShot);
   closestEnemy.receiveDamage(damage);
 }
 
