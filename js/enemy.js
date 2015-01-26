@@ -65,3 +65,11 @@ Enemy.prototype.distanceFrom = function(object) {
   var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
   return Math.sqrt(squaredX + squaredY);
 }
+
+Enemy.prototype.receiveDamage = function(damage) {
+  this.hp -= damage;
+}
+
+Enemy.prototype.isDestroyed = function() {
+  return this.hp <= 0;
+}
