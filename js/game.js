@@ -21,10 +21,10 @@ function Game() {
 }
 
 Game.prototype.buildInitialBuildings = function() {
-  var commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
-  commandCenter.topLeftX = 0;
-  commandCenter.topLeftY = Math.floor(this.board.height / 2) - (commandCenter.size.y * this.board.gridSize / 2);
-  this.buildings.push(commandCenter);
+  this.commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
+  this.commandCenter.topLeftX = 0;
+  this.commandCenter.topLeftY = Math.floor(this.board.height / 2) - (this.commandCenter.size.y * this.board.gridSize / 2);
+  this.buildings.push(this.commandCenter);
   this.board.completeRefresh(this.buildings);
 }
 
@@ -38,11 +38,7 @@ Game.prototype.startGameCycle = function() {
 }
 
 Game.prototype.coreGameLoop = function() {
-  if (this.buildings.length === 0) {
-    clearInterval(this.coreLoopId);
-    clearInterval(this.boardLoopId);
-    View.displayGameOver();
-  } else {
+  if (this.buildings[0] === this.commandCenter) {
     this.updateTime();
     this.updateResources();
     this.spawnEnemies();
@@ -50,6 +46,10 @@ Game.prototype.coreGameLoop = function() {
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
     View.displayResourceFlow(this.calculateResourcesPerCycle());
+  } else {
+    clearInterval(this.coreLoopId);
+    clearInterval(this.boardLoopId);
+    View.displayGameOver();
   }
 }
 
