@@ -40,7 +40,7 @@ Board.prototype.placeBuilding = function(building) {
   building.boardSizeY = building.size.y * this.gridSize;
   for(var x = (building.topLeftX / this.gridSize); x < (building.topLeftX / this.gridSize) + building.size.x; x++) {
     for(var y = (building.topLeftY / this.gridSize); y < (building.topLeftY / this.gridSize) + building.size.y; y++) {
-      this.internalStorage[x][y] = new Cell(building, [building.topLeftX, building.topLeftY]);
+      this.internalStorage[y][x] = new Cell(building, [building.topLeftX, building.topLeftY]);
     }
   }
   this.drawBuilding(building);
@@ -54,7 +54,7 @@ Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
   var yToCheck = Math.floor(clickedY / this.gridSize)
   for(var x = xToCheck; x < xToCheck + building.size.x; x++) {
     for(var y = yToCheck; y < yToCheck + building.size.y; y++) {
-      if (this.internalStorage[x][y]) { return false; }
+      if (this.internalStorage[y][x]) { return false; }
     }
   }
   return isAvailable
@@ -129,8 +129,8 @@ Board.prototype.clearInternalStorage = function() {
 }
 
 Board.prototype.buildInternalStorage = function() {
-  var rows = this.width/this.gridSize;
-  var cols = this.height/this.gridSize;
+  var cols = this.width/this.gridSize;
+  var rows = this.height/this.gridSize;
   var grid = [];
   for (var x = 0; x < rows; x++) {
     grid.push([]);
