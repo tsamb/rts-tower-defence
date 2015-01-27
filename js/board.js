@@ -121,7 +121,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.topLeftX) + 10, building.topLeftY + building.boardSizeY - 10);
+  this.hpContext.fillText(building.hp, (building.topLeftX) + 3, building.topLeftY + building.boardSizeY - 10);
 }
 
 Board.prototype.clearInternalStorage = function() {
