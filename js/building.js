@@ -39,10 +39,10 @@ Building.prototype.centerY = function() { // create a vector class and put this 
 Building.prototype.enemiesWithinRange = function(enemies) {
   var enemiesWithDistances = enemies.map(function(enemy){
     return {enemy: enemy, distance: enemy.distanceFrom(this)}
-  }.bind(this))
+  }, this)
   var enemiesInRange = enemiesWithDistances.filter(function(enemy) {
     return enemy.distance <= this.range
-  }.bind(this))
+  }, this)
   return enemiesInRange;
 }
 
