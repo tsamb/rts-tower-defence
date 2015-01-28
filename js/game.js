@@ -190,3 +190,11 @@ Game.prototype.buildingsFire = function() {
   }
 }
 
+Game.prototype.hasEnergyInSurplusOf = function(energyNeeded) {
+  return this.resources.energy > energyNeeded;
+}
+
+Game.prototype.deductEnergy = function(deduction) {
+  this.resources.energy -= deduction;
+}
+

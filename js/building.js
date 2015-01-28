@@ -7,6 +7,7 @@ function Building(options, game) {
   this.hp = options.hp;
   this.range = options.range || 100;
   this.damagePerShot = options.damagePerShot; // TKTKTK: remove energy per shot fired; no default because not all buildings can inflict damage
+  this.energyPerShot = options.energyPerShot;
 
   this.matterCost = options.matterCost;
   this.energyCost = options.energyCost;
@@ -57,11 +58,15 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
 }
 
 Building.prototype.fireAt = function(enemies) {
-  var enemiesInRange = this.enemiesWithinRange(enemies);
-  if (enemiesInRange[0]) {
-    var closestEnemy = this.closestEnemy(enemiesInRange);
-    var damage = Math.floor(Math.random() * this.damagePerShot);
-    closestEnemy.receiveDamage(damage);
+  if (this.game.hasEnergyInSurplusOf(this.energyPerShot)) {
+    var enemiesInRange = this.enemiesWithinRange(enemies);
+    if (enemiesInRange[0]) {
+      var closestEnemy = this.closestEnemy(enemiesInRange);
+      var damage = this.damagePerShot // Math.floor(Math.random() * this.damagePerShot);
+      this.game.deductEnergy(this.energyPerShot);
+      console.log("PEOW PEOW")
+      closestEnemy.receiveDamage(damage);
+    }
   }
 }
 
