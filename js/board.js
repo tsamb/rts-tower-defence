@@ -33,9 +33,7 @@ Board.prototype.handleClicks = function(event) {
       this.buildingToPlace.topLeftX = potentialX;
       this.buildingToPlace.topLeftY = potentialY;
       this.placeBuilding(this.buildingToPlace);
-      this.game.buildings.push(this.game.currentBuildOrder); // Write methods for these
-      this.game.currentBuildOrder = undefined;          // three lines on the game
-      this.game.currentBuildTicker = 0;                 // model and call them from here.
+      this.resetBuildingOnGame();
      } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
   }
 }
@@ -51,6 +49,12 @@ Board.prototype.placeBuilding = function(building) {
   this.drawBuilding(building);
   building.active = true; // produce resources now that user has successfully placed building
   this.buildingToPlace = undefined;
+}
+
+Board.prototype.resetBuildingOnGame = function() {
+  this.game.buildings.push(this.game.currentBuildOrder); // Write methods for these
+  this.game.currentBuildOrder = undefined;          // three lines on the game
+  this.game.currentBuildTicker = 0;                 // model and call them from here.
 }
 
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
