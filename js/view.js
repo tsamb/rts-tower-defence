@@ -51,7 +51,9 @@ var View = (function() {
 
   View.prependBuildingButtons = function(buildingsList) {
     for (var i = 0; i < buildingsList.length; i++) {
-      $("#build-menu").prepend(this.buildingsTemplate(buildingsList[i], i));
+      if (buildingsList[i].buildable) {
+        $("#build-menu").append(this.buildingsTemplate(buildingsList[i], i));
+      }
     }
   }
 
