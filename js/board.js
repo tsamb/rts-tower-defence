@@ -1,6 +1,8 @@
 // Board model
 
 function Board(options) {
+  this.game = options.game // a reference to the game that encapsulates this board
+
   this.width = options.width || 800;
   this.height = options.height || 400;
   this.gridSize = options.gridSize || 20;

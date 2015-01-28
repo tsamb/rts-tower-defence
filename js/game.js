@@ -13,7 +13,7 @@ function Game() {
   this.enemies = [];
   this.destroyedEnemies = [];
 
-  this.board = new Board({width: 800, height: 400, gridSize: 20});
+  this.board = new Board({width: 800, height: 400, gridSize: 20, game: this});
   this.buildInitialBuildings();
   this.board.completeRefresh(this.buildings);
   this.setBuildListeners();
