@@ -33,6 +33,9 @@ Board.prototype.handleClicks = function(event) {
       this.buildingToPlace.topLeftX = potentialX;
       this.buildingToPlace.topLeftY = potentialY;
       this.placeBuilding(this.buildingToPlace);
+      this.game.buildings.push(this.game.currentBuildOrder); // Write methods for these
+      this.game.currentBuildOrder = undefined;          // three lines on the game
+      this.game.currentBuildTicker = 0;                 // model and call them from here.
      } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
   }
 }
