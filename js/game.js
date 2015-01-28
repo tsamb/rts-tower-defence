@@ -134,6 +134,12 @@ Game.prototype.buildProgress = function() {
   return percentBuilt; // return an integer between 0 and 100
 }
 
+Game.prototype.currentBuildingComplete = function() {
+  this.buildings.push(this.currentBuildOrder);
+  this.currentBuildOrder = undefined;
+  this.currentBuildTicker = 0;
+}
+
 Game.prototype.build = function(buildingButtonClick) {
   var building = new Building(BuildingsList[buildingButtonClick.data]);
   if (this.board.buildingToPlace) {

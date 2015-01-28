@@ -52,9 +52,7 @@ Board.prototype.placeBuilding = function(building) {
 }
 
 Board.prototype.resetBuildingOnGame = function() {
-  this.game.buildings.push(this.game.currentBuildOrder); // Write methods for these
-  this.game.currentBuildOrder = undefined;          // three lines on the game
-  this.game.currentBuildTicker = 0;                 // model and call them from here.
+  this.game.currentBuildingComplete();
 }
 
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
