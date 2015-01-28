@@ -141,7 +141,7 @@ Game.prototype.currentBuildingComplete = function() {
 }
 
 Game.prototype.build = function(buildingButtonClick) {
-  var building = new Building(BuildingsList[buildingButtonClick.data]);
+  var building = new Building(BuildingsList[buildingButtonClick.data], this);
   if (this.board.buildingToPlace) {
     View.displayStatusMessage("Place previously built " + this.board.buildingToPlace.name + " first.");
   } else if (this.currentBuildOrder) {

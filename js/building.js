@@ -1,6 +1,8 @@
 // Building model
 
-function Building(options) {
+function Building(options, game) {
+  this.game = game
+
   this.name = options.name;
   this.hp = options.hp;
   this.range = options.range || 100;
