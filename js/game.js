@@ -46,6 +46,7 @@ Game.prototype.coreGameLoop = function() {
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
     View.displayResourceFlow(this.calculateResourcesPerCycle());
+    View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length)
   } else {
     clearInterval(this.coreLoopId);
     clearInterval(this.boardLoopId);

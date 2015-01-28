@@ -43,6 +43,11 @@ var View = (function() {
     $("#status-message").text(message);
   }
 
+  View.updateScore = function(enemies, buildings)  {
+    $("#enemies-destroyed").text(enemies);
+    $("#buildings-destroyed").text(buildings);
+  }
+
   // DOM manipulation: append/show/hide
 
   View.appendCanvas = function(width, height) {
