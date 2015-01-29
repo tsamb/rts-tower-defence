@@ -50,7 +50,7 @@ Game.prototype.coreGameLoop = function() {
   } else {
     clearInterval(this.coreLoopId);
     clearInterval(this.boardLoopId);
-    View.displayGameOver();
+    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats());
   }
 }
 
@@ -199,3 +199,16 @@ Game.prototype.deductEnergy = function(deduction) {
   this.resources.energy -= deduction;
 }
 
+Game.prototype.destroyedEnemiesStats = function() {
+  var totalDamageDealt = this.destroyedEnemies.reduce(function(previousValue, enemy, index, array) {
+    return previousValue + enemy.maxHp;
+  }, 0);
+  return {totalDamageDealt: totalDamageDealt, numDestroyed: this.destroyedEnemies.length}
+}
+
+Game.prototype.destroyedBuildingsStats = function() {
+  var totalDamageDealt = this.destroyedBuildings.reduce(function(previousValue, building, index, array) {
+    return previousValue + building.maxHp;
+  }, 0);
+  return {totalDamageDealt: totalDamageDealt, numDestroyed: this.destroyedBuildings.length}
+}
