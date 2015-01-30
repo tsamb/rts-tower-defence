@@ -65,7 +65,7 @@ Building.prototype.fireAt = function(enemies) {
       var closestEnemy = this.closestEnemy(enemiesInRange);
       var damage = this.damagePerShot // Math.floor(Math.random() * this.damagePerShot);
       this.game.deductEnergy(this.energyPerShot);
-      console.log("PEOW PEOW")
+      this.game.board.drawLaser(this.centerX(), this.centerY(), closestEnemy.centerX(), closestEnemy.centerY());
       closestEnemy.receiveDamage(damage);
     }
   }

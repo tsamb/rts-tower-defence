@@ -131,6 +131,15 @@ Board.prototype.drawHp = function(building) {
   this.hpContext.fillText(building.hp, (building.topLeftX) + 3, building.topLeftY + building.boardSizeY - 10);
 }
 
+Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {
+  this.enemyContext.beginPath(); // refactor onto a laser lines canvas
+  this.enemyContext.moveTo(startingX, startingY);
+  this.enemyContext.lineTo(endingX, endingY);
+  this.enemyContext.lineWidth = 2;
+  this.enemyContext.strokeStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  this.enemyContext.stroke();
+}
+
 Board.prototype.clearInternalStorage = function() {
   this.internalStorage = this.buildInternalStorage();
 }
