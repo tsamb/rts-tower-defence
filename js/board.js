@@ -43,7 +43,7 @@ Board.prototype.placeBuilding = function(building) {
   building.boardSizeY = building.size.y * this.gridSize;
   for(var x = (building.topLeftX / this.gridSize); x < (building.topLeftX / this.gridSize) + building.size.x; x++) {
     for(var y = (building.topLeftY / this.gridSize); y < (building.topLeftY / this.gridSize) + building.size.y; y++) {
-      this.internalStorage[y][x] = new Cell(building, [building.topLeftX, building.topLeftY]);
+      this.internalStorage[y][x] = building;
     }
   }
   this.drawBuilding(building);
@@ -146,11 +146,4 @@ Board.prototype.buildInternalStorage = function() {
     }
   }
   return grid;
-}
-
-// Board Cell model
-
-function Cell(building, topLeft) {
-  this.building = building;
-  this.topLeft = topLeft;
 }
