@@ -50,7 +50,7 @@ Game.prototype.coreGameLoop = function() {
   } else {
     clearInterval(this.coreLoopId);
     clearInterval(this.boardLoopId);
-    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats());
+    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.timeRunning);
   }
 }
 

@@ -62,9 +62,10 @@ var View = (function() {
     }
   }
 
-  View.displayGameOver = function(enemyStats, buildingStats) {
+  View.displayGameOver = function(enemyStats, buildingStats, time) {
     $("#game-over-message").append("<p>You destroyed " + enemyStats.numDestroyed + " enemies and dealt " + enemyStats.totalDamageDealt + " total damage.</p>")
     $("#game-over-message").append("<p>Enemies destroyed " + buildingStats.numDestroyed + " of your buildings and dealt " + buildingStats.totalDamageDealt + " total damage.</p>")
+    $("#game-over-message").append("<p>You survived for " + time + " seconds.</p>")
     $("#game-over-message").show();
   }
 
