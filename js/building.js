@@ -6,7 +6,7 @@ function Building(options, game) {
   this.name = options.name;
   this.maxHp = options.hp;
   this.hp = this.maxHp;
-  this.range = options.range || 100;
+  this.range = options.range;
   this.damagePerShot = options.damagePerShot; // TKTKTK: remove energy per shot fired; no default because not all buildings can inflict damage
   this.energyPerShot = options.energyPerShot;
 
