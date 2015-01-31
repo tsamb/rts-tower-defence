@@ -115,6 +115,14 @@ Board.prototype.placeAllBuildings = function(buildings) {
 }
 
 Board.prototype.drawBuilding = function(building) {
+  if (building.range) {
+    this.context.beginPath();
+    this.context.arc(building.centerX(), building.centerY(), building.range, 0, 2 * Math.PI);
+    this.context.strokeStyle = "rgba(20, 20, 20, 0.2)";
+    this.context.fillStyle = "rgba(20, 20, 20, 0.02)";
+    this.context.stroke();
+    this.context.fill();
+  }
   this.context.fillStyle = building.color;
   this.context.fillRect(building.topLeftX, building.topLeftY, building.boardSizeX, building.boardSizeY);
 }
