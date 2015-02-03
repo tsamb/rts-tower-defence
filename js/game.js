@@ -87,11 +87,11 @@ Game.prototype.spawnEnemies = function() {
   if (this.timeRunning % 120 === 0) { this.difficultyLevel++ }
   var interval = this.timeRunning % 5; // every 5 seconds; TKTKTK: store this the modulus on the game somewhere
   if (interval === 0) {
-    var max = Math.floor(Math.random() * 10 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
+    var max = Math.floor(Math.random() * 5 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
     for (var i = max; i > 0; i--) {
       var x = this.board.width;
       var y = Math.floor(Math.random() * this.board.height);
-      this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 100 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
+      this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 50 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
     }
   }
 }
