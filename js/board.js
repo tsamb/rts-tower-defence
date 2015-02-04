@@ -6,6 +6,11 @@ function Board(options) {
   this.width = options.width || 800;
   this.height = options.height || 400;
   this.gridSize = options.gridSize || 20;
+
+  this.gridCanvas = View.appendCanvas(this.width, this.height);
+  this.gridContext = this.gridCanvas.getContext('2d');
+  this.drawGrid();
+
   this.canvas = View.appendCanvas(this.width, this.height);
   this.context = this.canvas.getContext('2d');
   this.needsUpdate = true;
@@ -74,7 +79,6 @@ Board.prototype.refreshEnemies = function(enemies) {
 Board.prototype.completeRefresh = function(buildings, enemies) {
   this.clearCanvas();
   this.clearInternalStorage();
-  this.drawGrid();
   this.placeAllBuildings(buildings);
   this.needsUpdate = false;
 }
@@ -97,15 +101,15 @@ Board.prototype.clearCanvas = function() {
 
 Board.prototype.drawGrid = function() {
   for (var x = -1; x <= this.width; x += this.gridSize) {
-    this.context.moveTo(0.5 + x, 0);
-    this.context.lineTo(0.5 + x, this.height);
+    this.gridContext.moveTo(0.5 + x, 0);
+    this.gridContext.lineTo(0.5 + x, this.height);
   }
   for (var y = -1; y <= this.height; y += this.gridSize) {
-    this.context.moveTo(0, 0.5 + y);
-    this.context.lineTo(this.width, 0.5 + y);
+    this.gridContext.moveTo(0, 0.5 + y);
+    this.gridContext.lineTo(this.width, 0.5 + y);
   }
-  this.context.strokeStyle = "#CCC";
-  this.context.stroke();
+  this.gridContext.strokeStyle = "#CCC";
+  this.gridContext.stroke();
 }
 
 Board.prototype.placeAllBuildings = function(buildings) {
