@@ -1,6 +1,8 @@
 // Game model
 
 function Game() {
+  this.frameRate = 25;
+
   this.coreTimer = 0;
   this.timeRunning = 0;
   this.difficultyLevel = 1;
@@ -35,7 +37,7 @@ Game.prototype.setBuildListeners = function() {
 }
 
 Game.prototype.startGameCycle = function() {
-  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 40);
+  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 1000 / this.frameRate);
 }
 
 Game.prototype.coreGameLoop = function() {
