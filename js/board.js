@@ -32,8 +32,8 @@ Board.prototype.setClickListeners = function() {
 
 Board.prototype.handleClicks = function(event) {
   if (this.buildingToPlace) {
-    var potentialX = Math.floor(event.offsetX / this.gridSize) * this.gridSize;
-    var potentialY = Math.floor(event.offsetY / this.gridSize) * this.gridSize;
+    var potentialX = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
+    var potentialY = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
      if (this.isGridAvailable(this.buildingToPlace, potentialX, potentialY)) {
       this.buildingToPlace.topLeftX = potentialX;
       this.buildingToPlace.topLeftY = potentialY;
