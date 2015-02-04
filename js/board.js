@@ -21,6 +21,9 @@ function Board(options) {
   this.enemyCanvas = View.appendCanvas(this.width, this.height);
   this.enemyContext = this.enemyCanvas.getContext('2d');
 
+  this.rangeCanvas = View.appendCanvas(this.width, this.height);
+  this.rangeContext = this.rangeCanvas.getContext('2d');
+
   this.internalStorage = this.buildInternalStorage();
   this.buildingToPlace = undefined;
   this.setClickListeners();
@@ -97,6 +100,7 @@ Board.prototype.drawEnemy = function(enemy) {
 
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
+  this.rangeContext.clearRect(0, 0, this.width, this.height);
 }
 
 Board.prototype.drawGrid = function() {
@@ -120,12 +124,12 @@ Board.prototype.placeAllBuildings = function(buildings) {
 
 Board.prototype.drawBuilding = function(building) {
   if (building.range) {
-    this.context.beginPath();
-    this.context.arc(building.centerX(), building.centerY(), building.range, 0, 2 * Math.PI);
-    this.context.strokeStyle = "rgba(20, 20, 20, 0.2)";
-    this.context.fillStyle = "rgba(20, 20, 20, 0.02)";
-    this.context.stroke();
-    this.context.fill();
+    this.rangeContext.beginPath();
+    this.rangeContext.arc(building.centerX(), building.centerY(), building.range, 0, 2 * Math.PI);
+    this.rangeContext.strokeStyle = "rgba(20, 20, 20, 0.2)";
+    this.rangeContext.fillStyle = "rgba(20, 20, 20, 0.02)";
+    this.rangeContext.stroke();
+    this.rangeContext.fill();
   }
   this.context.fillStyle = building.color;
   this.context.fillRect(building.topLeftX, building.topLeftY, building.boardSizeX, building.boardSizeY);
