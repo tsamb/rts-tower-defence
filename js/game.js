@@ -1,6 +1,7 @@
 // Game model
 
 function Game() {
+  this.coreTimer = 0;
   this.timeRunning = 0;
   this.difficultyLevel = 1;
 
@@ -34,15 +35,22 @@ Game.prototype.setBuildListeners = function() {
 }
 
 Game.prototype.startGameCycle = function() {
-  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 500);
-  this.boardLoopId = setInterval(this.updateBoardLoop.bind(this), 40);
+  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 40);
 }
 
 Game.prototype.coreGameLoop = function() {
+  this.coreTimer++;
+  this.runDrawCycle();
+  if (this.coreTimer % 12 === 0) {
+    this.runResourceCycle();
+  }
+}
+
+Game.prototype.runResourceCycle = function() {
   if (this.buildings[0] === this.commandCenter) {
     this.updateTime();
     this.updateResources();
-    this.spawnEnemies();
+    this.spawnEnemies(); // TKTKTK: update to be based on this.coreTimer
     this.buildingsFire();
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
@@ -50,30 +58,29 @@ Game.prototype.coreGameLoop = function() {
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length)
   } else {
     clearInterval(this.coreLoopId);
-    clearInterval(this.boardLoopId);
     View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.timeRunning);
   }
 }
 
-  Game.prototype.updateBoardLoop = function() {
-    this.moveEnemies();
+Game.prototype.runDrawCycle = function() {
+  this.moveEnemies();
+  this.board.refreshEnemies(this.enemies);
+  this.board.drawAllHp(this.buildings);
+  this.board.buildingsNeedUpdate = this.areBuildingsDestroyed()
+  this.board.enemiesNeedUpdate = this.areEnemiesDestroyed()
+  if (this.board.buildingsNeedUpdate) {
+    this.board.buildingRefresh(this.buildings);
+  }
+  if (this.board.enemiesNeedUpdate) {
     this.board.refreshEnemies(this.enemies);
-    this.board.drawAllHp(this.buildings);
-    this.board.buildingsNeedUpdate = this.areBuildingsDestroyed()
-    this.board.enemiesNeedUpdate = this.areEnemiesDestroyed()
-    if (this.board.buildingsNeedUpdate) {
-      this.board.buildingRefresh(this.buildings);
-    }
-    if (this.board.enemiesNeedUpdate) {
-      this.board.refreshEnemies(this.enemies);
-    }
   }
+}
 
-  Game.prototype.updateTime = function() {
-    View.updateTimer(Math.floor(this.timeRunning += 0.5));
-  }
+Game.prototype.updateTime = function() {
+  View.updateTimer(Math.floor(this.timeRunning += 0.5));
+}
 
-  Game.prototype.updateResources = function() {
+Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
@@ -88,9 +95,9 @@ Game.prototype.moveEnemies = function() {
 }
 
 Game.prototype.spawnEnemies = function() {
-  if (this.timeRunning % 120 === 0) { this.difficultyLevel++ }
+  if (this.timeRunning % 120 === 0) { this.difficultyLevel++ } // TKTKTK: update based on this.coreTimer
   var interval = this.timeRunning % 5; // every 5 seconds; TKTKTK: store this the modulus on the game somewhere
-  if (interval === 0) {
+if (interval === 0) {
     var max = Math.floor(Math.random() * 5 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
     for (var i = max; i > 0; i--) {
       var x = this.board.width;
