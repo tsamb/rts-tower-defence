@@ -16,7 +16,7 @@ function Game() {
 
   this.board = new Board({width: 800, height: 400, gridSize: 20, game: this});
   this.buildInitialBuildings();
-  this.board.completeRefresh(this.buildings);
+  this.board.buildingRefresh(this.buildings);
   this.setBuildListeners();
   this.startGameCycle();
 }
@@ -26,7 +26,7 @@ Game.prototype.buildInitialBuildings = function() {
   this.commandCenter.topLeftX = 0;
   this.commandCenter.topLeftY = Math.floor(this.board.height / 2) - (this.commandCenter.size.y * this.board.gridSize / 2);
   this.buildings.push(this.commandCenter);
-  this.board.completeRefresh(this.buildings);
+  this.board.buildingRefresh(this.buildings);
 }
 
 Game.prototype.setBuildListeners = function() {
@@ -59,9 +59,13 @@ Game.prototype.coreGameLoop = function() {
     this.moveEnemies();
     this.board.refreshEnemies(this.enemies);
     this.board.drawAllHp(this.buildings);
-    this.board.needsUpdate = (this.areBuildingsDestroyed() | this.areEnemiesDestroyed())
-    if (this.board.needsUpdate) {
-      this.board.completeRefresh(this.buildings);
+    this.board.buildingsNeedUpdate = this.areBuildingsDestroyed()
+    this.board.enemiesNeedUpdate = this.areEnemiesDestroyed()
+    if (this.board.buildingsNeedUpdate) {
+      this.board.buildingRefresh(this.buildings);
+    }
+    if (this.board.enemiesNeedUpdate) {
+      this.board.refreshEnemies(this.enemies);
     }
   }
 

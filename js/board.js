@@ -13,7 +13,7 @@ function Board(options) {
 
   this.canvas = View.appendCanvas(this.width, this.height);
   this.context = this.canvas.getContext('2d');
-  this.needsUpdate = true;
+  this.buildingsNeedUpdate = true;
 
   this.hpCanvas = View.appendCanvas(this.width, this.height);
   this.hpContext = this.hpCanvas.getContext('2d');
@@ -79,11 +79,11 @@ Board.prototype.refreshEnemies = function(enemies) {
   this.placeAllEnemies(enemies);
 }
 
-Board.prototype.completeRefresh = function(buildings, enemies) {
+Board.prototype.buildingRefresh = function(buildings, enemies) {
   this.clearCanvas();
   this.clearInternalStorage();
   this.placeAllBuildings(buildings);
-  this.needsUpdate = false;
+  this.buildingsNeedUpdate = false;
 }
 
 Board.prototype.placeAllEnemies = function(enemies) {
