@@ -24,6 +24,10 @@ function Game() {
   this.startGameCycle();
 }
 
+Game.prototype.secondsRunning = function() {
+  return this.coreTimer / this.frameRate;
+}
+
 Game.prototype.buildInitialBuildings = function() {
   this.commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
   this.commandCenter.topLeftX = 0;
