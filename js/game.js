@@ -25,7 +25,7 @@ function Game() {
 }
 
 Game.prototype.secondsRunning = function() {
-  return this.coreTimer / this.frameRate;
+  return Math.floor(this.coreTimer / this.frameRate);
 }
 
 Game.prototype.buildInitialBuildings = function() {
@@ -64,7 +64,7 @@ Game.prototype.runResourceCycle = function() {
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length)
   } else {
     clearInterval(this.coreLoopId);
-    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.timeRunning);
+    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.secondsRunning());
   }
 }
 
@@ -83,7 +83,7 @@ Game.prototype.runDrawCycle = function() {
 }
 
 Game.prototype.updateTime = function() {
-  View.updateTimer(Math.floor(this.timeRunning += 0.5));
+  View.updateTimer(this.secondsRunning());
 }
 
 Game.prototype.updateResources = function() {
