@@ -1,6 +1,9 @@
 // Game model
 
 function Game() {
+  this.frameRate = 25;
+
+  this.coreTimer = 0;
   this.timeRunning = 0;
   this.difficultyLevel = 1;
 
@@ -21,6 +24,10 @@ function Game() {
   this.startGameCycle();
 }
 
+Game.prototype.secondsRunning = function() {
+  return Math.floor(this.coreTimer / this.frameRate);
+}
+
 Game.prototype.buildInitialBuildings = function() {
   this.commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
   this.commandCenter.topLeftX = 0;
@@ -34,15 +41,29 @@ Game.prototype.setBuildListeners = function() {
 }
 
 Game.prototype.startGameCycle = function() {
-  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 500);
-  this.boardLoopId = setInterval(this.updateBoardLoop.bind(this), 40);
+  this.coreLoopId = setInterval(this.coreGameLoop.bind(this), 1000 / this.frameRate);
 }
 
 Game.prototype.coreGameLoop = function() {
-  if (this.buildings[0] === this.commandCenter) {
+  this.coreTimer++;
+  this.runDrawCycle();
+  if (this.coreTimer % 12 === 0) {
+    this.runResourceCycle();
+  }
+  if (this.coreTimer % 25 === 0) {
     this.updateTime();
-    this.updateResources();
+  }
+  if (this.coreTimer % 125 === 0) {
     this.spawnEnemies();
+  }
+  if (this.coreTimer % 3000 === 0) {
+    this.difficultyLevel++;
+  }
+}
+
+Game.prototype.runResourceCycle = function() {
+  if (this.buildings[0] === this.commandCenter) {
+    this.updateResources();
     this.buildingsFire();
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
@@ -50,30 +71,29 @@ Game.prototype.coreGameLoop = function() {
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length)
   } else {
     clearInterval(this.coreLoopId);
-    clearInterval(this.boardLoopId);
-    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.timeRunning);
+    View.displayGameOver(this.destroyedEnemiesStats(), this.destroyedBuildingsStats(), this.secondsRunning());
   }
 }
 
-  Game.prototype.updateBoardLoop = function() {
-    this.moveEnemies();
+Game.prototype.runDrawCycle = function() {
+  this.moveEnemies();
+  this.board.refreshEnemies(this.enemies);
+  this.board.drawAllHp(this.buildings);
+  this.board.buildingsNeedUpdate = this.areBuildingsDestroyed()
+  this.board.enemiesNeedUpdate = this.areEnemiesDestroyed()
+  if (this.board.buildingsNeedUpdate) {
+    this.board.buildingRefresh(this.buildings);
+  }
+  if (this.board.enemiesNeedUpdate) {
     this.board.refreshEnemies(this.enemies);
-    this.board.drawAllHp(this.buildings);
-    this.board.buildingsNeedUpdate = this.areBuildingsDestroyed()
-    this.board.enemiesNeedUpdate = this.areEnemiesDestroyed()
-    if (this.board.buildingsNeedUpdate) {
-      this.board.buildingRefresh(this.buildings);
-    }
-    if (this.board.enemiesNeedUpdate) {
-      this.board.refreshEnemies(this.enemies);
-    }
   }
+}
 
-  Game.prototype.updateTime = function() {
-    View.updateTimer(Math.floor(this.timeRunning += 0.5));
-  }
+Game.prototype.updateTime = function() {
+  View.updateTimer(this.secondsRunning());
+}
 
-  Game.prototype.updateResources = function() {
+Game.prototype.updateResources = function() {
   var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
@@ -88,15 +108,11 @@ Game.prototype.moveEnemies = function() {
 }
 
 Game.prototype.spawnEnemies = function() {
-  if (this.timeRunning % 120 === 0) { this.difficultyLevel++ }
-  var interval = this.timeRunning % 5; // every 5 seconds; TKTKTK: store this the modulus on the game somewhere
-  if (interval === 0) {
-    var max = Math.floor(Math.random() * 5 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
-    for (var i = max; i > 0; i--) {
-      var x = this.board.width;
-      var y = Math.floor(Math.random() * this.board.height);
-      this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 50 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
-    }
+  var max = Math.floor(Math.random() * 5 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
+  for (var i = max; i > 0; i--) {
+    var x = this.board.width;
+    var y = Math.floor(Math.random() * this.board.height);
+    this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 50 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
   }
 }
 
