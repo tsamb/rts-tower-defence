@@ -30,10 +30,10 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.position.x < building.topLeftX + building.boardSizeX + this.size.x &&
-    this.position.x + this.size.x > building.topLeftX - this.size.x &&
-    this.position.y < building.topLeftY + building.boardSizeY + this.size.y &&
-    this.position.y + this.size.y > building.topLeftY - this.size.y)
+  return (this.position.x < building.topLeftX + building.boardSizeX &&
+    this.position.x + this.size.x > building.topLeftX &&
+    this.position.y < building.topLeftY + building.boardSizeY &&
+    this.position.y + this.size.y > building.topLeftY)
 }
 
 Enemy.prototype.move = function() {
