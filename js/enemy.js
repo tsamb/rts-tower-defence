@@ -3,7 +3,7 @@
 function Enemy(options) {
   this.topLeftX = options.topLeftX;
   this.topLeftY = options.topLeftY;
-  this.size = options.size;
+  this.size = new Vector(options.size);
 
   this.maxHp = options.hp || 100;
   this.hp = this.maxHp;
@@ -32,10 +32,10 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.topLeftX < building.topLeftX + building.boardSizeX + this.size &&
-    this.topLeftX + this.size > building.topLeftX - this.size &&
-    this.topLeftY < building.topLeftY + building.boardSizeY + this.size &&
-    this.topLeftY + this.size > building.topLeftY - this.size)
+  return (this.topLeftX < building.topLeftX + building.boardSizeX + this.size.x &&
+    this.topLeftX + this.size.x > building.topLeftX - this.size.x &&
+    this.topLeftY < building.topLeftY + building.boardSizeY + this.size.y &&
+    this.topLeftY + this.size.y > building.topLeftY - this.size.y)
 }
 
 Enemy.prototype.move = function() {
@@ -54,11 +54,11 @@ Enemy.prototype.attack = function(building) {
 }
 
 Enemy.prototype.centerX = function() { // create a vector class and put this on its prototype
-  return this.topLeftX + this.size / 2 // currently duplicated on enemy and building classes
+  return this.topLeftX + this.size.x / 2 // currently duplicated on enemy and building classes
 }
 
 Enemy.prototype.centerY = function() { // create a vector class and put this on its prototype
-  return this.topLeftY + this.size / 2 // currently duplicated on enemy and building classes
+  return this.topLeftY + this.size.y / 2 // currently duplicated on enemy and building classes
 }
 
 Enemy.prototype.distanceFrom = function(object) {

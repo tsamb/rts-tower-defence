@@ -95,7 +95,7 @@ Board.prototype.placeAllEnemies = function(enemies) {
 
 Board.prototype.drawEnemy = function(enemy) {
   this.enemyContext.fillStyle = "#222"; // TKTKTK: store color on Enemy model
-  this.enemyContext.fillRect(enemy.topLeftX - 5, enemy.topLeftY, enemy.size, enemy.size);
+  this.enemyContext.fillRect(enemy.topLeftX - 5, enemy.topLeftY, enemy.size.x, enemy.size.y);
 }
 
 Board.prototype.clearCanvas = function() {
