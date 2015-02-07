@@ -1,8 +1,7 @@
 // Enemy model
 
 function Enemy(options) {
-  this.topLeftX = options.topLeftX;
-  this.topLeftY = options.topLeftY;
+  this.position = new Vector(options.topLeftX, options.topLeftY);
   this.size = new Vector(options.size);
 
   this.maxHp = options.hp || 100;
@@ -24,7 +23,6 @@ Enemy.prototype.moveOrAttack = function(buildings) {
 Enemy.prototype.checkForCollisions = function(buildings) {
   for (var i = 0; i < buildings.length; i++) {
     if (this.collidesWith(buildings[i])) {
-      // this.topLeftX = buildings[i].topLeftX * 20 + buildings[i].width
       this.isMoving = false;
       this.attackingBuilding = buildings[i];
     }
@@ -32,15 +30,15 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.topLeftX < building.topLeftX + building.boardSizeX + this.size.x &&
-    this.topLeftX + this.size.x > building.topLeftX - this.size.x &&
-    this.topLeftY < building.topLeftY + building.boardSizeY + this.size.y &&
-    this.topLeftY + this.size.y > building.topLeftY - this.size.y)
+  return (this.position.x < building.topLeftX + building.boardSizeX + this.size.x &&
+    this.position.x + this.size.x > building.topLeftX - this.size.x &&
+    this.position.y < building.topLeftY + building.boardSizeY + this.size.y &&
+    this.position.y + this.size.y > building.topLeftY - this.size.y)
 }
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.topLeftX -= Math.floor(Math.random() * this.speed) + 1;
+    this.position.x -= Math.floor(Math.random() * this.speed) + 1;
   }
 }
 
@@ -54,11 +52,11 @@ Enemy.prototype.attack = function(building) {
 }
 
 Enemy.prototype.centerX = function() { // create a vector class and put this on its prototype
-  return this.topLeftX + this.size.x / 2 // currently duplicated on enemy and building classes
+  return this.position.x + this.size.x / 2 // currently duplicated on enemy and building classes
 }
 
 Enemy.prototype.centerY = function() { // create a vector class and put this on its prototype
-  return this.topLeftY + this.size.y / 2 // currently duplicated on enemy and building classes
+  return this.position.y + this.size.y / 2 // currently duplicated on enemy and building classes
 }
 
 Enemy.prototype.distanceFrom = function(object) {
