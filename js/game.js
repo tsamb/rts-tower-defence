@@ -108,8 +108,8 @@ Game.prototype.moveEnemies = function() {
 }
 
 Game.prototype.spawnEnemies = function() {
-  var max = Math.floor(Math.random() * 5 * this.difficultyLevel); // TKTKTK: store this var on the game somewhere...
-  for (var i = max; i > 0; i--) {
+  var difficulty = Difficulty.calculate(this.difficultyLevel);
+  for (var i = difficulty.maxEnemies; i > 0; i--) {
     var x = this.board.width;
     var y = Math.floor(Math.random() * this.board.height);
     this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 50 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
@@ -235,3 +235,17 @@ Game.prototype.destroyedBuildingsStats = function() {
   }, 0);
   return {totalDamageDealt: totalDamageDealt, numDestroyed: this.destroyedBuildings.length}
 }
+
+var Difficulty = {}
+
+Difficulty.calculate = function(level) {
+  return {
+    maxEnemies: this.maxEnemies(level)
+  }
+}
+
+Difficulty.maxEnemies = function(level) {
+  // TKTKTK: store this 5 enemies per wave var on the game/invariant data somewhere...
+  return Math.floor(Math.random() * 5 * level);
+}
+
