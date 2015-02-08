@@ -20,8 +20,7 @@ function Building(options, game) {
   this.active = options.active || false; // won't produce resources or benefits until true
   this.boardSizeX = undefined;
   this.boardSizeY = undefined;
-  this.topLeftX = undefined;
-  this.topLeftY = undefined;
+  this.position = new Vector();
 }
 
 Building.prototype.receiveDamage = function(damage) {
@@ -32,12 +31,12 @@ Building.prototype.isDestroyed = function() {
   return this.hp <= 0;
 }
 
-Building.prototype.centerX = function() { // create a vector class and put this on its prototype
-  return this.topLeftX + this.boardSizeX / 2 // currently duplicated on enemy and building classes
+Building.prototype.centerX = function() { // can this move to the Vector class?
+  return this.position.x + this.boardSizeX / 2 // currently duplicated on enemy and building classes
 }
 
-Building.prototype.centerY = function() { // create a vector class and put this on its prototype
-  return this.topLeftY + this.boardSizeY / 2 // currently duplicated on enemy and building classes
+Building.prototype.centerY = function() { // can this move to the Vector class?
+  return this.position.y + this.boardSizeY / 2 // currently duplicated on enemy and building classes
 }
 
 Building.prototype.enemiesWithinRange = function(enemies) {

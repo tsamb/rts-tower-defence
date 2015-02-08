@@ -38,8 +38,8 @@ Board.prototype.handleClicks = function(event) {
     var potentialX = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
     var potentialY = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
      if (this.isGridAvailable(this.buildingToPlace, potentialX, potentialY)) {
-      this.buildingToPlace.topLeftX = potentialX;
-      this.buildingToPlace.topLeftY = potentialY;
+      this.buildingToPlace.position.x = potentialX;
+      this.buildingToPlace.position.y = potentialY;
       this.placeBuilding(this.buildingToPlace);
       this.resetBuildingOnGame();
      } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
@@ -49,8 +49,8 @@ Board.prototype.handleClicks = function(event) {
 Board.prototype.placeBuilding = function(building) {
   building.boardSizeX = building.size.x * this.gridSize;
   building.boardSizeY = building.size.y * this.gridSize;
-  for(var x = (building.topLeftX / this.gridSize); x < (building.topLeftX / this.gridSize) + building.size.x; x++) {
-    for(var y = (building.topLeftY / this.gridSize); y < (building.topLeftY / this.gridSize) + building.size.y; y++) {
+  for(var x = (building.position.x / this.gridSize); x < (building.position.x / this.gridSize) + building.size.x; x++) {
+    for(var y = (building.position.y / this.gridSize); y < (building.position.y / this.gridSize) + building.size.y; y++) {
       this.internalStorage[y][x] = building;
     }
   }
@@ -132,7 +132,7 @@ Board.prototype.drawBuilding = function(building) {
     this.rangeContext.fill();
   }
   this.context.fillStyle = building.color;
-  this.context.fillRect(building.topLeftX, building.topLeftY, building.boardSizeX, building.boardSizeY);
+  this.context.fillRect(building.position.x, building.position.y, building.boardSizeX, building.boardSizeY);
 }
 
 Board.prototype.drawAllHp = function(buildings) {
@@ -144,7 +144,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.topLeftX) + 3, building.topLeftY + building.boardSizeY - 10);
+  this.hpContext.fillText(building.hp, (building.position.x) + 3, building.position.y + building.boardSizeY - 10);
 }
 
 Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {

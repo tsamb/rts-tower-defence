@@ -30,8 +30,8 @@ Game.prototype.secondsRunning = function() {
 
 Game.prototype.buildInitialBuildings = function() {
   this.commandCenter = GameOptions.COMMAND_CENTER; // TKTKTK: eventually change into an array of "starting buildings"
-  this.commandCenter.topLeftX = 0;
-  this.commandCenter.topLeftY = Math.floor(this.board.height / 2) - (this.commandCenter.size.y * this.board.gridSize / 2);
+  this.commandCenter.position.x = 0;
+  this.commandCenter.position.y = Math.floor(this.board.height / 2) - (this.commandCenter.size.y * this.board.gridSize / 2);
   this.buildings.push(this.commandCenter);
   this.board.buildingRefresh(this.buildings);
 }
@@ -207,7 +207,8 @@ Game.prototype.areEnemiesDestroyed = function() {
 
 Game.prototype.buildingsFire = function() {
   for (var i = 0; i < this.buildings.length; i++) {
-    if (this.buildings[i].damagePerShot && this.buildings[i].topLeftX) {
+    // if it has a position.x it must already be placed
+    if (this.buildings[i].damagePerShot && this.buildings[i].position.x) {
       this.buildings[i].fireAt(this.enemies);
     }
   }
