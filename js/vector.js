@@ -4,7 +4,7 @@ function Vector(x, y) {
   arguments.length > 1 ? this.y = y : this.y = x;
 }
 
-Vector.prototype.plus = function(other) {
+Vector.prototype.add = function(other) {
   return new Vector(this.x + other.x, this.y + other.y);
 }
 
