@@ -112,7 +112,9 @@ Game.prototype.spawnEnemies = function() {
   for (var i = difficulty.maxEnemies; i > 0; i--) {
     var x = this.board.width;
     var y = Math.floor(Math.random() * this.board.height);
-    this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: 50 * this.difficultyLevel})); // TKTKTK: create different enemy types with different sizes / strengths
+    // TKTKTK: create different enemy types with different sizes / strengths
+    // ...can eventually live in the Difficulty module
+    this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: difficulty.enemyHp}));
   }
 }
 
@@ -240,7 +242,8 @@ var Difficulty = {}
 
 Difficulty.calculate = function(level) {
   return {
-    maxEnemies: this.maxEnemies(level)
+    maxEnemies: this.maxEnemies(level),
+    enemyHp: this.enemyHp(level)
   }
 }
 
@@ -249,3 +252,7 @@ Difficulty.maxEnemies = function(level) {
   return Math.floor(Math.random() * 5 * level);
 }
 
+Difficulty.enemyHp = function(level) {
+  // TKTKTK: where should this 50 base hp per level live?
+  return 50 * level;
+}
