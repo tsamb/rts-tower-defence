@@ -3,11 +3,11 @@
 function Enemy(options) {
   this.position = new Vector(options.topLeftX, options.topLeftY);
   this.size = new Vector(options.size);
+  this.speed = new Vector(options.speed || -3, 0);
 
   this.maxHp = options.hp || 100;
   this.hp = this.maxHp;
   this.maxDamagePerHit = options.damage || 5;
-  this.speed = options.speed || 3;
   this.isMoving = true;
   this.attackingBuilding = undefined;
 }
@@ -38,7 +38,7 @@ Enemy.prototype.collidesWith = function(building) {
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.position.x -= Math.floor(Math.random() * this.speed) + 1;
+    this.position.addInPlace(this.speed.randomScale(0.25, 1));
   }
 }
 

@@ -11,3 +11,13 @@ Vector.prototype.plus = function(other) {
 Vector.prototype.times = function(factor)  {
   return new Vector(this.x * factor, this.y * factor);
 }
+
+Vector.prototype.addInPlace = function(other) {
+  this.x += other.x;
+  this.y += other.y;
+}
+
+Vector.prototype.randomScale = function(minFactor, maxFactor) {
+  var factor = Math.random() * (maxFactor - minFactor) + minFactor;
+  return this.times(factor);
+}
