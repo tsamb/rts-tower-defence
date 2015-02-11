@@ -114,7 +114,7 @@ Game.prototype.spawnEnemies = function() {
     var y = Math.floor(Math.random() * this.board.height);
     // TKTKTK: create different enemy types with different sizes / strengths
     // ...can eventually live in the Difficulty module
-    this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: difficulty.enemyHp}));
+    this.enemies.push(new Enemy({topLeftX: x, topLeftY: y, size: 10, hp: difficulty.enemyHp, target: this.commandCenter}));
   }
 }
 
