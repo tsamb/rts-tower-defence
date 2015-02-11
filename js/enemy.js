@@ -12,7 +12,7 @@ function Enemy(options) {
   this.attackingBuilding = undefined;
 
   this.target = options.target;
-  this.direction = this.setDirection(this.position, this.target.position)
+  this.direction = this.setDirection(this.position, this.target.center)
 }
 
 Enemy.prototype.setDirection = function(currentPosition, targetPosition) {
