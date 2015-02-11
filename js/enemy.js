@@ -10,6 +10,8 @@ function Enemy(options) {
   this.maxDamagePerHit = options.damage || 5;
   this.isMoving = true;
   this.attackingBuilding = undefined;
+
+  this.target = options.target;
 }
 
 Enemy.prototype.moveOrAttack = function(buildings) {
