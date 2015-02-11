@@ -130,7 +130,7 @@ Board.prototype.drawBuilding = function(building) {
     this.rangeContext.fill();
   }
   this.context.fillStyle = building.color;
-  this.context.fillRect(building.position.x, building.position.y, building.boardSizeX, building.boardSizeY);
+  this.context.fillRect(building.position.x, building.position.y, building.sizeOnBoardX, building.sizeOnBoardY);
 }
 
 Board.prototype.drawAllHp = function(buildings) {
@@ -142,7 +142,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.position.x) + 3, building.position.y + building.boardSizeY - 10);
+  this.hpContext.fillText(building.hp, (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
 }
 
 Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {

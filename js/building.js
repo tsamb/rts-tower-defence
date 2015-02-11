@@ -18,8 +18,8 @@ function Building(options, game) {
   this.size = options.size;
   this.color = options.color;
   this.active = options.active || false; // won't produce resources or benefits until true
-  this.boardSizeX = undefined; // TKTKTK: change the name of these variables to sizeOnBoard
-  this.boardSizeY = undefined; //         and maybe instantiate them as vector?
+  this.sizeOnBoardX = undefined;
+  this.sizeOnBoardY = undefined;
   this.position = new Vector();
   this.center = new Vector()
 }
@@ -30,10 +30,10 @@ Building.prototype.setPosition = function(x,y) {
 }
 
 Building.prototype.setBoardSize = function(gridSize) {
-  this.boardSizeX = this.size.x * gridSize;
-  this.boardSizeY = this.size.y * gridSize;
+  this.sizeOnBoardX = this.size.x * gridSize;
+  this.sizeOnBoardY = this.size.y * gridSize;
   this.center.x = this.centerX() // TKTKTK: clean this up and put it somewhere else.
-  this.center.y = this.centerY() // It just needs to go after boardSizeX and Y exist.
+  this.center.y = this.centerY() // It just needs to go after sizeOnBoardX and Y exist.
 }
 
 Building.prototype.receiveDamage = function(damage) {
@@ -45,11 +45,11 @@ Building.prototype.isDestroyed = function() {
 }
 
 Building.prototype.centerX = function() { // can this move to the Vector class?
-  return this.position.x + this.boardSizeX / 2 // currently duplicated on enemy and building classes
+  return this.position.x + this.sizeOnBoardX / 2 // currently duplicated on enemy and building classes
 }
 
 Building.prototype.centerY = function() { // can this move to the Vector class?
-  return this.position.y + this.boardSizeY / 2 // currently duplicated on enemy and building classes
+  return this.position.y + this.sizeOnBoardY / 2 // currently duplicated on enemy and building classes
 }
 
 Building.prototype.enemiesWithinRange = function(enemies) {

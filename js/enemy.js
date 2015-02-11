@@ -39,9 +39,9 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.position.x < building.position.x + building.boardSizeX &&
+  return (this.position.x < building.position.x + building.sizeOnBoardX &&
     this.position.x + this.size.x > building.position.x &&
-    this.position.y < building.position.y + building.boardSizeY &&
+    this.position.y < building.position.y + building.sizeOnBoardY &&
     this.position.y + this.size.y > building.position.y)
 }
 
