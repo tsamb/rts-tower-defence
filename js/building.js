@@ -18,9 +18,22 @@ function Building(options, game) {
   this.size = options.size;
   this.color = options.color;
   this.active = options.active || false; // won't produce resources or benefits until true
-  this.boardSizeX = undefined;
-  this.boardSizeY = undefined;
+  this.boardSizeX = undefined; // TKTKTK: change the name of these variables to sizeOnBoard
+  this.boardSizeY = undefined; //         and maybe instantiate them as vector?
   this.position = new Vector();
+  this.center = new Vector()
+}
+
+Building.prototype.setPosition = function(x,y) {
+  this.position.x = x;
+  this.position.y = y;
+}
+
+Building.prototype.setBoardSize = function(gridSize) {
+  this.boardSizeX = this.size.x * gridSize;
+  this.boardSizeY = this.size.y * gridSize;
+  this.center.x = this.centerX() // TKTKTK: clean this up and put it somewhere else.
+  this.center.y = this.centerY() // It just needs to go after boardSizeX and Y exist.
 }
 
 Building.prototype.receiveDamage = function(damage) {
