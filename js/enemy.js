@@ -12,6 +12,13 @@ function Enemy(options) {
   this.attackingBuilding = undefined;
 
   this.target = options.target;
+  this.direction = this.setDirection(this.position, this.target.position)
+}
+
+Enemy.prototype.setDirection = function(currentPosition, targetPosition) {
+  var x = (targetPosition.x - currentPosition.x) / currentPosition.distanceFrom(targetPosition)
+  var y = (targetPosition.y - currentPosition.y) / currentPosition.distanceFrom(targetPosition)
+  return new Vector(x, y)
 }
 
 Enemy.prototype.moveOrAttack = function(buildings) {
@@ -61,8 +68,8 @@ Enemy.prototype.centerY = function() { // create a vector class and put this on 
   return this.position.y + this.size.y / 2 // currently duplicated on enemy and building classes
 }
 
-Enemy.prototype.distanceFrom = function(object) {
-  var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
+Enemy.prototype.distanceFrom = function(object) { // TKTKTK: abstract this into Vector model
+  var squaredX = Math.pow(this.centerX() - object.centerX(), 2); // move CenterX and Y to Vector objects
   var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
   return Math.sqrt(squaredX + squaredY);
 }
