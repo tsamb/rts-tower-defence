@@ -3,13 +3,22 @@
 function Enemy(options) {
   this.position = new Vector(options.topLeftX, options.topLeftY);
   this.size = new Vector(options.size);
-  this.speed = new Vector(options.speed || -3, 0);
+  this.speed = 3;
 
   this.maxHp = options.hp || 100;
   this.hp = this.maxHp;
   this.maxDamagePerHit = options.damage || 5;
   this.isMoving = true;
   this.attackingBuilding = undefined;
+
+  this.target = options.target;
+  this.direction = this.setDirection(this.position, this.target.center)
+}
+
+Enemy.prototype.setDirection = function(currentPosition, targetPosition) {
+  var x = (targetPosition.x - currentPosition.x) / currentPosition.distanceFrom(targetPosition)
+  var y = (targetPosition.y - currentPosition.y) / currentPosition.distanceFrom(targetPosition)
+  return new Vector(x, y)
 }
 
 Enemy.prototype.moveOrAttack = function(buildings) {
@@ -30,15 +39,15 @@ Enemy.prototype.checkForCollisions = function(buildings) {
 }
 
 Enemy.prototype.collidesWith = function(building) {
-  return (this.position.x < building.position.x + building.boardSizeX &&
+  return (this.position.x < building.position.x + building.sizeOnBoardX &&
     this.position.x + this.size.x > building.position.x &&
-    this.position.y < building.position.y + building.boardSizeY &&
+    this.position.y < building.position.y + building.sizeOnBoardY &&
     this.position.y + this.size.y > building.position.y)
 }
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.position.addInPlace(this.speed.randomScale(0.25, 1));
+    this.position.addInPlace(this.direction.randomScale(1,this.speed));
   }
 }
 
@@ -59,8 +68,8 @@ Enemy.prototype.centerY = function() { // create a vector class and put this on 
   return this.position.y + this.size.y / 2 // currently duplicated on enemy and building classes
 }
 
-Enemy.prototype.distanceFrom = function(object) {
-  var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
+Enemy.prototype.distanceFrom = function(object) { // TKTKTK: abstract this into Vector model
+  var squaredX = Math.pow(this.centerX() - object.centerX(), 2); // move CenterX and Y to Vector objects
   var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
   return Math.sqrt(squaredX + squaredY);
 }
