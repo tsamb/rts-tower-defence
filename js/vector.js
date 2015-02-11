@@ -12,6 +12,12 @@ Vector.prototype.times = function(factor)  {
   return new Vector(this.x * factor, this.y * factor);
 }
 
+Vector.prototype.distanceFrom = function(targetVector) {
+  var squaredX = Math.pow(this.x - targetVector.x, 2);
+  var squaredY = Math.pow(this.y - targetVector.x, 2);
+  return Math.sqrt(squaredX + squaredY);
+}
+
 Vector.prototype.addInPlace = function(other) {
   this.x += other.x;
   this.y += other.y;
