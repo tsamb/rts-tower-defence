@@ -146,14 +146,11 @@ Game.prototype.buildProgress = function() {
   var percentBuilt = 0;
   if (this.currentBuildOrder) {
     this.currentBuildTicker++;
-    // percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
-    percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100 * 8; // increase divisor to speed up building for testing
-    if (!this.board.buildingToPlace && this.currentBuildTicker >= this.currentBuildOrder.buildTime / 8) { // increase divisor to speed up building for testing
-    // if (this.currentBuildTicker >= this.currentBuildOrder.buildTime) {
+    percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
+    // percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100 * 8; // increase divisor to speed up building for testing
+    // if (!this.board.buildingToPlace && this.currentBuildTicker >= this.currentBuildOrder.buildTime / 8) { // increase divisor to speed up building for testing
+    if (this.currentBuildTicker >= this.currentBuildOrder.buildTime) {
       this.board.buildingToPlace = this.currentBuildOrder;
-      // this.buildings.push(this.currentBuildOrder); // All this work now being done on the board
-      // this.currentBuildOrder = undefined;          // with reference to the game
-      // this.currentBuildTicker = 0;
     }
   }
   return percentBuilt; // return an integer between 0 and 100
