@@ -1,7 +1,7 @@
 Browser Tower Defence
 ----------------------
 
-You can find the live version of the game [hosted here](https://tsamb.github.io/rts). Or you can clone this project and play it offline.
+You can find the live version of the game [hosted here](https://tsamb.github.io/rts). The hosted version is not always completely up to date with this repo. To play the bleeding edge, you can clone this repo and play it in a browser offline. Just open up index.html in your favourite browser (as long as your favourite browser is not IE).
 
 ### Overview
 
