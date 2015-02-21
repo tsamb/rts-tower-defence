@@ -7,7 +7,7 @@ var View = (function() {
 
   View.setBuildListeners = function(buildingsList, game) {
     for (var i = 0; i < buildingsList.length; i++) {
-      $("#new-building-" + i).on("click", null, i, game.build.bind(game));
+      $("#new-building-" + i).on("click", null, i, game.chooseBuilding.bind(game));
     }
   }
 

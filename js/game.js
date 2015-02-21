@@ -11,8 +11,9 @@ function Game() {
   this.buildings = [];
   this.destroyedBuildings = [];
   this.isBuilding = false;
+  this.selectedBuilding = undefined;
   this.currentBuildOrder = undefined;
-  this.currentBuildTicker = 0; // increases once per tick to keep track of when a building is complete;
+  // this.currentBuildTicker = 0; // the building will now know when it's built
 
   this.enemies = [];
   this.destroyedEnemies = [];
@@ -47,6 +48,9 @@ Game.prototype.startGameCycle = function() {
 Game.prototype.coreGameLoop = function() {
   this.coreTimer++;
   this.runDrawCycle();
+  if (this.coreTimer % 5 === 0) {
+    this.runBuildCycle();
+  }
   if (this.coreTimer % 12 === 0) {
     this.runResourceCycle();
   }
@@ -87,6 +91,10 @@ Game.prototype.runDrawCycle = function() {
   if (this.board.enemiesNeedUpdate) {
     this.board.refreshEnemies(this.enemies);
   }
+}
+
+Game.prototype.runBuildCycle = function() {
+  this.buildCurrentBuildOrder();
 }
 
 Game.prototype.updateTime = function() {
@@ -144,29 +152,29 @@ Game.prototype.calculateBuildingCount = function() {
 
 Game.prototype.buildProgress = function() {
   var percentBuilt = 0;
-  if (this.currentBuildOrder) {
-    this.currentBuildTicker++;
-    percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100;
-    // percentBuilt = (this.currentBuildTicker / this.currentBuildOrder.buildTime) * 100 * 8; // increase divisor to speed up building for testing
-    // if (!this.board.buildingToPlace && this.currentBuildTicker >= this.currentBuildOrder.buildTime / 8) { // increase divisor to speed up building for testing
-    if (this.currentBuildTicker >= this.currentBuildOrder.buildTime) {
-      this.board.buildingToPlace = this.currentBuildOrder;
-    }
-  }
+  // if (this.currentBuildOrder) {
+  //   if (this.board.buildingToPlace) {
+  //     View.displayStatusMessage("Wait for " + this.board.buildingToPlace.name + " to finish building first.");
+  //   } else {
+  //     this.board.buildingToPlace = this.currentBuildOrder;
+  //   }
+  // }
   return percentBuilt; // return an integer between 0 and 100
 }
 
 Game.prototype.currentBuildingComplete = function() {
-  this.buildings.push(this.currentBuildOrder);
+  // this.buildings.push(this.currentBuildOrder);
   this.currentBuildOrder = undefined;
-  this.currentBuildTicker = 0;
+  // this.currentBuildTicker = 0;
 }
 
-Game.prototype.build = function(buildingButtonClick) {
-  var building = new Building(BuildingsList[buildingButtonClick.data], this);
-  if (this.board.buildingToPlace) {
-    View.displayStatusMessage("Place previously built " + this.board.buildingToPlace.name + " first.");
-  } else if (this.currentBuildOrder) {
+Game.prototype.chooseBuilding = function(buildingButtonClick) {
+  this.selectedBuilding = new Building(BuildingsList[buildingButtonClick.data], this);
+}
+
+Game.prototype.build = function(xOnBoard,yOnBoard) {
+  var building = this.selectedBuilding
+  if (this.currentBuildOrder) {
     View.displayStatusMessage("Already building " + this.currentBuildOrder.name + ".");
     console.log("Already building " + this.currentBuildOrder.name + ".");
   } else if (building.energyCost >= this.resources.energy) {
@@ -176,9 +184,23 @@ Game.prototype.build = function(buildingButtonClick) {
     View.displayStatusMessage("Insuffcient matter to build " + building.name);
     console.log("Insuffcient matter to build " + building.name);
   } else {
+    building.setPosition(xOnBoard, yOnBoard);
+    this.board.placeBuilding(building);
+    this.buildings.push(building);
     this.currentBuildOrder = building;
-    this.resources.matter -= building.matterCost;
-    this.resources.energy -= building.energyCost;
+    // this.resources.matter -= building.matterCost;
+    // this.resources.energy -= building.energyCost;
+    building = undefined; // do this work in the game model and change the view somehow, too
+  }
+}
+
+Game.prototype.buildCurrentBuildOrder = function() {
+  if (this.currentBuildOrder) {
+    if (this.currentBuildOrder.completed) {
+      this.currentBuildOrder = undefined;
+    } else {
+      this.currentBuildOrder.continueBuilding();
+    }
   }
 }
 
@@ -186,8 +208,11 @@ Game.prototype.areBuildingsDestroyed = function() {
   var isAtLeastOneDestroyed = false
   for (var i = 0; i < this.buildings.length; i++) {
     if (this.buildings[i].isDestroyed()) {
-      this.destroyedBuildings.push(this.buildings.splice(i, 1)[0]);
       isAtLeastOneDestroyed = true;
+      if (!this.buildings[i].completed) {
+        this.currentBuildOrder = undefined;
+      }
+      this.destroyedBuildings.push(this.buildings.splice(i, 1)[0]);
     }
   }
   return isAtLeastOneDestroyed;
