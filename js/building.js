@@ -5,7 +5,9 @@ function Building(options, game) {
 
   this.name = options.name;
   this.maxHp = options.hp;
-  this.hp = this.maxHp;
+  this.hp = options.preBuilt ? this.maxHp : 1;
+  this.completed = options.preBuilt ? true : false;
+
   this.range = options.range;
   this.damagePerShot = options.damagePerShot; // TKTKTK: remove energy per shot fired; no default because not all buildings can inflict damage
   this.energyPerShot = options.energyPerShot;
@@ -21,7 +23,7 @@ function Building(options, game) {
   this.sizeOnBoardX = undefined;
   this.sizeOnBoardY = undefined;
   this.position = new Vector();
-  this.center = new Vector()
+  this.center = new Vector();
 }
 
 Building.prototype.setPosition = function(x,y) {
@@ -34,6 +36,19 @@ Building.prototype.setBoardSize = function(gridSize) {
   this.sizeOnBoardY = this.size.y * gridSize;
   this.center.x = this.centerX() // TKTKTK: clean this up and put it somewhere else.
   this.center.y = this.centerY() // It just needs to go after sizeOnBoardX and Y exist.
+}
+
+Building.prototype.continueBuilding = function() {
+  this.hp += 10
+  if (this.hp >= this.maxHp) {
+    this.completeConstruction();
+  }
+}
+
+Building.prototype.completeConstruction = function() {
+  this.hp = this.maxHp;
+  this.completed = true;
+  this.active = true;
 }
 
 Building.prototype.receiveDamage = function(damage) {

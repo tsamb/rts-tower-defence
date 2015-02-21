@@ -12,6 +12,7 @@ benefit: "Your home base",
 size: {x:4, y:4},
 color: "#060",
 active: true,
+preBuilt: true,
 buildable: false},
 
 {name: "Matter Mine",
