@@ -196,7 +196,7 @@ Game.prototype.build = function(xOnBoard,yOnBoard) {
     this.board.placeBuilding(building);
     this.buildings.push(building);
     this.currentBuildOrder = building;
-    // building = undefined; // do this work in the game model and change the view somehow, too
+    this.selectedBuilding = undefined;
   }
 }
 
