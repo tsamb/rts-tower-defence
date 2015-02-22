@@ -71,7 +71,7 @@ Game.prototype.runResourceCycle = function() {
     this.buildingsFire();
     View.updateBuildProgress(this.buildProgress());
     View.displayResources(this.resources);
-    View.displayResourceFlow(this.calculateResourcesPerCycle());
+    View.displayResourceFlow(this.buildingProducedResources(), this.constructionResourceCosts());
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length)
   } else {
     clearInterval(this.coreLoopId);
@@ -102,7 +102,7 @@ Game.prototype.updateTime = function() {
 }
 
 Game.prototype.updateResources = function() {
-  var resourcesToAdd = this.calculateResourcesPerCycle(); // return {matter: x, energy: y}
+  var resourcesToAdd = this.buildingProducedResources(); // return {matter: x, energy: y}
   this.resources.matter += resourcesToAdd.matter;
   if (this.resources.matter < 0) {this.resources.matter = 0}
     this.resources.energy += resourcesToAdd.energy;
@@ -126,7 +126,7 @@ Game.prototype.spawnEnemies = function() {
   }
 }
 
-Game.prototype.calculateResourcesPerCycle = function() {
+Game.prototype.buildingProducedResources = function() {
   var matterThisCycle = 0;
   var energyThisCycle = 0;
   for (var i = 0; i < this.buildings.length; i++) {
@@ -134,6 +134,16 @@ Game.prototype.calculateResourcesPerCycle = function() {
       matterThisCycle += this.buildings[i].matterProduction;
       energyThisCycle += this.buildings[i].energyProduction;
     }
+  }
+  return {matter: matterThisCycle, energy: energyThisCycle}
+}
+
+Game.prototype.constructionResourceCosts = function() {
+  var matterThisCycle = 0;
+  var energyThisCycle = 0;
+  if (this.currentBuildOrder) {
+    matterThisCycle = this.currentBuildOrder.matterCost / (this.currentBuildOrder.buildTime * 12); // TKTKTK: 12 should be a constant.
+    energyThisCycle = this.currentBuildOrder.energyCost / (this.currentBuildOrder.buildTime * 12); // It's the resource cycle.
   }
   return {matter: matterThisCycle, energy: energyThisCycle}
 }
