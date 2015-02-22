@@ -100,7 +100,7 @@ Building.prototype.closestEnemy = function(enemiesWithDistances) { // expecting 
 }
 
 Building.prototype.fireAt = function(enemies) {
-  if (this.game.hasEnergyInSurplusOf(this.energyPerShot)) {
+  if (this.game.hasEnergyInSurplusOf(this.energyPerShot) && this.active) {
     var enemiesInRange = this.enemiesWithinRange(enemies);
     if (enemiesInRange[0]) {
       var closestEnemy = this.closestEnemy(enemiesInRange);
