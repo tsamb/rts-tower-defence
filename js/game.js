@@ -186,18 +186,19 @@ Game.prototype.build = function(xOnBoard,yOnBoard) {
     this.board.placeBuilding(building);
     this.buildings.push(building);
     this.currentBuildOrder = building;
-    // this.resources.matter -= building.matterCost;
-    // this.resources.energy -= building.energyCost;
-    building = undefined; // do this work in the game model and change the view somehow, too
+    // building = undefined; // do this work in the game model and change the view somehow, too
   }
 }
 
 Game.prototype.buildCurrentBuildOrder = function() {
-  if (this.currentBuildOrder) {
-    if (this.currentBuildOrder.completed) {
-      this.currentBuildOrder = undefined;
+  var building = this.currentBuildOrder
+  if (building) {
+    if (building.completed) {
+      building = undefined;
     } else {
-      this.currentBuildOrder.continueBuilding();
+      building.continueBuilding();
+      this.resources.matter -= building.matterToDeductPerCycle();
+      this.resources.energy -= building.energyToDeductPerCycle();
     }
   }
 }
