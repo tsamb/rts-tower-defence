@@ -7,7 +7,7 @@ var View = (function() {
 
   View.setBuildListeners = function(buildingsList, game) {
     for (var i = 0; i < buildingsList.length; i++) {
-      $("#new-building-" + i).on("click", null, i, game.build.bind(game));
+      $("#new-building-" + i).on("click", null, i, game.chooseBuilding.bind(game));
     }
   }
 
@@ -30,9 +30,9 @@ var View = (function() {
     $("#energy-display").text("Energy: " + resources.energy);
   }
 
-  View.displayResourceFlow = function(flow) {
-    $("#net-matter-flow").text("Flow: " + flow.matter);
-    $("#net-energy-flow").text("Flow: " + flow.energy);
+  View.displayResourceFlow = function(flow, constructionCosts) {
+    $("#net-matter-flow").text("Producing: " + flow.matter + ". Consuming: " + constructionCosts.matter.toFixed(2));
+    $("#net-energy-flow").text("Producing: " + flow.energy + ". Consuming: " + constructionCosts.energy.toFixed(2));
   }
 
   View.updateBuildProgress = function(progress) {

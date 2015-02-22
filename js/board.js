@@ -34,13 +34,12 @@ Board.prototype.setClickListeners = function() {
 }
 
 Board.prototype.handleClicks = function(event) {
-  if (this.buildingToPlace) {
-    var potentialX = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
-    var potentialY = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
-     if (this.isGridAvailable(this.buildingToPlace, potentialX, potentialY)) {
-      this.buildingToPlace.setPosition(potentialX, potentialY);
-      this.placeBuilding(this.buildingToPlace);
-      this.resetBuildingOnGame();
+  var building = this.game.selectedBuilding;
+  if (building) {
+    var x = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
+    var y = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
+     if (this.isGridAvailable(building, x, y)) {
+      this.game.build(x, y)
      } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
   }
 }
@@ -53,12 +52,6 @@ Board.prototype.placeBuilding = function(building) {
     }
   }
   this.drawBuilding(building);
-  building.active = true; // produce resources now that user has successfully placed building
-  this.buildingToPlace = undefined;
-}
-
-Board.prototype.resetBuildingOnGame = function() {
-  this.game.currentBuildingComplete();
 }
 
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
@@ -142,7 +135,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
+  this.hpContext.fillText(Math.floor(building.hp), (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
 }
 
 Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {
