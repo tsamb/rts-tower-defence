@@ -39,7 +39,7 @@ Building.prototype.setBoardSize = function(gridSize) {
 }
 
 Building.prototype.continueBuilding = function() {
-  this.hp += 10
+  this.hp += this.hpBuildSpeed();
   if (this.hp >= this.maxHp) {
     this.completeConstruction();
   }
@@ -49,6 +49,19 @@ Building.prototype.completeConstruction = function() {
   this.hp = this.maxHp;
   this.completed = true;
   this.active = true;
+}
+
+Building.prototype.hpBuildSpeed = function() {
+  return this.maxHp / (this.buildTime * 5); // "5" here refers to how often (in frames) the build
+                                          // loop runs. TKTKTK: make these values constants somewhere.
+}
+
+Building.prototype.energyToDeductPerCycle = function() {
+  return this.energyCost / (this.buildTime * 5);
+}
+
+Building.prototype.matterToDeductPerCycle = function() {
+  return this.matterCost / (this.buildTime * 5);
 }
 
 Building.prototype.receiveDamage = function(damage) {
