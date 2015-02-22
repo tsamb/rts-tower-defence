@@ -49,6 +49,7 @@ Building.prototype.completeConstruction = function() {
   this.hp = this.maxHp;
   this.completed = true;
   this.active = true;
+  this.game.currentBuildingComplete();
 }
 
 Building.prototype.hpBuildSpeed = function() {

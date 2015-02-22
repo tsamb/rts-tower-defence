@@ -163,9 +163,7 @@ Game.prototype.buildProgress = function() {
 }
 
 Game.prototype.currentBuildingComplete = function() {
-  // this.buildings.push(this.currentBuildOrder);
   this.currentBuildOrder = undefined;
-  // this.currentBuildTicker = 0;
 }
 
 Game.prototype.chooseBuilding = function(buildingButtonClick) {
