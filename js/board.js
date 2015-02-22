@@ -135,7 +135,7 @@ Board.prototype.drawAllHp = function(buildings) {
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
-  this.hpContext.fillText(building.hp, (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
+  this.hpContext.fillText(Math.floor(building.hp), (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
 }
 
 Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {
