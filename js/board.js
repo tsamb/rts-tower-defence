@@ -54,10 +54,6 @@ Board.prototype.placeBuilding = function(building) {
   this.drawBuilding(building);
 }
 
-Board.prototype.resetBuildingOnGame = function() {
-  this.game.currentBuildingComplete();
-}
-
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
   var isAvailable = true
   var xToCheck = Math.floor(clickedX / this.gridSize)
