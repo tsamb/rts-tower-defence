@@ -178,6 +178,7 @@ Game.prototype.currentBuildingComplete = function() {
 
 Game.prototype.chooseBuilding = function(buildingButtonClick) {
   this.selectedBuilding = new Building(BuildingsList[buildingButtonClick.data], this);
+  View.highlightSelectedBuilding(buildingButtonClick.delegateTarget);
 }
 
 Game.prototype.build = function(xOnBoard,yOnBoard) {
@@ -197,6 +198,7 @@ Game.prototype.build = function(xOnBoard,yOnBoard) {
     this.buildings.push(building);
     this.currentBuildOrder = building;
     this.selectedBuilding = undefined;
+    View.deselectBuilding();
   }
 }
 

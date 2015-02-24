@@ -45,3 +45,7 @@ canvas {
   text-align: center;
   margin: 0;
 }
+
+.selected-building {
+  background-color: #efe;
+}
