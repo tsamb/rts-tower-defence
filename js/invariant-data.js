@@ -95,17 +95,6 @@ var GameOptions = {
   COMMAND_CENTER: new Building(BuildingsList[0])
 }
 
-var BuildingSelector = {}
-
-BuildingSelector.getBuildingIdByKeyCode = function(keyCode) {
-  var character = KeyCodeCharMap[keyCode]
-  for (var i = 0; i < BuildingsList.length; i++) {
-    if (BuildingsList[i].key === character) {
-      return i;
-    }
-  }
-}
-
 var KeyCodeCharMap = {
 48: '0',
 49: '1',
