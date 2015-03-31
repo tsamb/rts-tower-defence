@@ -178,7 +178,13 @@ Game.prototype.currentBuildingComplete = function() {
 
 Game.prototype.chooseBuilding = function(buildingButtonClick) {
   this.selectedBuilding = new Building(BuildingsList[buildingButtonClick.data], this);
-  View.highlightSelectedBuilding(buildingButtonClick.delegateTarget);
+  View.highlightBuildingByElement(buildingButtonClick.delegateTarget);
+}
+
+Game.prototype.chooseBuildingFromKey = function(event) {
+  var buildingId = BuildingSelector.getBuildingIdByKeyCode(event.keyCode)
+  this.selectedBuilding = new Building(BuildingsList[buildingId], this);
+  View.highlightBuildingById(buildingId);
 }
 
 Game.prototype.build = function(xOnBoard,yOnBoard) {
