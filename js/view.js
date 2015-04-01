@@ -6,9 +6,14 @@ var View = (function() {
   // Event listeners
 
   View.setBuildListeners = function(buildingsList, game) {
+    this.setBuildKeyListeners(buildingsList, game);
     for (var i = 0; i < buildingsList.length; i++) {
-      $("#new-building-" + i).on("click", null, i, game.chooseBuilding.bind(game));
+      $(".building-container").on("click", "#new-building-" + i, i, game.chooseBuilding.bind(game));
     }
+  }
+
+  View.setBuildKeyListeners = function(buildingsList, game) {
+    $(document).keyup(game.chooseBuildingFromKey.bind(game))
   }
 
   View.setCanvasClickListeners = function(board) {
@@ -69,11 +74,27 @@ var View = (function() {
     $("#game-over-message").show();
   }
 
+  // DOM manipulation: highlighting/user feedback
+
+  View.highlightBuildingByElement = function(element) {
+    this.deselectBuilding();
+    $(element).addClass("selected-building");
+  }
+
+  View.highlightBuildingById = function(id) {
+    this.deselectBuilding();
+    $("#building-container-" + id).addClass("selected-building");
+  }
+
+  View.deselectBuilding = function() {
+    $(".building-container").removeClass("selected-building");
+  }
+
   // HTML templates
 
   View.buildingsTemplate = function(building, buildingIndex) {
     var attrWhitelist = ["name", "hp", "matterCost", "energyCost", "benefit", "size"];
-    var htmlString = "<div><table>";
+    var htmlString = "<div class='building-container' id='building-container-" + buildingIndex + "'><table>";
     for (attr in building) {
       if (attrWhitelist.indexOf(attr) >= 0) {
         htmlString += "<tr>"
