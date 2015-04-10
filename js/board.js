@@ -1,5 +1,3 @@
-// Board model
-
 function Board(options) {
   this.game = options.game // a reference to the game that encapsulates this board
 
@@ -31,68 +29,70 @@ function Board(options) {
 
 Board.prototype.setClickListeners = function() {
   View.setCanvasClickListeners(this);
-}
+};
 
 Board.prototype.handleClicks = function(event) {
   var building = this.game.selectedBuilding;
   if (building) {
     var x = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
     var y = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
-     if (this.isGridAvailable(building, x, y)) {
-      this.game.build(x, y)
-     } else { View.displayStatusMessage("Cannot build on top of an existing building.") }
+    if (this.isGridAvailable(building, x, y)) {
+      this.game.build(x, y);
+    } else {
+      View.displayStatusMessage("Cannot build on top of an existing building.");
+    }
   }
-}
+};
 
 Board.prototype.placeBuilding = function(building) {
-  building.setBoardSize(this.gridSize)
+  building.setBoardSize(this.gridSize);
   for(var x = (building.position.x / this.gridSize); x < (building.position.x / this.gridSize) + building.size.x; x++) {
     for(var y = (building.position.y / this.gridSize); y < (building.position.y / this.gridSize) + building.size.y; y++) {
       this.internalStorage[y][x] = building;
     }
   }
   this.drawBuilding(building);
-}
+};
 
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
-  var isAvailable = true
-  var xToCheck = Math.floor(clickedX / this.gridSize)
-  var yToCheck = Math.floor(clickedY / this.gridSize)
+  var isAvailable = true;
+  var xToCheck = Math.floor(clickedX / this.gridSize);
+  var yToCheck = Math.floor(clickedY / this.gridSize);
   for(var x = xToCheck; x < xToCheck + building.size.x; x++) {
     for(var y = yToCheck; y < yToCheck + building.size.y; y++) {
       if (this.internalStorage[y][x]) { return false; }
     }
   }
-  return isAvailable
-}
+  return isAvailable;
+};
 
 Board.prototype.refreshEnemies = function(enemies) {
   this.placeAllEnemies(enemies);
-}
+};
 
 Board.prototype.buildingRefresh = function(buildings, enemies) {
   this.clearCanvas();
   this.clearInternalStorage();
   this.placeAllBuildings(buildings);
   this.buildingsNeedUpdate = false;
-}
+};
 
 Board.prototype.placeAllEnemies = function(enemies) {
   this.enemyContext.clearRect(0, 0, this.width, this.height);
   for (var i = 0; i < enemies.length; i++ ) {
-    this.drawEnemy(enemies[i])
+    this.drawEnemy(enemies[i]);
   }
-}
+};
 
 Board.prototype.drawEnemy = function(enemy) {
   this.enemyContext.fillStyle = "#222"; // TKTKTK: store color on Enemy model
   this.enemyContext.fillRect(enemy.position.x, enemy.position.y, enemy.size.x, enemy.size.y);
-}
+};
 
 Board.prototype.clearCanvas = function() {
   this.context.clearRect(0, 0, this.width, this.height);
   this.rangeContext.clearRect(0, 0, this.width, this.height);
-}
+};
 
 Board.prototype.drawGrid = function() {
   for (var x = -1; x <= this.width; x += this.gridSize) {
@@ -105,13 +105,13 @@ Board.prototype.drawGrid = function() {
   }
   this.gridContext.strokeStyle = "#CCC";
   this.gridContext.stroke();
-}
+};
 
 Board.prototype.placeAllBuildings = function(buildings) {
   for (var i = 0; i < buildings.length; i++) {
     this.placeBuilding(buildings[i]);
   }
-}
+};
 
 Board.prototype.drawBuilding = function(building) {
   if (building.range) {
@@ -124,19 +124,19 @@ Board.prototype.drawBuilding = function(building) {
   }
   this.context.fillStyle = building.color;
   this.context.fillRect(building.position.x, building.position.y, building.sizeOnBoardX, building.sizeOnBoardY);
-}
+};
 
 Board.prototype.drawAllHp = function(buildings) {
   this.hpContext.clearRect(0, 0, this.width, this.height);
   for (var i = 0; i < buildings.length; i++) {
     this.drawHp(buildings[i]);
   }
-}
+};
 
 Board.prototype.drawHp = function(building) {
   this.hpContext.fillStyle = "#EEE";
   this.hpContext.fillText(Math.floor(building.hp), (building.position.x) + 3, building.position.y + building.sizeOnBoardY - 10);
-}
+};
 
 Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {
   this.enemyContext.beginPath(); // refactor onto a laser lines canvas
@@ -145,11 +145,11 @@ Board.prototype.drawLaser = function(startingX, startingY, endingX, endingY) {
   this.enemyContext.lineWidth = 2;
   this.enemyContext.strokeStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
   this.enemyContext.stroke();
-}
+};
 
 Board.prototype.clearInternalStorage = function() {
   this.internalStorage = this.buildInternalStorage();
-}
+};
 
 Board.prototype.buildInternalStorage = function() {
   var cols = this.width/this.gridSize;
@@ -162,4 +162,4 @@ Board.prototype.buildInternalStorage = function() {
     }
   }
   return grid;
-}
+};

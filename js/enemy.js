@@ -1,8 +1,8 @@
-// Enemy model
+var DEFAULT_ENEMY_SIZE = 10;
 
 function Enemy(options) {
   this.position = new Vector(options.topLeftX, options.topLeftY);
-  this.size = new Vector(options.size);
+  this.size = new Vector(options.size || DEFAULT_ENEMY_SIZE);
   this.speed = 3;
 
   this.maxHp = options.hp || 100;
@@ -12,14 +12,14 @@ function Enemy(options) {
   this.attackingBuilding = undefined;
 
   this.target = options.target;
-  this.direction = this.setDirection(this.position, this.target.center)
+  this.direction = this.setDirection(this.position, this.target.center);
 }
 
 Enemy.prototype.setDirection = function(currentPosition, targetPosition) {
-  var x = (targetPosition.x - currentPosition.x) / currentPosition.distanceFrom(targetPosition)
-  var y = (targetPosition.y - currentPosition.y) / currentPosition.distanceFrom(targetPosition)
-  return new Vector(x, y)
-}
+  var x = (targetPosition.x - currentPosition.x) / currentPosition.distanceFrom(targetPosition);
+  var y = (targetPosition.y - currentPosition.y) / currentPosition.distanceFrom(targetPosition);
+  return new Vector(x, y);
+};
 
 Enemy.prototype.moveOrAttack = function(buildings) {
   this.checkForCollisions(buildings);
@@ -27,7 +27,7 @@ Enemy.prototype.moveOrAttack = function(buildings) {
   if (this.attackingBuilding) {
     this.attack(this.attackingBuilding);
   }
-}
+};
 
 Enemy.prototype.checkForCollisions = function(buildings) {
   for (var i = 0; i < buildings.length; i++) {
@@ -36,20 +36,20 @@ Enemy.prototype.checkForCollisions = function(buildings) {
       this.attackingBuilding = buildings[i];
     }
   }
-}
+};
 
 Enemy.prototype.collidesWith = function(building) {
   return (this.position.x < building.position.x + building.sizeOnBoardX &&
     this.position.x + this.size.x > building.position.x &&
     this.position.y < building.position.y + building.sizeOnBoardY &&
-    this.position.y + this.size.y > building.position.y)
-}
+    this.position.y + this.size.y > building.position.y);
+};
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
     this.position.addInPlace(this.direction.randomScale(1,this.speed));
   }
-}
+};
 
 Enemy.prototype.attack = function(building) {
   var damage = Math.floor(Math.random() * this.maxDamagePerHit);
@@ -58,26 +58,29 @@ Enemy.prototype.attack = function(building) {
     this.attackingBuilding = undefined;
     this.isMoving = true;
   }
-}
+};
 
-Enemy.prototype.centerX = function() { // create a vector class and put this on its prototype
-  return this.position.x + this.size.x / 2 // currently duplicated on enemy and building classes
-}
+// create a vector class and put this on its prototype
+// currently duplicated on enemy and building classes
+Enemy.prototype.centerX = function() {
+  return this.position.x + this.size.x / 2;
+};
+Enemy.prototype.centerY = function() {
+  return this.position.y + this.size.y / 2;
+};
 
-Enemy.prototype.centerY = function() { // create a vector class and put this on its prototype
-  return this.position.y + this.size.y / 2 // currently duplicated on enemy and building classes
-}
-
-Enemy.prototype.distanceFrom = function(object) { // TKTKTK: abstract this into Vector model
-  var squaredX = Math.pow(this.centerX() - object.centerX(), 2); // move CenterX and Y to Vector objects
+ // TODO -> abstract this into Vector model
+// move CenterX and Y to Vector objects
+Enemy.prototype.distanceFrom = function(object) {
+  var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
   var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
   return Math.sqrt(squaredX + squaredY);
-}
+};
 
 Enemy.prototype.receiveDamage = function(damage) {
   this.hp -= damage;
-}
+};
 
 Enemy.prototype.isDestroyed = function() {
   return this.hp <= 0;
-}
+};
