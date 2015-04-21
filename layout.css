@@ -49,3 +49,8 @@ canvas {
 .selected-building {
   background-color: #efe;
 }
+
+#status-messages {
+  height: 80px;
+  overflow: hidden;
+}
