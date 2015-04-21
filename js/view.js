@@ -44,7 +44,8 @@ var View = (function() {
     },
 
     displayStatusMessage: function(message) {
-      $("#status-message").text(message);
+      var para = "<p>" + message + "</p>"
+      $(para).prependTo("#status-messages").hide().slideDown();
     },
 
     updateScore: function(enemies, buildings)  {
