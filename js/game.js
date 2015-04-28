@@ -85,8 +85,8 @@ Game.prototype.runDrawCycle = function() {
   this.moveEnemies();
   this.board.refreshEnemies(this.enemies);
   this.board.drawAllHp(this.buildings);
-  this.board.buildingsNeedUpdate = this.wereUnitsDestroyed(this.buildings);
-  this.board.enemiesNeedUpdate = this.wereUnitsDestroyed(this.enemies);
+  this.board.buildingsNeedUpdate = this.wereUnitsDestroyed(this.buildings, this.destroyedBuildings);
+  this.board.enemiesNeedUpdate = this.wereUnitsDestroyed(this.enemies, this.destroyedEnemies);
   if (this.board.buildingsNeedUpdate) {
     this.board.buildingRefresh(this.buildings);
   }
@@ -214,11 +214,11 @@ Game.prototype.deductEnergy = function(deduction) {
   this.resources.energy -= deduction;
 };
 
-Game.prototype.wereUnitsDestroyed = function(units) {
+Game.prototype.wereUnitsDestroyed = function(units, unitGraveyard) {
   var isAtLeastOneDestroyed = false;
   for (var i = 0; i < units.length; i++) {
     if (units[i].isDestroyed()) {
-      this.destroyedEnemies.push(units.splice(i, 1)[0]);
+      unitGraveyard.push(units.splice(i, 1)[0]);
       isAtLeastOneDestroyed = true;
     }
   }
