@@ -226,7 +226,7 @@ Game.prototype.wereUnitsDestroyed = function(units) {
 };
 
 Game.prototype.statsForDestroyed = function(units) {
-  var totalDamageDealt = units.reduce(function(previousValue, unit/*, index, array */) {
+  var totalDamageDealt = units.reduce(function(previousValue, unit) {
     return previousValue + unit.maxHp;
   }, 0);
   return {
