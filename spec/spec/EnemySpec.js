@@ -62,5 +62,13 @@ describe("Enemy", function() {
     it("is moving by default", function() {
       expect(enemy.isMoving).toEqual(true);
     });
+
+    it("has a position attribute", function() {
+      expect(enemy.position).not.toBeUndefined();
+    });
+
+    it("has a Vector object as its position attribute", function() {
+      expect(enemy.position).toEqual(jasmine.any(Vector));
+    });
   });
 });
