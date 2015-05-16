@@ -70,5 +70,13 @@ describe("Enemy", function() {
     it("has a Vector object as its position attribute", function() {
       expect(enemy.position).toEqual(jasmine.any(Vector));
     });
+
+    it("has a size attribute", function() {
+      expect(enemy.size).not.toBeUndefined();
+    });
+
+    it("has a Vector object as its size attribute", function() {
+      expect(enemy.size).toEqual(jasmine.any(Vector));
+    });
   });
 });
