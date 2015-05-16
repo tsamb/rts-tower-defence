@@ -1,6 +1,14 @@
 describe("Enemy", function() {
-  it("has a test harness that is working", function() {
-    expect(true).toEqual(true);
+  var enemy, args, startingHp;
+
+  beforeEach(function() {
+    startingHp = 200;
+    args = {
+      topLeftX: 300,
+      topLeftY: 300,
+      hp: startingHp,
+      target: {center: {x: 100, y: 100}}} // mocking a command center and vector
+    enemy = new Enemy(args);
   })
 
   // it("has an HP attribute", function() {
