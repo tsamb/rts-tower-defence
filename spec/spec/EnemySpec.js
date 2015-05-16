@@ -81,6 +81,18 @@ describe("Enemy", function() {
 
     it("is not attacking any building by default", function() {
       expect(enemy.attackingBuilding).toBeUndefined();
-    })
+    });
+
+    it("has a target attribute", function() {
+      expect(enemy.target).not.toBeUndefined();
+    });
+
+    it("has a direction attribute", function() {
+      expect(enemy.direction).not.toBeUndefined();
+    });
+
+    it("has a Vector object as its direction attribute", function() {
+      expect(enemy.direction).toEqual(jasmine.any(Vector));
+    });
   });
 });
