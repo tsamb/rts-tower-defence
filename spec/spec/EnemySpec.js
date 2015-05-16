@@ -1,12 +1,14 @@
 describe("Enemy", function() {
-  var enemy, args, startingHp, maxDamagePerHit;
+  var enemy, args, speed, startingHp, maxDamagePerHit;
 
   beforeEach(function() {
+    speed = 10;
     startingHp = 200;
     maxDamagePerHit = 10;
     args = {
       topLeftX: 300,
       topLeftY: 300,
+      speed: speed,
       hp: startingHp,
       damage: maxDamagePerHit,
       target: {center: {x: 100, y: 100}}} // mocking a command center and vector
@@ -27,7 +29,16 @@ describe("Enemy", function() {
   });
 
   it("has a speed attribute", function() {
-    expect(enemy.speed).not.toBeUndefined(); // rewrite so that we can pass in speed as an arg
+    expect(enemy.speed).not.toBeUndefined();
+  });
+
+  it("sets its speed attribute to the argument passed to it", function() {
+    expect(enemy.speed).toEqual(speed);
+  });
+
+  it("defaults to speed of 3 when no speed attribute is passed", function() {
+    var noSpeedArgEnemy = new Enemy({ topLeftX: 300, topLeftY: 300, target: {center: {x: 100, y: 100}}});
+    expect(noSpeedArgEnemy.speed).toEqual(3);
   });
 
   it("has a max damage per hit attribute", function() {
