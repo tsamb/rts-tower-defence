@@ -78,5 +78,9 @@ describe("Enemy", function() {
     it("has a Vector object as its size attribute", function() {
       expect(enemy.size).toEqual(jasmine.any(Vector));
     });
+
+    it("is not attacking any building by default", function() {
+      expect(enemy.attackingBuilding).toBeUndefined();
+    })
   });
 });
