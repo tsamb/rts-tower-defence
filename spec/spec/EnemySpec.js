@@ -54,5 +54,13 @@ describe("Enemy", function() {
       var noDamageArgEnemy = new Enemy({ topLeftX: 300, topLeftY: 300, target: {center: {x: 100, y: 100}}});
       expect(noDamageArgEnemy.maxDamagePerHit).toEqual(5);
     });
+
+    it("has an 'is moving' attribute", function() {
+      expect(enemy.isMoving).not.toBeUndefined();
+    });
+
+    it("is moving by default", function() {
+      expect(enemy.isMoving).toEqual(true);
+    });
   });
 });
