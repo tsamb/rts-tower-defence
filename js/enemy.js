@@ -3,7 +3,7 @@ var DEFAULT_ENEMY_SIZE = 10;
 function Enemy(options) {
   this.position = new Vector(options.topLeftX, options.topLeftY);
   this.size = new Vector(options.size || DEFAULT_ENEMY_SIZE);
-  this.speed = 3;
+  this.speed = options.speed || 3;
 
   this.maxHp = options.hp || 100;
   this.hp = this.maxHp;
@@ -47,7 +47,7 @@ Enemy.prototype.collidesWith = function(building) {
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.position.addInPlace(this.direction.randomScale(1,this.speed));
+    this.position.addInPlace(this.direction.randomScale(this.speed / 2,this.speed));
   }
 };
 

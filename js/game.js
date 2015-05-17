@@ -128,6 +128,7 @@ Game.prototype.spawnEnemies = function() {
       topLeftX: x,
       topLeftY: y,
       hp: difficulty.enemyHp,
+      speed: difficulty.speed,
       target: this.commandCenter})
     );
   }
@@ -241,7 +242,8 @@ var Difficulty = {
   calculate: function(level) {
     return {
       maxEnemies: this.maxEnemies(level),
-      enemyHp: this.enemyHp(level)
+      enemyHp: this.enemyHp(level),
+      speed: this.speed(level)
     };
   },
   maxEnemies: function(level) {
@@ -249,5 +251,8 @@ var Difficulty = {
   },
   enemyHp: function(level) {
     return this.baseHp * level;
+  },
+  speed: function(level) {
+    return (level / 5) + 3;
   }
 };
