@@ -47,7 +47,7 @@ Enemy.prototype.collidesWith = function(building) {
 
 Enemy.prototype.move = function() {
   if (this.isMoving) {
-    this.position.addInPlace(this.direction.randomScale(1,this.speed));
+    this.position.addInPlace(this.direction.randomScale(this.speed / 2,this.speed));
   }
 };
 
