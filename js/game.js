@@ -128,6 +128,7 @@ Game.prototype.spawnEnemies = function() {
       topLeftX: x,
       topLeftY: y,
       hp: difficulty.enemyHp,
+      speed: difficulty.speed,
       target: this.commandCenter})
     );
   }
