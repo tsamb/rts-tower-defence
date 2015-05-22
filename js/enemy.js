@@ -16,9 +16,7 @@ function Enemy(options) {
 }
 
 Enemy.prototype.setDirection = function(currentPosition, targetPosition) {
-  var x = (targetPosition.x - currentPosition.x) / currentPosition.distanceFrom(targetPosition);
-  var y = (targetPosition.y - currentPosition.y) / currentPosition.distanceFrom(targetPosition);
-  return new Vector(x, y);
+  return currentPosition.directionTo(targetPosition);
 };
 
 Enemy.prototype.moveOrAttack = function(buildings) {
