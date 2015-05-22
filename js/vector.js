@@ -26,3 +26,9 @@ Vector.prototype.randomScale = function(minFactor, maxFactor) {
   var factor = Math.random() * (maxFactor - minFactor) + minFactor;
   return this.times(factor);
 };
+
+Vector.prototype.directionTo = function(targetVector) {
+  var x = (targetVector.x - this.x) / this.distanceFrom(targetVector);
+  var y = (targetVector.y - this.y) / this.distanceFrom(targetVector);
+  return new Vector(x, y);
+};
