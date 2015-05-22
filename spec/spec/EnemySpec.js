@@ -11,7 +11,7 @@ describe("Enemy", function() {
       speed: speed,
       hp: startingHp,
       damage: maxDamagePerHit,
-      target: {center: {x: 100, y: 100}}} // mocking a command center and vector
+      target: {center: new Vector(100)}}
     enemy = new Enemy(args);
   })
 
@@ -93,6 +93,13 @@ describe("Enemy", function() {
 
     it("has a Vector object as its direction attribute", function() {
       expect(enemy.direction).toEqual(jasmine.any(Vector));
+    });
+  });
+
+  describe("setDirection", function() {
+    it("sets the direction of the Enemy", function(){
+      expect(enemy.setDirection(enemy.position, enemy.target.center).x).toEqual(-0.7071067811865475);
+      expect(enemy.setDirection(enemy.position, enemy.target.center).y).toEqual(-0.7071067811865475);
     });
   });
 });
