@@ -44,7 +44,7 @@ describe("Vector", function() {
 
   describe("addInPlace", function() {
 
-    it("returns undefined", function() {
+    it("returns the original vector", function() {
       expect(vector.addInPlace(simpleVector)).toEqual(vector);
     });
 
