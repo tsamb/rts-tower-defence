@@ -43,11 +43,6 @@ describe("Vector", function() {
   });
 
   describe("addInPlace", function() {
-    var addedInPlaceVector;
-
-    afterEach ( function() {
-      vector = new Vector(200, 10);
-    });
 
     it("returns undefined", function() {
       expect(vector.addInPlace(simpleVector)).toBeUndefined();
