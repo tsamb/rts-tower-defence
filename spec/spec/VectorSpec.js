@@ -58,4 +58,78 @@ describe("Vector", function() {
       expect(vector.y).toEqual(expectedY);
     });
   });
+
+  describe("times", function() {
+    var multipliedVector;
+
+    beforeEach( function() {
+      multipliedVector = vector.times(2);
+    });
+
+    it("returns a new vector", function() {
+      expect(multipliedVector).toEqual(jasmine.any(Vector));
+    });
+
+    it("multiplies vector's attributes to create new vector", function() {
+      expectedX = vector.x * 2;
+      expectedY = vector.y * 2;
+
+      expect(multipliedVector.x).toEqual(expectedX);
+      expect(multipliedVector.y).toEqual(expectedY);
+    });
+  });
+
+  describe("distanceFrom", function() {
+    it("returns the distance between two vectors", function() {
+      expect(vector.distanceFrom(simpleVector)).toEqual(Math.sqrt(18100));
+    });
+  });
+
+  describe("randomScale", function() {
+    var randomlyScaledVector;
+
+    beforeEach( function() {
+      spyOn(Math, "random").and.returnValue(0.1);
+      spyOn(vector, "times").and.callThrough();
+      randomlyScaledVector = vector.randomScale(1, 3);
+    });
+
+    it("returns a new vector", function() {
+      expect(randomlyScaledVector).toEqual(jasmine.any(Vector));
+    });
+
+    it("calls the times function", function() {
+      expect(vector.times).toHaveBeenCalled();
+    });
+
+    it("calls times with the appropriate factor argument", function() {
+      expect(vector.times.calls.argsFor([0])).toEqual([1.2]);
+    });
+  });
+
+  describe("directionTo", function() {
+    var directionToVector;
+
+    beforeEach( function() {
+      spyOn(vector, "distanceFrom").and.callThrough();
+      directionToVector = vector.directionTo(simpleVector);
+    });
+
+    it("returns a new vector", function() {
+      expect(directionToVector).toEqual(jasmine.any(Vector));
+    });
+
+    it("calls distanceFrom twice", function() {
+      expect(vector.distanceFrom.calls.count()).toEqual(2);
+      expect(vector.distanceFrom.calls.allArgs()).toEqual([[simpleVector],[simpleVector]]);
+    });
+
+    it("returns a vector with the appropriate coordinates", function() {
+      var expectedX = (-100) / Math.sqrt(18100);
+      var expectedY = 90 / Math.sqrt(18100);
+
+      expect(directionToVector.x).toEqual(expectedX);
+      expect(directionToVector.y).toEqual(expectedY);
+    });
+  });
 });
