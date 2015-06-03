@@ -45,7 +45,7 @@ describe("Vector", function() {
   describe("addInPlace", function() {
 
     it("returns undefined", function() {
-      expect(vector.addInPlace(simpleVector)).toBeUndefined();
+      expect(vector.addInPlace(simpleVector)).toEqual(vector);
     });
 
     it("adds the x and y attributes of one vector to another", function() {

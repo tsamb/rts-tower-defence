@@ -10,6 +10,8 @@ Vector.prototype.add = function(addedVector) {
 Vector.prototype.addInPlace = function(addedVector) {
   this.x += addedVector.x;
   this.y += addedVector.y;
+
+  return this;
 };
 
 Vector.prototype.times = function(factor)  {
