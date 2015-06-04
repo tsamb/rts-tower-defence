@@ -113,8 +113,6 @@ Building.prototype.fireAt = function(enemies) {
       closestEnemy.receiveDamage(damage);
       if (closestEnemy.isDestroyed()) {
         this.increaseXpAndLevel(closestEnemy);
-        console.log("Level: " + this.level);
-        console.log("XP: " + this.xp);
       }
     }
   }
