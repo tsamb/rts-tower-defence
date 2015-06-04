@@ -1,4 +1,5 @@
 var FRAMES_PER_RUN = 5; // how often (in frames) the build loop runs
+var ENEMY_LEVEL_MULTIPLIER_BASE = 1000; // (current level * this num) xp required for next level
 
 function Building(options, game) {
   this.game = game;
@@ -11,6 +12,8 @@ function Building(options, game) {
   this.range = options.range;
   this.damagePerShot = options.damagePerShot; // TODO -> remove energy per shot fired; no default because not all buildings can inflict damage
   this.energyPerShot = options.energyPerShot;
+  this.xp = 0;
+  this.level = 1;
 
   this.matterCost = options.matterCost;
   this.energyCost = options.energyCost;
@@ -108,9 +111,25 @@ Building.prototype.fireAt = function(enemies) {
       this.game.deductEnergy(this.energyPerShot);
       this.game.board.drawLaser(this.centerX(), this.centerY(), closestEnemy.centerX(), closestEnemy.centerY());
       closestEnemy.receiveDamage(damage);
+      if (closestEnemy.isDestroyed()) {
+        this.increaseXpAndLevel(closestEnemy);
+        console.log("Level: " + this.level);
+        console.log("XP: " + this.xp);
+      }
     }
   }
 };
+
+Building.prototype.increaseXpAndLevel = function(enemy) {
+  this.xp += enemy.maxHp;
+  this.setLevel();
+}
+
+Building.prototype.setLevel = function() {
+  if (this.xp >= ENEMY_LEVEL_MULTIPLIER_BASE * this.level) {
+    this.level += 1
+  }
+}
 
 ///// Computed properties /////
 
