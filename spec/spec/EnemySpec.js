@@ -96,10 +96,44 @@ describe("Enemy", function() {
     });
   });
 
-  describe("setDirection", function() {
+  describe("#setDirection", function() {
     it("sets the direction of the Enemy", function(){
       expect(enemy.setDirection(enemy.position, enemy.target.center).x).toEqual(-0.7071067811865475);
       expect(enemy.setDirection(enemy.position, enemy.target.center).y).toEqual(-0.7071067811865475);
+    });
+  });
+
+  describe("#moveOrAttack", function() {
+    var noBuildings, fakeBuilding, buildings
+
+    beforeEach(function() {
+      noBuildings = [];
+
+      fakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      fakeBuilding.position = {x: 300, y: 300};
+      fakeBuilding.sizeOnBoardX = 80;
+      fakeBuilding.sizeOnBoardY = 80;
+      buildings = [fakeBuilding];
+
+      spyOn(enemy, 'attack');
+    });
+
+
+    it("changes the the enemy's position if it has no building to attack", function(){
+      enemy.moveOrAttack(noBuildings);
+      expect(enemy.position.x).not.toEqual(300);
+      expect(enemy.position.y).not.toEqual(300);
+    });
+
+    it("does not change the enemy's position if it has a building to attack", function() {
+      enemy.moveOrAttack(buildings);
+      expect(enemy.position.x).toEqual(300);
+      expect(enemy.position.y).toEqual(300);
+    });
+
+    it("attacks the building if it has a building to attack", function() {
+      enemy.moveOrAttack(buildings);
+      expect(enemy.attack).toHaveBeenCalledWith(fakeBuilding);
     });
   });
 });
