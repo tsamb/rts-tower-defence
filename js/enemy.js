@@ -32,6 +32,7 @@ Enemy.prototype.checkForCollisions = function(buildings) {
     if (this.collidesWith(buildings[i])) {
       this.isMoving = false;
       this.attackingBuilding = buildings[i];
+      return
     }
   }
 };
