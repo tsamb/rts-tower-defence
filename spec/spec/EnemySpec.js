@@ -97,7 +97,7 @@ describe("Enemy", function() {
   });
 
   describe("instance methods", function() {
-    var noBuildings, fakeBuilding, buildings, nonCollidingBuildings
+    var noBuildings, fakeBuilding, buildings, nonCollidingBuildings, buildingsWithCollisionsInMiddle
 
     beforeEach(function() {
       noBuildings = [];
@@ -112,10 +112,17 @@ describe("Enemy", function() {
       secondFakeBuilding.sizeOnBoardX = 40;
       secondFakeBuilding.sizeOnBoardY = 40;
 
+      thirdFakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      thirdFakeBuilding.position = {x: 40, y: 120};
+      thirdFakeBuilding.sizeOnBoardX = 20;
+      thirdFakeBuilding.sizeOnBoardY = 20;
+
       buildings = [fakeBuilding];
       nonCollidingBuildings = [secondFakeBuilding];
+      buildingsWithCollisionsInMiddle = [thirdFakeBuilding, fakeBuilding, secondFakeBuilding];
 
       spyOn(enemy, 'attack');
+      spyOn(enemy, 'collidesWith').and.callThrough();
     });
 
     describe("#setDirection", function() {
@@ -160,6 +167,11 @@ describe("Enemy", function() {
           expect(enemy.attackingBuilding).toEqual(undefined);
           enemy.checkForCollisions(buildings);
           expect(enemy.attackingBuilding).toEqual(fakeBuilding);
+        });
+
+        it("breaks out of the checking loop as soon as a collision is found", function() {
+          enemy.checkForCollisions(buildingsWithCollisionsInMiddle);
+          expect(enemy.collidesWith.calls.count()).toEqual(2)
         });
       });
 
