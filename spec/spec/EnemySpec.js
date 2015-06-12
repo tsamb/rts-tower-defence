@@ -96,15 +96,8 @@ describe("Enemy", function() {
     });
   });
 
-  describe("#setDirection", function() {
-    it("sets the direction of the Enemy", function(){
-      expect(enemy.setDirection(enemy.position, enemy.target.center).x).toEqual(-0.7071067811865475);
-      expect(enemy.setDirection(enemy.position, enemy.target.center).y).toEqual(-0.7071067811865475);
-    });
-  });
-
-  describe("#moveOrAttack", function() {
-    var noBuildings, fakeBuilding, buildings
+  describe("instance methods", function() {
+    var noBuildings, fakeBuilding, buildings, nonCollidingBuildings
 
     beforeEach(function() {
       noBuildings = [];
@@ -113,62 +106,103 @@ describe("Enemy", function() {
       fakeBuilding.position = {x: 300, y: 300};
       fakeBuilding.sizeOnBoardX = 80;
       fakeBuilding.sizeOnBoardY = 80;
+
+      secondFakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      secondFakeBuilding.position = {x: 100, y: 100};
+      secondFakeBuilding.sizeOnBoardX = 40;
+      secondFakeBuilding.sizeOnBoardY = 40;
+
       buildings = [fakeBuilding];
+      nonCollidingBuildings = [secondFakeBuilding];
 
       spyOn(enemy, 'attack');
     });
 
-    describe("when the enemy is not colliding with a building", function() {
-      it("changes the the enemy's position", function(){
-        enemy.moveOrAttack(noBuildings);
-        expect(enemy.position.x).not.toEqual(300);
-        expect(enemy.position.y).not.toEqual(300);
+    describe("#setDirection", function() {
+      it("sets the direction of the Enemy", function(){
+        expect(enemy.setDirection(enemy.position, enemy.target.center).x).toEqual(-0.7071067811865475);
+        expect(enemy.setDirection(enemy.position, enemy.target.center).y).toEqual(-0.7071067811865475);
       });
     });
 
-    describe("when the enemy is colliding with a building", function() {
-      it("does not change the enemy's position if it has a building to attack", function() {
-        enemy.moveOrAttack(buildings);
-        expect(enemy.position.x).toEqual(300);
-        expect(enemy.position.y).toEqual(300);
+    describe("#moveOrAttack", function() {
+      describe("when the enemy is not colliding with a building", function() {
+        it("changes the the enemy's position", function(){
+          enemy.moveOrAttack(noBuildings);
+          expect(enemy.position.x).not.toEqual(300);
+          expect(enemy.position.y).not.toEqual(300);
+        });
       });
 
-      it("attacks the building if it has a building to attack", function() {
-        enemy.moveOrAttack(buildings);
-        expect(enemy.attack).toHaveBeenCalledWith(fakeBuilding);
+      describe("when the enemy is colliding with a building", function() {
+        it("does not change the enemy's position if it has a building to attack", function() {
+          enemy.moveOrAttack(buildings);
+          expect(enemy.position.x).toEqual(300);
+          expect(enemy.position.y).toEqual(300);
+        });
+
+        it("attacks the building if it has a building to attack", function() {
+          enemy.moveOrAttack(buildings);
+          expect(enemy.attack).toHaveBeenCalledWith(fakeBuilding);
+        });
       });
     });
-  });
 
-  describe("#checkForCollisions", function() {
+    describe("#checkForCollisions", function() {
+      describe("when this enemy collides with a building", function() {
+        it("turns off the isMoving flag when enemy collides with a building", function() {
+          expect(enemy.isMoving).toEqual(true);
+          enemy.checkForCollisions(buildings);
+          expect(enemy.isMoving).toEqual(false);
+        });
 
-  });
+        it("sets the attackingBuilding attribute to the building with which the enemy collides", function() {
+          expect(enemy.attackingBuilding).toEqual(undefined);
+          enemy.checkForCollisions(buildings);
+          expect(enemy.attackingBuilding).toEqual(fakeBuilding);
+        });
+      });
 
-  describe("#collidesWith", function() {
+      describe("when this enemy collides with no buildings", function() {
+        it("leaves the isMoving flag as true", function() {
+          enemy.checkForCollisions(nonCollidingBuildings);
+          expect(enemy.isMoving).toEqual(true);
+        });
 
-  });
+        it("leaves the attackingBuilding attribute undefined", function() {
+          enemy.checkForCollisions(nonCollidingBuildings);
+          expect(enemy.attackingBuilding).toEqual(undefined);
+        });
+      });
 
-  describe("#move", function() {
+    });
 
-  });
+    describe("#collidesWith", function() {
 
-  describe("#attack", function() {
+    });
 
-  });
+    describe("#move", function() {
 
-  describe("#centerX", function() {
+    });
 
-  });
+    describe("#attack", function() {
 
-  describe("#centerY", function() {
+    });
 
-  });
+    describe("#centerX", function() {
 
-  describe("#distanceFrom", function() {
+    });
 
-  });
+    describe("#centerY", function() {
 
-  describe("#receiveDamage", function() {
+    });
 
+    describe("#distanceFrom", function() {
+
+    });
+
+    describe("#receiveDamage", function() {
+
+    });
   });
 });
