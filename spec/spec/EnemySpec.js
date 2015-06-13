@@ -259,7 +259,10 @@ describe("Enemy", function() {
     });
 
     describe("#receiveDamage", function() {
-
+      it("lowers the enemy's hp by the amount passed", function() {
+        enemy.receiveDamage(20)
+        expect(enemy.hp).toEqual(180);
+      });
     });
   });
 });
