@@ -197,7 +197,7 @@ describe("Enemy", function() {
         expect(enemy.collidesWith(fakeBuilding)).toEqual(true);
       });
 
-      it("returns false when it does overlap with a building", function() {
+      it("returns false when it does not overlap with a building", function() {
         expect(enemy.collidesWith(secondFakeBuilding)).toEqual(false);
       });
     });
