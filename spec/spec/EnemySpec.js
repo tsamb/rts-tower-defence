@@ -102,10 +102,18 @@ describe("Enemy", function() {
     beforeEach(function() {
       noBuildings = [];
 
-      fakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      fakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed', 'centerX', 'centerY']);
       fakeBuilding.position = {x: 300, y: 300};
       fakeBuilding.sizeOnBoardX = 80;
       fakeBuilding.sizeOnBoardY = 80;
+
+      fakeBuilding.centerX.and.callFake(function() {
+        return this.position.x + this.sizeOnBoardX / 2;
+      });
+
+      fakeBuilding.centerY.and.callFake(function() {
+        return this.position.y + this.sizeOnBoardY / 2;
+      });
 
       secondFakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
       secondFakeBuilding.position = {x: 100, y: 100};
@@ -233,15 +241,21 @@ describe("Enemy", function() {
     });
 
     describe("#centerX", function() {
-
+      it("returns the x coordinate of the middle of the enemy", function() {
+        expect(enemy.centerX()).toEqual(305);
+      });
     });
 
     describe("#centerY", function() {
-
+      it("returns the y coordinate of the middle of the enemy", function() {
+        expect(enemy.centerY()).toEqual(305);
+      });
     });
 
     describe("#distanceFrom", function() {
-
+      it("returns the distance between the middle of the enemy and the specified object", function() {
+        expect(enemy.distanceFrom(fakeBuilding)).toEqual(49.49747468305833)
+      });
     });
 
     describe("#receiveDamage", function() {
