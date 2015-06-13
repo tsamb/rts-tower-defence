@@ -200,7 +200,11 @@ describe("Enemy", function() {
     });
 
     describe("#move", function() {
-
+      it("changes the position of enemy", function() {
+        var oldPosition = JSON.stringify(enemy.position);
+        enemy.move()
+        expect(JSON.stringify(enemy.position)).not.toEqual(oldPosition);
+      });
     });
 
     describe("#attack", function() {
