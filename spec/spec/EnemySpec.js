@@ -97,12 +97,12 @@ describe("Enemy", function() {
   });
 
   describe("instance methods", function() {
-    var noBuildings, fakeBuilding, buildings, nonCollidingBuildings, buildingsWithCollisionsInMiddle
+    var noBuildings, fakeBuilding, buildings, nonCollidingBuildings, buildingsWithCollisionsInMiddle;
 
     beforeEach(function() {
       noBuildings = [];
 
-      fakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed', 'centerX', 'centerY']);
+      fakeBuilding = jasmine.createSpyObj("building", ["receiveDamage", "isDestroyed", "centerX", "centerY"]);
       fakeBuilding.position = {x: 300, y: 300};
       fakeBuilding.sizeOnBoardX = 80;
       fakeBuilding.sizeOnBoardY = 80;
@@ -115,12 +115,12 @@ describe("Enemy", function() {
         return this.position.y + this.sizeOnBoardY / 2;
       });
 
-      secondFakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      secondFakeBuilding = jasmine.createSpyObj("building", ["receiveDamage", "isDestroyed"]);
       secondFakeBuilding.position = {x: 100, y: 100};
       secondFakeBuilding.sizeOnBoardX = 40;
       secondFakeBuilding.sizeOnBoardY = 40;
 
-      thirdFakeBuilding = jasmine.createSpyObj('building', ['receiveDamage', 'isDestroyed']);
+      thirdFakeBuilding = jasmine.createSpyObj("building", ["receiveDamage", "isDestroyed"]);
       thirdFakeBuilding.position = {x: 40, y: 120};
       thirdFakeBuilding.sizeOnBoardX = 20;
       thirdFakeBuilding.sizeOnBoardY = 20;
@@ -129,7 +129,7 @@ describe("Enemy", function() {
       nonCollidingBuildings = [secondFakeBuilding];
       buildingsWithCollisionsInMiddle = [thirdFakeBuilding, fakeBuilding, secondFakeBuilding];
 
-      spyOn(enemy, 'collidesWith').and.callThrough();
+      spyOn(enemy, "collidesWith").and.callThrough();
     });
 
     describe("#setDirection", function() {
@@ -141,7 +141,7 @@ describe("Enemy", function() {
 
     describe("#moveOrAttack", function() {
       beforeEach(function() {
-        spyOn(enemy, 'attack');
+        spyOn(enemy, "attack");
       });
 
       describe("when the enemy is not colliding with a building", function() {
@@ -182,7 +182,7 @@ describe("Enemy", function() {
 
         it("breaks out of the checking loop as soon as a collision is found", function() {
           enemy.checkForCollisions(buildingsWithCollisionsInMiddle);
-          expect(enemy.collidesWith.calls.count()).toEqual(2)
+          expect(enemy.collidesWith.calls.count()).toEqual(2);
         });
       });
 
@@ -213,7 +213,7 @@ describe("Enemy", function() {
     describe("#move", function() {
       it("changes the position of enemy", function() {
         var oldPosition = JSON.stringify(enemy.position);
-        enemy.move()
+        enemy.move();
         expect(JSON.stringify(enemy.position)).not.toEqual(oldPosition);
       });
     });
@@ -254,13 +254,13 @@ describe("Enemy", function() {
 
     describe("#distanceFrom", function() {
       it("returns the distance between the middle of the enemy and the specified object", function() {
-        expect(enemy.distanceFrom(fakeBuilding)).toEqual(49.49747468305833)
+        expect(enemy.distanceFrom(fakeBuilding)).toEqual(49.49747468305833);
       });
     });
 
     describe("#receiveDamage", function() {
       it("lowers the enemy's hp by the amount passed", function() {
-        enemy.receiveDamage(20)
+        enemy.receiveDamage(20);
         expect(enemy.hp).toEqual(180);
       });
     });
