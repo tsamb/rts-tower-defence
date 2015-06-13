@@ -264,5 +264,16 @@ describe("Enemy", function() {
         expect(enemy.hp).toEqual(180);
       });
     });
+
+    describe("#isDestroyed", function() {
+      it("returns true when the enemy's hp is 0 or less", function() {
+        enemy.hp = 0;
+        expect(enemy.isDestroyed()).toEqual(true);
+      });
+
+      it("returns true when the enemy's hp is greater than 0", function() {
+        expect(enemy.isDestroyed()).toEqual(false);
+      });
+    });
   });
 });
