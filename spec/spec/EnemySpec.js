@@ -121,7 +121,6 @@ describe("Enemy", function() {
       nonCollidingBuildings = [secondFakeBuilding];
       buildingsWithCollisionsInMiddle = [thirdFakeBuilding, fakeBuilding, secondFakeBuilding];
 
-      spyOn(enemy, 'attack');
       spyOn(enemy, 'collidesWith').and.callThrough();
     });
 
@@ -133,6 +132,10 @@ describe("Enemy", function() {
     });
 
     describe("#moveOrAttack", function() {
+      beforeEach(function() {
+        spyOn(enemy, 'attack');
+      });
+
       describe("when the enemy is not colliding with a building", function() {
         it("changes the the enemy's position", function(){
           enemy.moveOrAttack(noBuildings);
@@ -208,6 +211,10 @@ describe("Enemy", function() {
     });
 
     describe("#attack", function() {
+      it("attacks the currently targeted building", function() {
+        enemy.attack(fakeBuilding);
+        expect(fakeBuilding.receiveDamage).toHaveBeenCalled();
+      });
 
     });
 
