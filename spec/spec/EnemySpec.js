@@ -216,6 +216,20 @@ describe("Enemy", function() {
         expect(fakeBuilding.receiveDamage).toHaveBeenCalled();
       });
 
+      it("deals random damage to the building up to the enemy's maxDamagePerHit", function() {
+        spyOn(Math, "random").and.returnValue(0.5);
+        enemy.attack(fakeBuilding);
+        expect(fakeBuilding.receiveDamage).toHaveBeenCalledWith(5);
+      });
+
+      it("starts moving again and no longer targets the building when it is destroyed", function() {
+        fakeBuilding.isDestroyed.and.returnValue(true);
+        enemy.attackingBuilding = fakeBuilding;
+        enemy.isMoving = false;
+        enemy.attack(fakeBuilding);
+        expect(enemy.isMoving).toEqual(true);
+        expect(enemy.attackingBuilding).toEqual(undefined);
+      });
     });
 
     describe("#centerX", function() {
