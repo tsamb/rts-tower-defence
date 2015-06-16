@@ -1,10 +1,11 @@
 var Enemy = (function() {
   var DEFAULT_ENEMY_SIZE = 10;
+  var DEFAULT_ENEMY_SPEED = 3;
 
   var Enemy = function(options) {
     this.position = new Vector(options.topLeftX, options.topLeftY);
     this.size = new Vector(options.size || DEFAULT_ENEMY_SIZE);
-    this.speed = options.speed || 3;
+    this.speed = options.speed || DEFAULT_ENEMY_SPEED;
 
     this.maxHp = options.hp || 100;
     this.hp = this.maxHp;
