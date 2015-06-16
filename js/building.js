@@ -2,6 +2,7 @@ var FRAMES_PER_RUN = 5; // how often (in frames) the build loop runs
 var ENEMY_LEVEL_MULTIPLIER_BASE = 1000; // (current level * this num) xp required for next level
 
 function Building(options, game) {
+  var options = options || {}
   this.game = game;
 
   this.name = options.name;
