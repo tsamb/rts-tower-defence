@@ -3,6 +3,12 @@ function Vector(x, y) {
   this.y = arguments.length === 1 ? x : y;
 }
 
+Vector.distanceBetween = function(origin, target) {
+  var squaredX = Math.pow(origin.x - target.x, 2);
+  var squaredY = Math.pow(origin.y - target.y, 2);
+  return Math.sqrt(squaredX + squaredY);
+}
+
 Vector.prototype.add = function(addedVector) {
   return new Vector(this.x + addedVector.x, this.y + addedVector.y);
 };
