@@ -106,6 +106,7 @@ describe("Enemy", function() {
       fakeBuilding.position = {x: 300, y: 300};
       fakeBuilding.sizeOnBoardX = 80;
       fakeBuilding.sizeOnBoardY = 80;
+      fakeBuilding.center = {x: 340, y: 340};
 
       fakeBuilding.centerX.and.callFake(function() {
         return this.position.x + this.sizeOnBoardX / 2;

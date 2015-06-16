@@ -76,9 +76,7 @@ var Enemy = (function() {
   };
 
   Enemy.prototype.distanceFrom = function(object) {
-    var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
-    var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
-    return Math.sqrt(squaredX + squaredY);
+    return Vector.distanceBetween(this.center(), object.center);
   };
 
   Enemy.prototype.receiveDamage = function(damage) {
