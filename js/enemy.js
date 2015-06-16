@@ -63,8 +63,6 @@ var Enemy = (function() {
     }
   };
 
-  // create a vector class and put this on its prototype
-  // currently duplicated on enemy and building classes
   Enemy.prototype.centerX = function() {
     return this.position.x + this.size.x / 2;
   };
