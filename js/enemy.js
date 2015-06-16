@@ -1,6 +1,6 @@
 var Enemy = (function() {
   var DEFAULT_ENEMY_SIZE = 10;
-  var DEFAULT_ENEMY_SPEED = 3;
+  var DEFAULT_ENEMY_SPEED = 2;
 
   var Enemy = function(options) {
     this.position = new Vector(options.topLeftX, options.topLeftY);

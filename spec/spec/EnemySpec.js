@@ -37,9 +37,9 @@ describe("Enemy", function() {
       expect(enemy.speed).toEqual(speed);
     });
 
-    it("defaults to speed of 3 when no speed attribute is passed", function() {
+    it("defaults to speed of 2 when no speed attribute is passed", function() {
       var noSpeedArgEnemy = new Enemy({ topLeftX: 300, topLeftY: 300, target: {center: {x: 100, y: 100}}});
-      expect(noSpeedArgEnemy.speed).toEqual(3);
+      expect(noSpeedArgEnemy.speed).toEqual(2);
     });
 
     it("has a max damage per hit attribute", function() {
