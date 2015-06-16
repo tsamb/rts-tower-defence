@@ -252,6 +252,12 @@ describe("Enemy", function() {
       });
     });
 
+    describe("#center", function() {
+      it("returns an object containing x and y coordinates of the center point of the enemy", function() {
+        expect(enemy.center()).toEqual({x:305, y:305})
+      });
+    });
+
     describe("#distanceFrom", function() {
       it("returns the distance between the middle of the enemy and the specified object", function() {
         expect(enemy.distanceFrom(fakeBuilding)).toEqual(49.49747468305833);
