@@ -2,6 +2,7 @@ var Enemy = (function() {
   var DEFAULT_ENEMY_SIZE = 10;
   var DEFAULT_ENEMY_SPEED = 2;
   var DEFAULT_ENEMY_HP = 100;
+  var DEFAULT_ENEMY_DAMAGE_PER_HIT = 5;
 
   var Enemy = function(options) {
     this.position = new Vector(options.topLeftX, options.topLeftY);
@@ -10,7 +11,7 @@ var Enemy = (function() {
 
     this.maxHp = options.hp || DEFAULT_ENEMY_HP;
     this.hp = this.maxHp;
-    this.maxDamagePerHit = options.damage || 5;
+    this.maxDamagePerHit = options.damage || DEFAULT_ENEMY_DAMAGE_PER_HIT;
     this.isMoving = true;
     this.attackingBuilding = undefined;
 
