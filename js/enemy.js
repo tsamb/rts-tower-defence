@@ -1,13 +1,14 @@
 var Enemy = (function() {
   var DEFAULT_ENEMY_SIZE = 10;
   var DEFAULT_ENEMY_SPEED = 2;
+  var DEFAULT_ENEMY_HP = 100;
 
   var Enemy = function(options) {
     this.position = new Vector(options.topLeftX, options.topLeftY);
     this.size = new Vector(options.size || DEFAULT_ENEMY_SIZE);
     this.speed = options.speed || DEFAULT_ENEMY_SPEED;
 
-    this.maxHp = options.hp || 100;
+    this.maxHp = options.hp || DEFAULT_ENEMY_HP;
     this.hp = this.maxHp;
     this.maxDamagePerHit = options.damage || 5;
     this.isMoving = true;
