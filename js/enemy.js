@@ -66,12 +66,15 @@ var Enemy = (function() {
   Enemy.prototype.centerX = function() {
     return this.position.x + this.size.x / 2;
   };
+
   Enemy.prototype.centerY = function() {
     return this.position.y + this.size.y / 2;
   };
 
-  // TODO -> abstract this into Vector model
-  // move CenterX and Y to Vector objects
+  Enemy.prototype.center = function() {
+    return {x: this.centerX(), y: this.centerY()};
+  };
+
   Enemy.prototype.distanceFrom = function(object) {
     var squaredX = Math.pow(this.centerX() - object.centerX(), 2);
     var squaredY = Math.pow(this.centerY() - object.centerY(), 2);
