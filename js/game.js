@@ -267,6 +267,6 @@ var Difficulty = {
     return this.baseHp * level;
   },
   speed: function(level) {
-    return (level / 5) + 3;
+    return (level / 5) + 2;
   }
 };
