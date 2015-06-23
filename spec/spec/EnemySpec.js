@@ -37,9 +37,9 @@ describe("Enemy", function() {
       expect(enemy.speed).toEqual(speed);
     });
 
-    it("defaults to speed of 3 when no speed attribute is passed", function() {
+    it("defaults to speed of 2 when no speed attribute is passed", function() {
       var noSpeedArgEnemy = new Enemy({ topLeftX: 300, topLeftY: 300, target: {center: {x: 100, y: 100}}});
-      expect(noSpeedArgEnemy.speed).toEqual(3);
+      expect(noSpeedArgEnemy.speed).toEqual(2);
     });
 
     it("has a max damage per hit attribute", function() {
@@ -106,6 +106,7 @@ describe("Enemy", function() {
       fakeBuilding.position = {x: 300, y: 300};
       fakeBuilding.sizeOnBoardX = 80;
       fakeBuilding.sizeOnBoardY = 80;
+      fakeBuilding.center = {x: 340, y: 340};
 
       fakeBuilding.centerX.and.callFake(function() {
         return this.position.x + this.sizeOnBoardX / 2;
@@ -249,6 +250,12 @@ describe("Enemy", function() {
     describe("#centerY", function() {
       it("returns the y coordinate of the middle of the enemy", function() {
         expect(enemy.centerY()).toEqual(305);
+      });
+    });
+
+    describe("#center", function() {
+      it("returns an object containing x and y coordinates of the center point of the enemy", function() {
+        expect(enemy.center()).toEqual({x:305, y:305})
       });
     });
 

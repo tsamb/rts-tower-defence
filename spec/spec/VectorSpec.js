@@ -22,6 +22,14 @@ describe("Vector", function() {
     });
   });
 
+  describe(".distanceBetween", function() {
+    it("returns the distance between two objects that respond to .x and .y", function() {
+      var origin = {x: 200, y: 10};
+      var target = {x: 100, y: 100};
+      expect(Vector.distanceBetween(origin, target)).toEqual(Math.sqrt(18100));
+    });
+  });
+
   describe("add", function() {
     var addedVector;
 

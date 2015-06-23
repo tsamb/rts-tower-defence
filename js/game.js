@@ -129,9 +129,23 @@ Game.prototype.spawnEnemies = function() {
       topLeftY: y,
       hp: difficulty.enemyHp,
       speed: difficulty.speed,
-      target: this.commandCenter})
+      target: this.chooseBuildingTarget()})
     );
   }
+};
+
+Game.prototype.chooseBuildingTarget = function() {
+  var BIAS_FOR_CC_AS_TARGET = 0.8;
+  if (Math.random() > BIAS_FOR_CC_AS_TARGET) {
+    return this.commandCenter
+  } else {
+    return this.chooseRandomBuildingTarget();
+  }
+}
+
+Game.prototype.chooseRandomBuildingTarget = function() {
+  var index = Math.floor(Math.random() * this.buildings.length);
+  return this.buildings[index];
 };
 
 Game.prototype.buildingProducedResources = function() {
@@ -253,6 +267,6 @@ var Difficulty = {
     return this.baseHp * level;
   },
   speed: function(level) {
-    return (level / 5) + 3;
+    return (level / 5) + 2;
   }
 };
