@@ -134,6 +134,20 @@ Game.prototype.spawnEnemies = function() {
   }
 };
 
+Game.prototype.chooseBuildingTarget = function() {
+  var BIAS_FOR_CC_AS_TARGET = 0.8;
+  if (Math.random() > BIAS_FOR_CC_AS_TARGET) {
+    return this.commandCenter
+  } else {
+    return this.chooseRandomBuildingTarget();
+  }
+}
+
+Game.prototype.chooseRandomBuildingTarget = function() {
+  var index = Math.floor(Math.random() * this.buildings.length);
+  return this.buildings[index];
+};
+
 Game.prototype.buildingProducedResources = function() {
   var matterThisCycle = 0;
   var energyThisCycle = 0;
