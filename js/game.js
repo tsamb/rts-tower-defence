@@ -302,3 +302,9 @@ var EnemyFactory = {
     return buildings[index];
   }
 };
+
+Array.prototype.sample = function() {
+  return this[Math.floor(Math.random() * this.length)]
+}
+
+
