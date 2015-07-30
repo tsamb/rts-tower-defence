@@ -117,20 +117,14 @@ Game.prototype.moveEnemies = function() {
   }
 };
 
-// TODO -> create different enemy types with different sizes / strengths
-// ...can eventually live in the Difficulty module
 Game.prototype.spawnEnemies = function() {
-  var difficulty = Difficulty.calculate(this.difficultyLevel);
-  for (var i = difficulty.maxEnemies; i > 0; i--) {
+  var newEnemies = EnemyFactory.build(this.difficultyLevel, this.buildings, this.board);
+  for (var i = 0; i < newEnemies.length; i++) {
     var x = this.board.width;
     var y = Math.floor(Math.random() * this.board.height);
-    this.enemies.push(new Enemy({
-      topLeftX: x,
-      topLeftY: y,
-      hp: difficulty.enemyHp,
-      speed: difficulty.speed,
-      target: this.chooseBuildingTarget()})
-    );
+    newEnemies[i].topLeftX = x;
+    newEnemies[i].topLeftY = y;
+    this.enemies.push(newEnemies[i]);
   }
 };
 
