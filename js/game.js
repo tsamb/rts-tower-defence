@@ -250,23 +250,55 @@ Game.prototype.statsForDestroyed = function(units) {
   };
 };
 
-var Difficulty = {
-  baseHp: 50, // consider moving static difficulty properties to invariant-data.js
+var EnemyFactory = {
   enemiesPerWave: 5,
-  calculate: function(level) {
-    return {
-      maxEnemies: this.maxEnemies(level),
-      enemyHp: this.enemyHp(level),
-      speed: this.speed(level)
-    };
+  build: function(level, possibleTargets, board) {
+    var enemies = [];
+    var enemyCount = this.maxEnemies(level);
+    var baseZergOdds = 0.05;
+    var baseGargantuanOdds = 0.05
+
+    while (enemies.length < enemyCount) {
+      if (this.enemyRoll(baseZergOdds, level)) {
+        for (var i = 0; i < 3 * level; i++) {
+          enemies.push(this.levelUp(BaseEnemies.zerg, level, possibleTargets, board));
+        }
+      } else if (this.enemyRoll(baseGargantuanOdds, level)) {
+        enemies.push(this.levelUp(BaseEnemies.gargantuan, level, possibleTargets, board));
+      } else {
+        enemies.push(this.levelUp(BaseEnemies.normal, level, possibleTargets, board));
+      }
+    }
+    return enemies;
   },
   maxEnemies: function(level) {
     return Math.floor(Math.random() * this.enemiesPerWave * level);
   },
-  enemyHp: function(level) {
-    return this.baseHp * level;
+  enemyRoll: function(baseOdds, level) {
+    return Math.random() < (baseOdds * level);
   },
-  speed: function(level) {
-    return (level / 5) + 2;
+  levelUp: function(defaultOptions, level, possibleTargets, board) {
+    var leveledOptions = {
+      size: defaultOptions.size,
+      speed: (level / 5) + defaultOptions.speed,
+      hp: defaultOptions.hp * level,
+      damage: defaultOptions.damage,
+      target: this.chooseBuildingTarget(possibleTargets),
+      topLeftX: board.width,
+      topLeftY: Math.floor(Math.random() * board.height)
+    }
+    return new Enemy(leveledOptions);
+  },
+  chooseBuildingTarget: function(buildings) {
+    var BIAS_FOR_CC_AS_TARGET = 0.8;
+    if (Math.random() > BIAS_FOR_CC_AS_TARGET) {
+      return buildings[0]
+    } else {
+      return this.chooseRandomBuildingTarget(buildings);
+    }
+  },
+  chooseRandomBuildingTarget: function(buildings) {
+    var index = Math.floor(Math.random() * buildings.length);
+    return buildings[index];
   }
 };
