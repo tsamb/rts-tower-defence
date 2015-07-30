@@ -99,11 +99,11 @@ var BaseEnemies = {
     size: 10,
     speed: 2,
     hp: 50,
-    damage: 5
+    damage: 6
   },
   gargantuan: {
     size: 20,
-    speed: 0.5,
+    speed: 0.75,
     hp: 200,
     damage: 20
   },
@@ -111,7 +111,7 @@ var BaseEnemies = {
     size: 5,
     speed: 4,
     hp: 10,
-    damage: 1
+    damage: 2
   }
 }
 
