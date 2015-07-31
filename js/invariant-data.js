@@ -94,6 +94,27 @@ var BuildingsList = [
   }
 ];
 
+var BaseEnemies = {
+  normal: {
+    size: 10,
+    speed: 2,
+    hp: 50,
+    damage: 6
+  },
+  gargantuan: {
+    size: 20,
+    speed: 0.75,
+    hp: 200,
+    damage: 20
+  },
+  zerg: {
+    size: 5,
+    speed: 4,
+    hp: 10,
+    damage: 2
+  }
+}
+
 var GameOptions = {
   STARTING_MATTER: 1000,
   STARTING_ENERGY: 5000,
