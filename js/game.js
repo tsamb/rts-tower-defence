@@ -7,7 +7,6 @@ function Game() {
   this.timeRunning = 0;
   this.difficultyLevel = 1;
 
-  this.resources = {matter: GameOptions.STARTING_MATTER, energy: GameOptions.STARTING_ENERGY};
   this.buildings = [];
   this.destroyedBuildings = [];
   this.isBuilding = false;
@@ -16,6 +15,8 @@ function Game() {
 
   this.enemies = [];
   this.destroyedEnemies = [];
+
+  this.resourceManager = new ResourceManager(this.buildings, GameOptions.STARTING_MATTER, GameOptions.STARTING_ENERGY);
 
   this.board = new Board({width: 800, height: 400, gridSize: 20, game: this});
   this.buildInitialBuildings();
@@ -66,10 +67,10 @@ Game.prototype.coreGameLoop = function() {
 
 Game.prototype.runResourceCycle = function() {
   if (this.buildings[0] === this.commandCenter) {
-    this.updateResources();
+    this.resourceManager.tick();
     this.fireBuildingsAtEnemies();
-    View.displayResources(this.resources);
-    View.displayResourceFlow(this.buildingProducedResources(), this.constructionResourceCosts());
+    View.displayResources(this.resourceManager);
+    View.displayResourceFlow(this.resourceManager);
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length);
   } else {
     clearInterval(this.coreLoopId);
@@ -103,14 +104,6 @@ Game.prototype.updateTime = function() {
   View.updateTimer(this.secondsRunning());
 };
 
-Game.prototype.updateResources = function() {
-  var resourcesToAdd = this.buildingProducedResources();
-  this.resources.matter += resourcesToAdd.matter;
-  this.resources.energy += resourcesToAdd.energy;
-  if (this.resources.matter < 0) { this.resources.matter = 0; }
-  if (this.resources.energy < 0) { this.resources.energy = 0; }
-};
-
 Game.prototype.moveEnemies = function() {
   for (var i = 0; i < this.enemies.length; i++) {
     this.enemies[i].moveOrAttack(this.buildings);
@@ -142,29 +135,6 @@ Game.prototype.chooseRandomBuildingTarget = function() {
   return this.buildings[index];
 };
 
-Game.prototype.buildingProducedResources = function() {
-  var matterThisCycle = 0;
-  var energyThisCycle = 0;
-  for (var i = 0; i < this.buildings.length; i++) {
-    if (this.buildings[i].active) {
-      matterThisCycle += this.buildings[i].matterProduction;
-      energyThisCycle += this.buildings[i].energyProduction;
-    }
-  }
-  return {
-    matter: matterThisCycle,
-    energy: energyThisCycle
-  };
-};
-
-Game.prototype.constructionResourceCosts = function() {
-  if (!this.currentBuildOrder) { return {matter: 0, energy: 0}; }
-  return {
-    matter: this.currentBuildOrder.matterCost / (this.currentBuildOrder.buildTime * RESOURCE_CYCLE),
-    energy: this.currentBuildOrder.energyCost / (this.currentBuildOrder.buildTime * RESOURCE_CYCLE)
-  };
-};
-
 Game.prototype.currentBuildingComplete = function() {
   this.currentBuildOrder = undefined;
 };
@@ -176,17 +146,19 @@ Game.prototype.chooseBuilding = function(buildingButtonClick) {
 
 Game.prototype.chooseBuildingFromKey = function(event) {
   var buildingId = BuildingSelector.getBuildingIdByKeyCode(event.keyCode);
-  this.selectedBuilding = new Building(BuildingsList[buildingId], this);
-  View.highlightBuildingById(buildingId);
+  if (BuildingsList[buildingId]) {
+    this.selectedBuilding = new Building(BuildingsList[buildingId], this);
+    View.highlightBuildingById(buildingId);
+  }
 };
 
 Game.prototype.build = function(xOnBoard,yOnBoard) {
   var building = this.selectedBuilding;
   if (this.currentBuildOrder) {
     View.displayStatusMessage("Already building " + this.currentBuildOrder.name + ".");
-  } else if (building.energyCost >= this.resources.energy) {
+  } else if (this.resourceManager.canAffordBuildingEnergyCost(building)) {
     View.displayStatusMessage("Insufficient energy to build " + building.name);
-  } else if (building.matterCost >= this.resources.matter) {
+  } else if (this.resourceManager.canAffordBuildingMatterCost(building)) {
     View.displayStatusMessage("Insufficient matter to build " + building.name);
   } else {
     building.setPosition(xOnBoard, yOnBoard);
@@ -202,8 +174,7 @@ Game.prototype.buildCurrentBuildOrder = function() {
   var building = this.currentBuildOrder;
   if (building && !building.completed) {
     building.continueBuilding();
-    this.resources.matter -= building.matterToDeductPerCycle();
-    this.resources.energy -= building.energyToDeductPerCycle();
+    this.resourceManager.deductConstructionCosts(building);
   }
 };
 
@@ -216,11 +187,11 @@ Game.prototype.fireBuildingsAtEnemies = function() {
 };
 
 Game.prototype.hasEnergyInSurplusOf = function(energyNeeded) {
-  return this.resources.energy > energyNeeded;
+  return this.resourceManager.isEnergyOver(energyNeeded);
 };
 
 Game.prototype.deductEnergy = function(deduction) {
-  this.resources.energy -= deduction;
+  this.resourceManager.deductEnergy(deduction);
 };
 
 Game.prototype.wereUnitsDestroyed = function(units, unitGraveyard) {
