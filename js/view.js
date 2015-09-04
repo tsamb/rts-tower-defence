@@ -38,9 +38,9 @@ var View = (function() {
       $("#energy-display").text("Energy: " + resources.energy);
     },
 
-    displayResourceFlow: function(flow, constructionCosts) {
-      $("#net-matter-flow").text("Producing: " + flow.matter + ". Consuming: " + constructionCosts.matter.toFixed(2));
-      $("#net-energy-flow").text("Producing: " + flow.energy + ". Consuming: " + constructionCosts.energy.toFixed(2));
+    displayResourceFlow: function(resources) {
+      $("#net-matter-flow").text("Net matter flow: " + resources.matterFlow);
+      $("#net-energy-flow").text("Net energy flow: " + resources.energyFlow);
     },
 
     displayStatusMessage: function(message) {
