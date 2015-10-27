@@ -1,4 +1,6 @@
 var FRAMES_PER_RUN = 5; // how often (in frames) the build loop runs
+// the above line really needs to live in the game as a constant
+// and be referenced by or injected into this class.
 var ENEMY_LEVEL_MULTIPLIER_BASE = 1000; // (current level * this num) xp required for next level
 
 function Building(options, game) {
