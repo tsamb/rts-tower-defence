@@ -36,11 +36,8 @@ var View = (function() {
     displayResources: function(resources) {
       $("#matter-display").text("Matter: " + resources.matter);
       $("#energy-display").text("Energy: " + resources.energy);
-    },
-
-    displayResourceFlow: function(resources) {
-      $("#net-matter-flow").text("Net matter flow: " + resources.matterFlow);
-      $("#net-energy-flow").text("Net energy flow: " + resources.energyFlow);
+      $("#net-matter-flow").text("MATTER | income: " + resources.matterIncome + " | expenses: " + resources.matterExpenses);
+      $("#net-energy-flow").text("ENERGY | income: " + resources.energyIncome + " | expenses: " + resources.energyExpenses);
     },
 
     displayStatusMessage: function(message) {

@@ -1,4 +1,6 @@
 var FRAMES_PER_RUN = 5; // how often (in frames) the build loop runs
+// the above line really needs to live in the game as a constant
+// and be referenced by or injected into this class.
 var ENEMY_LEVEL_MULTIPLIER_BASE = 1000; // (current level * this num) xp required for next level
 
 function Building(options, game) {
@@ -53,7 +55,6 @@ Building.prototype.completeConstruction = function() {
   this.hp = this.maxHp;
   this.completed = true;
   this.active = true;
-  this.game.currentBuildingComplete();
 };
 
 Building.prototype.hpBuildSpeed = function() {
@@ -61,11 +62,11 @@ Building.prototype.hpBuildSpeed = function() {
 };
 
 Building.prototype.energyToDeductPerCycle = function() {
-  return this.energyCost / (this.buildTime * 5);
+  return this.energyCost / (this.buildTime * FRAMES_PER_RUN);
 };
 
 Building.prototype.matterToDeductPerCycle = function() {
-  return this.matterCost / (this.buildTime * 5);
+  return this.matterCost / (this.buildTime * FRAMES_PER_RUN);
 };
 
 Building.prototype.receiveDamage = function(damage) {

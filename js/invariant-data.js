@@ -19,11 +19,11 @@ var BuildingsList = [
     name: "Matter Mine",
     hp: 200,
     matterCost: 50,
-    energyCost: 520,
+    energyCost: 500,
     matterProduction: 2,
     energyProduction: -5,
     // buildTime: 18,
-    buildTime: 4,
+    buildTime: 5,
     benefit: "+2 matter / t",
     size: {x:2, y:2},
     color: "#699",
@@ -78,19 +78,19 @@ var BuildingsList = [
     buildable: true,
     key: "b"
   },
-  { // WIP -> eventually buildable
+  {
     name: "Build Slot",
     hp: 100,
     matterCost: 1000,
     energyCost: 5000,
     matterProduction: -5,
     energyProduction: -10,
-    buildTime: 50,
+    buildTime: 10,
     benefit: "build more at once",
-    size: {x:1, y:1},
-    color: "#060",
-    buildable: false,
-    key: "s"
+    size: {x:3, y:3},
+    color: "#5ff7eb",
+    buildable: true,
+    key: "u"
   }
 ];
 
