@@ -63,11 +63,11 @@ Building.prototype.hpBuildSpeed = function() {
 };
 
 Building.prototype.energyToDeductPerCycle = function() {
-  return this.energyCost / (this.buildTime * 5);
+  return this.energyCost / (this.buildTime * FRAMES_PER_RUN);
 };
 
 Building.prototype.matterToDeductPerCycle = function() {
-  return this.matterCost / (this.buildTime * 5);
+  return this.matterCost / (this.buildTime * FRAMES_PER_RUN);
 };
 
 Building.prototype.receiveDamage = function(damage) {
