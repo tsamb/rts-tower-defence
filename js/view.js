@@ -91,7 +91,7 @@ var View = (function() {
     ///// HTML templates /////
 
     buildingsTemplate: function(building, buildingIndex) {
-      var attrWhitelist = ["name", "hp", "matterCost", "energyCost", "benefit", "size"];
+      var attrWhitelist = ["name", "matterCost", "energyCost", "size"];
       var htmlString = "<div class='building-container' id='building-container-" + buildingIndex + "'><table>";
       for (var attr in building) {
         if (attrWhitelist.indexOf(attr) >= 0) {

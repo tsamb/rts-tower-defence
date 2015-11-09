@@ -1,11 +1,25 @@
+#main-container {
+  min-width: 1200px;
+  overflow: hidden;
+}
+
+#left-sidebar {
+  min-width: 850px;
+  height: 820px;
+  display: inline-block;
+}
+
+#right-area {
+  width: 300px;
+  display: inline-block;
+}
+
 .stats {
   float:right;
 }
+
 #build-menu div {
-  display: inline-block;
-  float: left;
-  width: 250px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 #canvas-container {
@@ -44,6 +58,10 @@ canvas {
   font-size: 5em;
   text-align: center;
   margin: 0;
+}
+
+#main-time {
+  margin-top: 0;
 }
 
 .selected-building {
