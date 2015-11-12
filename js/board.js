@@ -41,6 +41,10 @@ Board.prototype.handleClicks = function(event) {
     } else {
       View.displayStatusMessage("Cannot build on top of an existing building.");
     }
+  } else {
+    var x = Math.floor((event.offsetX || event.originalEvent.layerX) / this.gridSize) * this.gridSize;
+    var y = Math.floor((event.offsetY || event.originalEvent.layerY) / this.gridSize) * this.gridSize;
+    View.displayInfo(this.getBuildingFromCoords(x, y));
   }
 };
 
@@ -53,6 +57,14 @@ Board.prototype.placeBuilding = function(building) {
   }
   this.drawBuilding(building);
 };
+
+Board.prototype.getBuildingFromCoords = function(clickedX, clickedY) {
+  var xToCheck = Math.floor(clickedX / this.gridSize);
+  var yToCheck = Math.floor(clickedY / this.gridSize);
+  if (this.internalStorage[yToCheck][xToCheck]) {
+    return this.internalStorage[yToCheck][xToCheck];
+  }
+}
 
 Board.prototype.isGridAvailable = function(building, clickedX, clickedY) {
   var isAvailable = true;

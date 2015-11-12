@@ -1,5 +1,5 @@
 #main-container {
-  min-width: 1200px;
+  min-width: 1250px;
   overflow: hidden;
 }
 
@@ -11,6 +11,7 @@
 
 #right-area {
   width: 300px;
+  height: 820px;
   display: inline-block;
 }
 
@@ -29,6 +30,14 @@
   width: 800px;
   margin-left: auto;
   margin-right: auto;
+}
+
+#info-panel {
+  width: 300px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 canvas {

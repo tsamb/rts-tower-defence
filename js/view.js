@@ -50,6 +50,11 @@ var View = (function() {
       $("#buildings-destroyed").text(buildings);
     },
 
+    displayInfo: function(building) {
+      var buildingToDisplay = building ? this.buildingInfoTemplate(building) : ""
+      $("#info-panel-data").html(buildingToDisplay);
+    },
+
     ///// DOM manipulation: append/show/hide /////
 
     appendCanvas: function(width, height) {
@@ -107,6 +112,27 @@ var View = (function() {
       }
       htmlString += "</table><button id='new-building-" + buildingIndex + "'>Build " + building.name + "</button></div>";
       return htmlString;
+    },
+
+    buildingInfoTemplate: function(building) {
+      return ["<table>",
+        "<tr>",
+          "<td>Name:</td>",
+          "<td>", building.name, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Hit points:</td>",
+          "<td>", building.hp, " / ", building.maxHp, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Matter production:</td>",
+          "<td>", building.matterProduction, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Energy production:</td>",
+          "<td>", building.energyProduction, "</td>",
+        "</tr>",
+      "</table>"].join("");
     }
   };
 })();
