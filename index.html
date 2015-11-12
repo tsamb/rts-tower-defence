@@ -17,31 +17,13 @@
   <link rel="stylesheet" type="text/css" href="layout.css">
 </head>
 <body>
-  <!-- potential eventual templating DSL:
-  <samcraft-board>
-    <samcraft-resources>
-    <style type="text/css">
-      samcraft-resource[data-rate > 0]:before {
-        content: '+' attr(data-rate)
-        color: green;
-      }
-  </style>
-      <samcraft-resource data-qty="10" data-rate="15"></samcraft-resource>
-    </samcraft-resources>
-    <samcraft-solar-plant/>
-    <samcraft-solar-mine/>
-  </samcraft-board>  -->
-
   <div id="main-container">
 
-    <div id="left-sidebar">
+    <div id="left-area">
       <div id="canvas-container">
         <div id="game-over-message"><h1>Game Over</h1></div>
       </div>
-      <div id="info-panel">
-        <h3>Current info</h3>
-        <div id="info-panel-data"></div>
-      </div>
+      <div id="build-menu"></div>
     </div>
 
     <div id="right-area">
@@ -52,14 +34,16 @@
         <div id="energy-display"></div><div id="net-energy-flow"></div>
         <div>Eneimes destroyed: <span id="enemies-destroyed"></span></div>
         <div>Buildings destroyed: <span id="buildings-destroyed"></span></div>
+        <div id="info-panel">
+          <h3>Current info</h3>
+          <div id="info-panel-data"></div>
+        </div>
       </div>
       <div id="status-messages"></div>
-      <div id="build-menu"></div>
     </div>
 
   </div>
   <p>&nbsp</p>
-
 </body>
 </html>
 

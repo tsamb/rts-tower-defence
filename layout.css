@@ -1,35 +1,27 @@
 #main-container {
   min-width: 1250px;
-  overflow: hidden;
 }
 
-#left-sidebar {
-  min-width: 850px;
+#left-area {
+  width: 800px;
   height: 820px;
-  display: inline-block;
+  position: absolute;
 }
 
 #right-area {
+  margin-left: 850px;
   width: 300px;
   height: 820px;
-  display: inline-block;
-}
-
-.stats {
-  float:right;
 }
 
 #build-menu div {
   margin-bottom: 10px;
+  display: inline-block;
 }
 
 #canvas-container {
-  clear: both;
-  position:relative;
   height:400px;
   width: 800px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 #info-panel {
@@ -38,6 +30,11 @@
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+#info-panel-data {
+  height:180px;
+  outline: 1px solid black;
 }
 
 canvas {
@@ -75,6 +72,10 @@ canvas {
 
 .selected-building {
   background-color: #efe;
+}
+
+.building-container {
+  width:200px;
 }
 
 #status-messages {
