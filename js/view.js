@@ -53,12 +53,19 @@ var View = (function() {
     displayInfo: function(building) {
       var buildingToDisplay;
       if (building) {
+        this.currentDisplayInfoBuilding = building;
         buildingToDisplay = this.buildingInfoTemplate(building);
-        building.eventBus.subscribe(function(event) { $("#info-panel-data").html(this.buildingInfoTemplate(event)); }.bind(this))
       } else {
+        this.currentDisplayInfoBuilding = undefined;
         buildingToDisplay = "";
       }
       $("#info-panel-data").html(buildingToDisplay);
+    },
+
+    updateDisplayInfo: function() {
+      if (this.currentDisplayInfoBuilding) {
+        $("#info-panel-data").html(this.buildingInfoTemplate(this.currentDisplayInfoBuilding));
+      }
     },
 
     ///// DOM manipulation: append/show/hide /////

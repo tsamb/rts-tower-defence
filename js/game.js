@@ -67,6 +67,7 @@ Game.prototype.runResourceCycle = function() {
     this.fireBuildingsAtEnemies();
     View.displayResources(this.resourceManager);
     View.updateScore(this.destroyedEnemies.length, this.destroyedBuildings.length);
+    View.updateDisplayInfo();
   } else {
     clearInterval(this.coreLoopId);
     View.displayGameOver(
