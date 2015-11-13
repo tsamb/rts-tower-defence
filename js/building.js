@@ -126,8 +126,8 @@ Building.prototype.increaseXpAndLevel = function(enemy) {
 }
 
 Building.prototype.setLevel = function() {
-  if (this.xp >= ENEMY_LEVEL_MULTIPLIER_BASE * this.level) {
-    this.level += 1
+  if (this.xp >= this.xpForNextLevel()) {
+    this.level += 1;
   }
 }
 
@@ -140,5 +140,9 @@ Building.prototype.isPlaced = function() {
 Building.prototype.canFire = function() {
   return this.damagePerShot && this.isPlaced();
 };
+
+Building.prototype.xpForNextLevel = function() {
+  return ENEMY_LEVEL_MULTIPLIER_BASE * this.level;
+}
 
 

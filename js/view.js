@@ -50,6 +50,24 @@ var View = (function() {
       $("#buildings-destroyed").text(buildings);
     },
 
+    displayInfo: function(building) {
+      var buildingToDisplay;
+      if (building) {
+        this.currentDisplayInfoBuilding = building;
+        buildingToDisplay = this.buildingInfoTemplate(building);
+      } else {
+        this.currentDisplayInfoBuilding = undefined;
+        buildingToDisplay = "";
+      }
+      $("#info-panel-data").html(buildingToDisplay);
+    },
+
+    updateDisplayInfo: function() {
+      if (this.currentDisplayInfoBuilding) {
+        $("#info-panel-data").html(this.buildingInfoTemplate(this.currentDisplayInfoBuilding));
+      }
+    },
+
     ///// DOM manipulation: append/show/hide /////
 
     appendCanvas: function(width, height) {
@@ -91,7 +109,7 @@ var View = (function() {
     ///// HTML templates /////
 
     buildingsTemplate: function(building, buildingIndex) {
-      var attrWhitelist = ["name", "hp", "matterCost", "energyCost", "benefit", "size"];
+      var attrWhitelist = ["name", "matterCost", "energyCost", "size"];
       var htmlString = "<div class='building-container' id='building-container-" + buildingIndex + "'><table>";
       for (var attr in building) {
         if (attrWhitelist.indexOf(attr) >= 0) {
@@ -107,6 +125,36 @@ var View = (function() {
       }
       htmlString += "</table><button id='new-building-" + buildingIndex + "'>Build " + building.name + "</button></div>";
       return htmlString;
+    },
+
+    buildingInfoTemplate: function(building) {
+      return ["<table>",
+        "<tr>",
+          "<td>Name:</td>",
+          "<td>", building.name, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Hit points:</td>",
+          "<td>", building.hp, " / ", building.maxHp, "</td>",
+        "</tr>",
+        "<tr>",
+        "<tr>",
+          "<td>Experience:</td>",
+          "<td>", building.xp, " / ", building.xpForNextLevel(), "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Level:</td>",
+          "<td>", building.level, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Matter production:</td>",
+          "<td>", building.matterProduction, "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Energy production:</td>",
+          "<td>", building.energyProduction, "</td>",
+        "</tr>",
+      "</table>"].join("");
     }
   };
 })();

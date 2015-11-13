@@ -1,20 +1,40 @@
-.stats {
-  float:right;
+#main-container {
+  min-width: 1250px;
 }
+
+#left-area {
+  width: 800px;
+  height: 820px;
+  position: absolute;
+}
+
+#right-area {
+  margin-left: 850px;
+  width: 300px;
+  height: 820px;
+}
+
 #build-menu div {
+  margin-bottom: 10px;
   display: inline-block;
-  float: left;
-  width: 250px;
-  margin-bottom: 50px;
 }
 
 #canvas-container {
-  clear: both;
-  position:relative;
   height:400px;
   width: 800px;
+}
+
+#info-panel {
+  width: 300px;
+  height: 200px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+#info-panel-data {
+  height:150px;
+  outline: 1px solid black;
 }
 
 canvas {
@@ -46,8 +66,16 @@ canvas {
   margin: 0;
 }
 
+#main-time {
+  margin-top: 0;
+}
+
 .selected-building {
   background-color: #efe;
+}
+
+.building-container {
+  width:200px;
 }
 
 #status-messages {
