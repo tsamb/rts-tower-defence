@@ -51,7 +51,13 @@ var View = (function() {
     },
 
     displayInfo: function(building) {
-      var buildingToDisplay = building ? this.buildingInfoTemplate(building) : ""
+      var buildingToDisplay;
+      if (building) {
+        buildingToDisplay = this.buildingInfoTemplate(building);
+        building.eventBus.subscribe(function(event) { $("#info-panel-data").html(this.buildingInfoTemplate(event)); }.bind(this))
+      } else {
+        buildingToDisplay = "";
+      }
       $("#info-panel-data").html(buildingToDisplay);
     },
 
@@ -123,6 +129,15 @@ var View = (function() {
         "<tr>",
           "<td>Hit points:</td>",
           "<td>", building.hp, " / ", building.maxHp, "</td>",
+        "</tr>",
+        "<tr>",
+        "<tr>",
+          "<td>Experience:</td>",
+          "<td>", building.xp, " / ", building.xpForNextLevel(), "</td>",
+        "</tr>",
+        "<tr>",
+          "<td>Level:</td>",
+          "<td>", building.level, "</td>",
         "</tr>",
         "<tr>",
           "<td>Matter production:</td>",

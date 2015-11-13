@@ -30,6 +30,24 @@ function Building(options, game) {
   this.sizeOnBoardY = undefined;
   this.position = new Vector();
   this.center = new Vector();
+
+  this.eventBus = {
+    subscribers: [],
+
+    subscribe: function(listener) {
+      this.subscribers.push(listener);
+    },
+
+    publish: function(data) {
+      this.subscribers.forEach(function(listener) {
+        listener(data || {});
+      });
+    },
+
+    unsubscribeAll: function() {
+      this.subscribers = [];
+    }
+  }
 }
 
 Building.prototype.setPosition = function(x,y) {
@@ -46,6 +64,7 @@ Building.prototype.setBoardSize = function(gridSize) {
 
 Building.prototype.continueBuilding = function() {
   this.hp += this.hpBuildSpeed();
+  this.broadcastUpdates();
   if (this.hp >= this.maxHp) {
     this.completeConstruction();
   }
@@ -53,6 +72,7 @@ Building.prototype.continueBuilding = function() {
 
 Building.prototype.completeConstruction = function() {
   this.hp = this.maxHp;
+  this.broadcastUpdates();
   this.completed = true;
   this.active = true;
 };
@@ -71,6 +91,7 @@ Building.prototype.matterToDeductPerCycle = function() {
 
 Building.prototype.receiveDamage = function(damage) {
   this.hp -= damage;
+  this.broadcastUpdates();
 };
 
 Building.prototype.isDestroyed = function() {
@@ -122,13 +143,19 @@ Building.prototype.fireAt = function(enemies) {
 
 Building.prototype.increaseXpAndLevel = function(enemy) {
   this.xp += enemy.maxHp;
+  this.broadcastUpdates();
   this.setLevel();
 }
 
 Building.prototype.setLevel = function() {
-  if (this.xp >= ENEMY_LEVEL_MULTIPLIER_BASE * this.level) {
-    this.level += 1
+  if (this.xp >= this.xpForNextLevel()) {
+    this.level += 1;
+    this.broadcastUpdates();
   }
+}
+
+Building.prototype.broadcastUpdates = function() {
+  this.eventBus.publish(this);
 }
 
 ///// Computed properties /////
@@ -140,5 +167,10 @@ Building.prototype.isPlaced = function() {
 Building.prototype.canFire = function() {
   return this.damagePerShot && this.isPlaced();
 };
+
+
+Building.prototype.xpForNextLevel = function() {
+  return ENEMY_LEVEL_MULTIPLIER_BASE * this.level;
+}
 
 
