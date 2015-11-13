@@ -136,6 +136,9 @@ Game.prototype.chooseBuildingFromKey = function(event) {
   if (BuildingsList[buildingId]) {
     this.selectedBuilding = new Building(BuildingsList[buildingId], this);
     View.highlightBuildingById(buildingId);
+  } else {
+    this.selectedBuilding = undefined;
+    View.deselectBuilding();
   }
 };
 
@@ -149,7 +152,7 @@ Game.prototype.build = function(xOnBoard,yOnBoard) {
     this.selectedBuilding = undefined;
     View.deselectBuilding();
   } else {
-    View.displayStatusMessage("Insufficient build slots to build more.")
+    View.displayStatusMessage("Insufficient build slots to build more.");
   }
 };
 
