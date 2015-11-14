@@ -3,7 +3,6 @@ var View = (function() {
 
     init: function() {
       this.renderBuildingButtons(BuildingsList);
-      this.enablePauseButton();
     },
 
     ///// Event listeners /////
@@ -23,8 +22,8 @@ var View = (function() {
       $("canvas").on("click", board.handleClicks.bind(board));
     },
 
-    enablePauseButton: function() {
-      $("#pause").on("click", function() {alert("Game Paused."); });
+    enablePauseButton: function(pauseFunction) {
+      $("#pause").on("click", pauseFunction);
     },
 
     ///// DOM manipulation: updates /////
@@ -69,6 +68,14 @@ var View = (function() {
     },
 
     ///// DOM manipulation: append/show/hide /////
+
+    initialStartPrompt: function(pauseFunction) {
+      $("#start-prompt").show();
+      $("#start-prompt button").on('click', function() {
+        $("#start-prompt").hide();
+        pauseFunction();
+      })
+    },
 
     appendCanvas: function(width, height) {
       return $("<canvas width='" + width + "' height='" + height + "'></canvas>").appendTo("#canvas-container")[0];
