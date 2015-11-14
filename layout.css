@@ -48,7 +48,7 @@ canvas {
   background:#EEE;
 }
 
-#game-over-message {
+#start-prompt, #game-over-message {
   display: none;
   position: absolute;
   top: 10%;
@@ -58,6 +58,10 @@ canvas {
   left:50%;
   text-align: center;
   background-color:rgba(250,250,250,0.8);
+}
+
+#start-prompt button {
+  font-size: 4em;
 }
 
 #game-over-message h1 {

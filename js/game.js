@@ -21,7 +21,22 @@ function Game() {
   this.buildInitialBuildings();
   this.board.buildingRefresh(this.buildings);
   this.setBuildListeners();
-  this.startGameCycle();
+  this.prepGameForStart();
+}
+
+Game.prototype.prepGameForStart = function() {
+  View.enablePauseButton(this.togglePause.bind(this));
+  View.displayResources(this.resourceManager);
+  View.initialStartPrompt(this.togglePause.bind(this))
+}
+
+Game.prototype.togglePause = function() {
+  if (this.coreLoopId) {
+    clearInterval(this.coreLoopId);
+    this.coreLoopId = undefined;
+  } else {
+    this.startGameCycle();
+  }
 }
 
 Game.prototype.secondsRunning = function() {
