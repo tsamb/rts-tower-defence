@@ -11,4 +11,4 @@ Inspired in part by [Total Annihilation](https://en.wikipedia.org/wiki/Total_Ann
 
 ### Contributing
 
-If you want to contribute, please open an issue to start a discussion. I'm more than happy to review and accept pull requests for bugs and feature implementations, too.
+If you want to contribute, please open an [issues](issue) to start a discussion. I'm more than happy to review and accept pull requests for bugs and feature implementations, too.
